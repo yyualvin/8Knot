@@ -1,4 +1,5 @@
 from dash import html, dcc, callback
+from fastmcp import FastMCP
 import dash
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
@@ -116,17 +117,7 @@ def graph_title(view):
         title = "File Language by Line"
     return title
 
-
-# callback for code languages graph
-@callback(
-    Output(f"{PAGE}-{VIZ_ID}", "figure"),
-    [
-        Input("repo-choices", "data"),
-        Input(f"graph-view-{PAGE}-{VIZ_ID}", "value"),
-    ],
-    background=True,
-)
-def code_languages_graph(repolist, view):
+def graph_generator(repolist, view):
     # wait for data to asynchronously download and become available.
     while not_cached := cf.get_uncached(func_name=rlq.__name__, repolist=repolist):
         logging.warning(f"{VIZ_ID}- WAITING ON DATA TO BECOME AVAILABLE")
@@ -154,6 +145,17 @@ def code_languages_graph(repolist, view):
     logging.warning(f"{VIZ_ID} - END - {time.perf_counter() - start}")
     return fig
 
+# callback for code languages graph
+@callback(
+    Output(f"{PAGE}-{VIZ_ID}", "figure"),
+    [
+        Input("repo-choices", "data"),
+        Input(f"graph-view-{PAGE}-{VIZ_ID}", "value"),
+    ],
+    background=True,
+)
+def code_langages_graph(repolist, view):
+    return graph_generator(repolist, view)  
 
 def process_data(df: pd.DataFrame):
 

@@ -6,9 +6,10 @@ import numpy as np
 import warnings
 from dotenv import load_dotenv
 import os
-from llama_stack_client import LlamaStackClient
+from llama_stack_client import LlamaStackClient, Agent
 import json
 import re
+import logging
 
 # Repo Overview visualizations
 from ..repo_overview.visualizations.code_languages import gc_code_language
@@ -172,20 +173,36 @@ def update_response(n_clicks: int, message: str):
     """Respond to the latest user message and generate a simple random graph."""
     if not message:
         return "", go.Figure()
+    
+    agent = Agent(
+        client,
+        model=model_id,
+        instructions=load_and_combine("prompt.txt", "graphs.json"),
+    )
 
-    response = client.inference.chat_completion(
-            model_id=model_id,
-            messages=[
-                {"role": "system", "content": load_and_combine("prompt.txt", "graphs.json")},
-                {"role": "user", "content": f"{message}"},
-            ],
-            stream=False
-        )
+    session_id = agent.create_session(session_name="chat")
+
+    turn_response = agent.create_turn(
+        session_id=session_id,
+        messages=[{"role": "user", "content": f"{message}"}],
+        stream=False,
+    )
+
+    logging.info(f"Turn response: {turn_response}")
+
+    # response = client.inference.chat_completion(
+    #         model_id=model_id,
+    #         messages=[
+    #             {"role": "system", "content": load_and_combine("prompt.txt", "graphs.json")},
+    #             {"role": "user", "content": f"{message}"},
+    #         ],
+    #         stream=False
+    #     )
 
     # card_components = [gc_package_version, gc_code_language, gc_active_drifting_contributors]
     card_components = []
 
-    ai_reply = response.completion_message.content.strip()
+    ai_reply = turn_response.output_message.content.strip()
     graph_array = extract_id_array(ai_reply)
     # actual_response = response.completion_message.content.strip()
     # card_components = json.loads(extract_id_array(ai_reply))
