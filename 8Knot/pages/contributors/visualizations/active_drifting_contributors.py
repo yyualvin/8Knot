@@ -18,191 +18,196 @@ import cache_manager.cache_facade as cf
 PAGE = "contributors"
 VIZ_ID = "active-drifting-contributors"
 
-gc_active_drifting_contributors = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H3(
-                    "Contributor Growth by Engagement",
-                    className="card-title",
-                    style={"textAlign": "center"},
-                ),
-                dbc.Popover(
-                    [
-                        dbc.PopoverHeader("Graph Info:"),
-                        dbc.PopoverBody(
-                            """
-                            Visualizes growth of contributor population, including sub-populations\n
-                            in consideration of how recently a contributor has contributed.\n
-                            Please see definitions of 'Contributor Recency' on Info page.
-                            """
-                        ),
-                    ],
-                    id=f"popover-{PAGE}-{VIZ_ID}",
-                    target=f"popover-target-{PAGE}-{VIZ_ID}",  # needs to be the same as dbc.Button id
-                    placement="top",
-                    is_open=False,
-                ),
-                dcc.Loading(
-                    dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
-                ),
-                dbc.Form(
-                    [
-                        dbc.Row(
-                            [
-                                dbc.Label(
-                                    "Months Until Drifting:",
-                                    html_for=f"drifting-months-{PAGE}-{VIZ_ID}",
-                                    width={"size": "auto"},
-                                ),
-                                dbc.Col(
-                                    dbc.Input(
-                                        id=f"drifting-months-{PAGE}-{VIZ_ID}",
-                                        type="number",
-                                        min=1,
-                                        max=120,
-                                        step=1,
-                                        value=6,
-                                        size="sm",
+
+def card_active_drifting_contributors():
+    card = dbc.Card(
+        [
+            dbc.CardBody(
+                [
+                    html.H3(
+                        "Contributor Growth by Engagement",
+                        className="card-title",
+                        style={"textAlign": "center"},
+                    ),
+                    dbc.Popover(
+                        [
+                            dbc.PopoverHeader("Graph Info:"),
+                            dbc.PopoverBody(
+                                """
+                                Visualizes growth of contributor population, including sub-populations\n
+                                in consideration of how recently a contributor has contributed.\n
+                                Please see definitions of 'Contributor Recency' on Info page.
+                                """
+                            ),
+                        ],
+                        id=f"popover-{PAGE}-{VIZ_ID}",
+                        target=f"popover-target-{PAGE}-{VIZ_ID}",  # needs to be the same as dbc.Button id
+                        placement="top",
+                        is_open=False,
+                    ),
+                    dcc.Loading(
+                        dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
+                    ),
+                    dbc.Form(
+                        [
+                            dbc.Row(
+                                [
+                                    dbc.Label(
+                                        "Months Until Drifting:",
+                                        html_for=f"drifting-months-{PAGE}-{VIZ_ID}",
+                                        width={"size": "auto"},
                                     ),
-                                    className="me-2",
-                                    width=2,
-                                ),
-                                dbc.Label(
-                                    "Months Until Away:",
-                                    html_for=f"away-months-{PAGE}-{VIZ_ID}",
-                                    width={"size": "auto"},
-                                ),
-                                dbc.Col(
-                                    dbc.Input(
-                                        id=f"away-months-{PAGE}-{VIZ_ID}",
-                                        type="number",
-                                        min=1,
-                                        max=120,
-                                        step=1,
-                                        value=12,
-                                        size="sm",
-                                    ),
-                                    className="me-2",
-                                    width=2,
-                                ),
-                                dbc.Alert(
-                                    children="Please ensure that 'Months Until Drifting' is less than 'Months Until Away'",
-                                    id=f"check-alert-{PAGE}-{VIZ_ID}",
-                                    dismissable=True,
-                                    fade=False,
-                                    is_open=False,
-                                    color="warning",
-                                ),
-                            ],
-                            align="center",
-                        ),
-                        dbc.Row(
-                            [
-                                dbc.Label(
-                                    "Date Interval:",
-                                    html_for=f"date-interval-{PAGE}-{VIZ_ID}",
-                                    width="auto",
-                                ),
-                                dbc.Col(
-                                    [
-                                        dbc.RadioItems(
-                                            id=f"date-interval-{PAGE}-{VIZ_ID}",
-                                            options=[
-                                                {"label": "Trend", "value": "D"},
-                                                {"label": "Month", "value": "M"},
-                                                {"label": "Year", "value": "Y"},
-                                            ],
-                                            value="M",
-                                            inline=True,
+                                    dbc.Col(
+                                        dbc.Input(
+                                            id=f"drifting-months-{PAGE}-{VIZ_ID}",
+                                            type="number",
+                                            min=1,
+                                            max=120,
+                                            step=1,
+                                            value=6,
+                                            size="sm",
                                         ),
-                                    ]
-                                ),
-                                dbc.Col(
-                                    dbc.Button(
-                                        "About Graph",
-                                        id=f"popover-target-{PAGE}-{VIZ_ID}",
-                                        color="secondary",
-                                        size="sm",
+                                        className="me-2",
+                                        width=2,
                                     ),
-                                    width="auto",
-                                    style={"paddingTop": ".5em"},
-                                ),
-                            ],
-                            align="center",
-                        ),
-                    ]
-                ),
-            ]
-        )
-    ],
-)
-
-
-# callback for graph info popover
-@callback(
-    Output(f"popover-{PAGE}-{VIZ_ID}", "is_open"),
-    [Input(f"popover-target-{PAGE}-{VIZ_ID}", "n_clicks")],
-    [State(f"popover-{PAGE}-{VIZ_ID}", "is_open")],
-)
-def toggle_popover(n, is_open):
-    if n:
-        return not is_open
-    return is_open
-
-
-@callback(
-    Output(f"{PAGE}-{VIZ_ID}", "figure"),
-    Output(f"check-alert-{PAGE}-{VIZ_ID}", "is_open"),
-    [
-        Input("repo-choices", "data"),
-        Input(f"date-interval-{PAGE}-{VIZ_ID}", "value"),
-        Input(f"drifting-months-{PAGE}-{VIZ_ID}", "value"),
-        Input(f"away-months-{PAGE}-{VIZ_ID}", "value"),
-        Input("bot-switch", "value"),
-    ],
-    background=True,
-)
-def active_drifting_contributors_graph(repolist, interval, drift_interval, away_interval, bot_switch):
-    # conditional for the intervals to be valid options
-    if drift_interval is None or away_interval is None:
-        return dash.no_update, dash.no_update
-
-    if drift_interval > away_interval:
-        return dash.no_update, True
-
-    # wait for data to asynchronously download and become available.
-    while not_cached := cf.get_uncached(func_name=ctq.__name__, repolist=repolist):
-        logging.warning(f"{VIZ_ID}- WAITING ON DATA TO BECOME AVAILABLE")
-        time.sleep(0.5)
-
-    logging.warning(f"{VIZ_ID} - START")
-    start = time.perf_counter()
-
-    # GET ALL DATA FROM POSTGRES CACHE
-    df = cf.retrieve_from_cache(
-        tablename=ctq.__name__,
-        repolist=repolist,
+                                    dbc.Label(
+                                        "Months Until Away:",
+                                        html_for=f"away-months-{PAGE}-{VIZ_ID}",
+                                        width={"size": "auto"},
+                                    ),
+                                    dbc.Col(
+                                        dbc.Input(
+                                            id=f"away-months-{PAGE}-{VIZ_ID}",
+                                            type="number",
+                                            min=1,
+                                            max=120,
+                                            step=1,
+                                            value=12,
+                                            size="sm",
+                                        ),
+                                        className="me-2",
+                                        width=2,
+                                    ),
+                                    dbc.Alert(
+                                        children="Please ensure that 'Months Until Drifting' is less than 'Months Until Away'",
+                                        id=f"check-alert-{PAGE}-{VIZ_ID}",
+                                        dismissable=True,
+                                        fade=False,
+                                        is_open=False,
+                                        color="warning",
+                                    ),
+                                ],
+                                align="center",
+                            ),
+                            dbc.Row(
+                                [
+                                    dbc.Label(
+                                        "Date Interval:",
+                                        html_for=f"date-interval-{PAGE}-{VIZ_ID}",
+                                        width="auto",
+                                    ),
+                                    dbc.Col(
+                                        [
+                                            dbc.RadioItems(
+                                                id=f"date-interval-{PAGE}-{VIZ_ID}",
+                                                options=[
+                                                    {"label": "Trend", "value": "D"},
+                                                    {"label": "Month", "value": "M"},
+                                                    {"label": "Year", "value": "Y"},
+                                                ],
+                                                value="M",
+                                                inline=True,
+                                            ),
+                                        ]
+                                    ),
+                                    dbc.Col(
+                                        dbc.Button(
+                                            "About Graph",
+                                            id=f"popover-target-{PAGE}-{VIZ_ID}",
+                                            color="secondary",
+                                            size="sm",
+                                        ),
+                                        width="auto",
+                                        style={"paddingTop": ".5em"},
+                                    ),
+                                ],
+                                align="center",
+                            ),
+                        ]
+                    ),
+                ]
+            )
+        ],
     )
 
-    df = preproc_utils.contributors_df_action_naming(df)
+    # callback for graph info popover
+    @callback(
+        Output(f"popover-{PAGE}-{VIZ_ID}", "is_open"),
+        [Input(f"popover-target-{PAGE}-{VIZ_ID}", "n_clicks")],
+        [State(f"popover-{PAGE}-{VIZ_ID}", "is_open")],
+    )
+    def toggle_popover(n, is_open):
+        if n:
+            return not is_open
+        return is_open
 
-    # test if there is data
-    if df.empty:
-        logging.warning("ACTIVE_DRIFTING_CONTRIBUTOR_GROWTH - NO DATA AVAILABLE")
-        return nodata_graph, False
+    @callback(
+        Output(f"{PAGE}-{VIZ_ID}", "figure"),
+        Output(f"check-alert-{PAGE}-{VIZ_ID}", "is_open"),
+        [
+            Input("repo-choices", "data"),
+            Input(f"date-interval-{PAGE}-{VIZ_ID}", "value"),
+            Input(f"drifting-months-{PAGE}-{VIZ_ID}", "value"),
+            Input(f"away-months-{PAGE}-{VIZ_ID}", "value"),
+            Input("bot-switch", "value"),
+        ],
+        background=True,
+    )
+    def active_drifting_contributors_graph(repolist, interval, drift_interval, away_interval, bot_switch):
+        # conditional for the intervals to be valid options
+        if drift_interval is None or away_interval is None:
+            return dash.no_update, dash.no_update
 
-    # remove bot data
-    if bot_switch:
-        df = df[~df["cntrb_id"].isin(app.bots_list)]
+        if drift_interval > away_interval:
+            return dash.no_update, True
 
-    # function for all data pre processing
-    df_status = process_data(df, interval, drift_interval, away_interval)
+        # wait for data to asynchronously download and become available.
+        while not_cached := cf.get_uncached(func_name=ctq.__name__, repolist=repolist):
+            logging.warning(f"{VIZ_ID}- WAITING ON DATA TO BECOME AVAILABLE")
+            time.sleep(0.5)
 
-    fig = create_figure(df_status, interval)
+        logging.warning(f"{VIZ_ID} - START")
+        start = time.perf_counter()
 
-    logging.warning(f"ACTIVE_DRIFTING_CONTRIBUTOR_GROWTH_VIZ - END - {time.perf_counter() - start}")
-    return fig, False
+        # GET ALL DATA FROM POSTGRES CACHE
+        df = cf.retrieve_from_cache(
+            tablename=ctq.__name__,
+            repolist=repolist,
+        )
+
+        df = preproc_utils.contributors_df_action_naming(df)
+
+        # test if there is data
+        if df.empty:
+            logging.warning("ACTIVE_DRIFTING_CONTRIBUTOR_GROWTH - NO DATA AVAILABLE")
+            return nodata_graph, False
+
+        # remove bot data
+        if bot_switch:
+            df = df[~df["cntrb_id"].isin(app.bots_list)]
+
+        # function for all data pre processing
+        df_status = process_data(df, interval, drift_interval, away_interval)
+
+        fig = create_figure(df_status, interval)
+
+        logging.warning(f"ACTIVE_DRIFTING_CONTRIBUTOR_GROWTH_VIZ - END - {time.perf_counter() - start}")
+        return fig, False
+
+    return card
+
+
+gc_active_drifting_contributors = card_active_drifting_contributors()
 
 
 def process_data(df: pd.DataFrame, interval, drift_interval, away_interval):

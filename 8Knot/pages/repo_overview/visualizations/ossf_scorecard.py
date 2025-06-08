@@ -15,7 +15,9 @@ from datetime import datetime
 PAGE = "repo_info"
 VIZ_ID = "ossf-scorecard"
 
-gc_ossf_scorecard = dbc.Card(
+
+def card_ossf_scorecard() -> dash.development.base_component.Component:
+    return dbc.Card(
     [
         dbc.CardBody(
             [
@@ -72,6 +74,7 @@ gc_ossf_scorecard = dbc.Card(
     ],
 )
 
+gc_ossf_scorecard = card_ossf_scorecard()
 
 # callback for graph info popover
 @callback(

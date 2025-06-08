@@ -17,95 +17,102 @@ import cache_manager.cache_facade as cf
 PAGE = "affiliation"
 VIZ_ID = "commit-domains"
 
-gc_commit_domains = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H3(
-                    "Commit Activity by Domain",
-                    className="card-title",
-                    style={"textAlign": "center"},
-                ),
-                dbc.Popover(
-                    [
-                        dbc.PopoverHeader("Graph Info:"),
-                        dbc.PopoverBody(
-                            """
-                            Visualizes the proportion of commit activity done by specific email domains.\n
-                            e.g. if there are 100 commits and 75 commits were authored by a contributor with a\n
-                            '@gmail.com' email address, 75 percent of the chart will be represented '@gmail.com.'\n
-                            This can help to capture the relative magnitude of commit contribution by various corporate\n
-                            or institutional entities.
-                            """
-                        ),
-                    ],
-                    id=f"popover-{PAGE}-{VIZ_ID}",
-                    target=f"popover-target-{PAGE}-{VIZ_ID}",  # needs to be the same as dbc.Button id
-                    placement="top",
-                    is_open=False,
-                ),
-                dcc.Loading(
-                    dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
-                ),
-                dbc.Form(
-                    [
-                        dbc.Row(
-                            [
-                                dbc.Label(
-                                    "Contributions Required:",
-                                    html_for=f"company-contributions-required-{PAGE}-{VIZ_ID}",
-                                    width={"size": "auto"},
-                                ),
-                                dbc.Col(
-                                    [
-                                        dbc.Input(
-                                            id=f"company-contributions-required-{PAGE}-{VIZ_ID}",
-                                            type="number",
-                                            min=1,
-                                            max=100,
-                                            step=1,
-                                            value=10,
+
+def card_commit_domains():
+    card = dbc.Card(
+        [
+            dbc.CardBody(
+                [
+                    html.H3(
+                        "Commit Activity by Domain",
+                        className="card-title",
+                        style={"textAlign": "center"},
+                    ),
+                    dbc.Popover(
+                        [
+                            dbc.PopoverHeader("Graph Info:"),
+                            dbc.PopoverBody(
+                                """
+                                Visualizes the proportion of commit activity done by specific email domains.\n
+                                e.g. if there are 100 commits and 75 commits were authored by a contributor with a\n
+                                '@gmail.com' email address, 75 percent of the chart will be represented '@gmail.com.'\n
+                                This can help to capture the relative magnitude of commit contribution by various corporate\n
+                                or institutional entities.
+                                """
+                            ),
+                        ],
+                        id=f"popover-{PAGE}-{VIZ_ID}",
+                        target=f"popover-target-{PAGE}-{VIZ_ID}",  # needs to be the same as dbc.Button id
+                        placement="top",
+                        is_open=False,
+                    ),
+                    dcc.Loading(
+                        dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
+                    ),
+                    dbc.Form(
+                        [
+                            dbc.Row(
+                                [
+                                    dbc.Label(
+                                        "Contributions Required:",
+                                        html_for=f"company-contributions-required-{PAGE}-{VIZ_ID}",
+                                        width={"size": "auto"},
+                                    ),
+                                    dbc.Col(
+                                        [
+                                            dbc.Input(
+                                                id=f"company-contributions-required-{PAGE}-{VIZ_ID}",
+                                                type="number",
+                                                min=1,
+                                                max=100,
+                                                step=1,
+                                                value=10,
+                                                size="sm",
+                                            ),
+                                        ],
+                                        className="me-2",
+                                        width=2,
+                                    ),
+                                ],
+                                align="center",
+                            ),
+                            dbc.Row(
+                                [
+                                    dbc.Col(
+                                        dcc.DatePickerRange(
+                                            id=f"date-picker-range-{PAGE}-{VIZ_ID}",
+                                            min_date_allowed=dt.date(2005, 1, 1),
+                                            max_date_allowed=dt.date.today(),
+                                            initial_visible_month=dt.date(dt.date.today().year, 1, 1),
+                                            clearable=True,
+                                        ),
+                                        width="auto",
+                                    ),
+                                    dbc.Col(
+                                        dbc.Button(
+                                            "About Graph",
+                                            id=f"popover-target-{PAGE}-{VIZ_ID}",
+                                            color="secondary",
                                             size="sm",
                                         ),
-                                    ],
-                                    className="me-2",
-                                    width=2,
-                                ),
-                            ],
-                            align="center",
-                        ),
-                        dbc.Row(
-                            [
-                                dbc.Col(
-                                    dcc.DatePickerRange(
-                                        id=f"date-picker-range-{PAGE}-{VIZ_ID}",
-                                        min_date_allowed=dt.date(2005, 1, 1),
-                                        max_date_allowed=dt.date.today(),
-                                        initial_visible_month=dt.date(dt.date.today().year, 1, 1),
-                                        clearable=True,
+                                        width="auto",
+                                        style={"paddingTop": ".5em"},
                                     ),
-                                    width="auto",
-                                ),
-                                dbc.Col(
-                                    dbc.Button(
-                                        "About Graph",
-                                        id=f"popover-target-{PAGE}-{VIZ_ID}",
-                                        color="secondary",
-                                        size="sm",
-                                    ),
-                                    width="auto",
-                                    style={"paddingTop": ".5em"},
-                                ),
-                            ],
-                            align="center",
-                            justify="between",
-                        ),
-                    ]
-                ),
-            ]
-        )
-    ],
-)
+                                ],
+                                align="center",
+                                justify="between",
+                            ),
+                        ]
+                    ),
+                ]
+            )
+        ],
+    )
+
+    return card
+
+
+gc_commit_domains = card_commit_domains()
 
 
 # callback for graph info popover

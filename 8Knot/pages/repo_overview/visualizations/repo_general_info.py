@@ -20,7 +20,8 @@ from datetime import datetime
 PAGE = "repo_info"
 VIZ_ID = "repo-general-info"
 
-gc_repo_general_info = dbc.Card(
+def card_repo_general_info() -> dash.development.base_component.Component:
+    return dbc.Card(
     [
         dbc.CardBody(
             [
@@ -38,6 +39,7 @@ gc_repo_general_info = dbc.Card(
     ],
 )
 
+gc_repo_general_info = card_repo_general_info()
 
 # callback for graph info popover
 @callback(

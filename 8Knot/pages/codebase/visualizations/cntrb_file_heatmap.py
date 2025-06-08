@@ -103,22 +103,25 @@ graph_loading = html.Div(
     ],
 )
 
-gc_cntrb_file_heatmap = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H3(
-                    "Contributor File Heatmap",
-                    className="card-title",
-                    style={"textAlign": "center"},
-                ),
-                dcc.Loading(
-                    children=graph_loading,
-                ),
-            ]
-        )
-    ],
-)
+def card_cntrb_file_heatmap():
+    return dbc.Card(
+        [
+            dbc.CardBody(
+                [
+                    html.H3(
+                        "Contributor File Heatmap",
+                        className="card-title",
+                        style={"textAlign": "center"},
+                    ),
+                    dcc.Loading(
+                        children=graph_loading,
+                    ),
+                ]
+            )
+        ],
+    )
+
+gc_cntrb_file_heatmap = card_cntrb_file_heatmap()
 
 
 # callback for graph info popover

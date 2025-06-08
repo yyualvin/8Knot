@@ -15,81 +15,88 @@ import cache_manager.cache_facade as cf
 PAGE = "contributions"
 VIZ_ID = "commits-over-time"
 
-gc_commits_over_time = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H3(
-                    "Commits Over Time",
-                    className="card-title",
-                    style={"textAlign": "center"},
-                ),
-                dbc.Popover(
-                    [
-                        dbc.PopoverHeader("Graph Info:"),
-                        dbc.PopoverBody(
-                            """
-                            Visualizes the number of commits added to the project.\n
-                            Commits are counted relative to a user-selected time window.
-                            """
-                        ),
-                    ],
-                    id=f"popover-{PAGE}-{VIZ_ID}",
-                    target=f"popover-target-{PAGE}-{VIZ_ID}",  # needs to be the same as dbc.Button id
-                    placement="top",
-                    is_open=False,
-                ),
-                dcc.Loading(
-                    dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
-                ),
-                dbc.Form(
-                    [
-                        dbc.Row(
-                            [
-                                dbc.Label(
-                                    "Date Interval:",
-                                    html_for=f"date-interval-{PAGE}-{VIZ_ID}",
-                                    width="auto",
-                                ),
-                                dbc.Col(
-                                    dbc.RadioItems(
-                                        id=f"date-interval-{PAGE}-{VIZ_ID}",
-                                        options=[
-                                            {
-                                                "label": "Day",
-                                                "value": "D",
-                                            },
-                                            {
-                                                "label": "Week",
-                                                "value": "W",
-                                            },
-                                            {"label": "Month", "value": "M"},
-                                            {"label": "Year", "value": "Y"},
-                                        ],
-                                        value="M",
-                                        inline=True,
+
+def card_commits_over_time():
+    card = dbc.Card(
+        [
+            dbc.CardBody(
+                [
+                    html.H3(
+                        "Commits Over Time",
+                        className="card-title",
+                        style={"textAlign": "center"},
+                    ),
+                    dbc.Popover(
+                        [
+                            dbc.PopoverHeader("Graph Info:"),
+                            dbc.PopoverBody(
+                                """
+                                Visualizes the number of commits added to the project.\n
+                                Commits are counted relative to a user-selected time window.
+                                """
+                            ),
+                        ],
+                        id=f"popover-{PAGE}-{VIZ_ID}",
+                        target=f"popover-target-{PAGE}-{VIZ_ID}",  # needs to be the same as dbc.Button id
+                        placement="top",
+                        is_open=False,
+                    ),
+                    dcc.Loading(
+                        dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
+                    ),
+                    dbc.Form(
+                        [
+                            dbc.Row(
+                                [
+                                    dbc.Label(
+                                        "Date Interval:",
+                                        html_for=f"date-interval-{PAGE}-{VIZ_ID}",
+                                        width="auto",
                                     ),
-                                    className="me-2",
-                                ),
-                                dbc.Col(
-                                    dbc.Button(
-                                        "About Graph",
-                                        id=f"popover-target-{PAGE}-{VIZ_ID}",
-                                        color="secondary",
-                                        size="sm",
+                                    dbc.Col(
+                                        dbc.RadioItems(
+                                            id=f"date-interval-{PAGE}-{VIZ_ID}",
+                                            options=[
+                                                {
+                                                    "label": "Day",
+                                                    "value": "D",
+                                                },
+                                                {
+                                                    "label": "Week",
+                                                    "value": "W",
+                                                },
+                                                {"label": "Month", "value": "M"},
+                                                {"label": "Year", "value": "Y"},
+                                            ],
+                                            value="M",
+                                            inline=True,
+                                        ),
+                                        className="me-2",
                                     ),
-                                    width="auto",
-                                    style={"paddingTop": ".5em"},
-                                ),
-                            ],
-                            align="center",
-                        ),
-                    ]
-                ),
-            ]
-        ),
-    ],
-)
+                                    dbc.Col(
+                                        dbc.Button(
+                                            "About Graph",
+                                            id=f"popover-target-{PAGE}-{VIZ_ID}",
+                                            color="secondary",
+                                            size="sm",
+                                        ),
+                                        width="auto",
+                                        style={"paddingTop": ".5em"},
+                                    ),
+                                ],
+                                align="center",
+                            ),
+                        ]
+                    ),
+                ]
+            ),
+        ],
+    )
+
+    return card
+
+
+gc_commits_over_time = card_commits_over_time()
 
 
 # callback for graph info popover

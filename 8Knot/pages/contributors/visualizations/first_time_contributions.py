@@ -17,7 +17,8 @@ import cache_manager.cache_facade as cf
 PAGE = "contributors"
 VIZ_ID = "first-time-contribution"
 
-gc_first_time_contributions = dbc.Card(
+def card_first_time_contributions() -> dash.development.base_component.Component:
+    return dbc.Card(
     [
         dbc.CardBody(
             [
@@ -57,6 +58,9 @@ gc_first_time_contributions = dbc.Card(
         ),
     ],
 )
+
+
+gc_first_time_contributions = card_first_time_contributions()
 
 
 # callback for graph info popover

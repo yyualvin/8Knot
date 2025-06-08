@@ -17,7 +17,8 @@ import cache_manager.cache_facade as cf
 PAGE = "repo_info"
 VIZ_ID = "package-version"
 
-gc_package_version = dbc.Card(
+def card_package_version() -> dash.development.base_component.Component:
+    return dbc.Card(
     [
         dbc.CardBody(
             [
@@ -69,6 +70,7 @@ gc_package_version = dbc.Card(
     ],
 )
 
+gc_package_version = card_package_version()
 
 # callback for graph info popover
 @callback(

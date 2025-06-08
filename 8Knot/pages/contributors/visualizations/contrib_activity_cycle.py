@@ -17,77 +17,82 @@ PAGE = "contributors"
 VIZ_ID = "contrib-activity-cycle"
 
 
-gc_contrib_activity_cycle = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H3(
-                    "Contributor Activity Cycle",
-                    className="card-title",
-                    style={"textAlign": "center"},
-                ),
-                dbc.Popover(
-                    [
-                        dbc.PopoverHeader("Graph Info:"),
-                        dbc.PopoverBody(
-                            """
-                            Visualizes the distribution of Commit timestamps by Weekday or Hour.\n
-                            Helps to describe operating-hours of community code contributions.
-                            """
-                        ),
-                    ],
-                    id=f"popover-{PAGE}-{VIZ_ID}",
-                    target=f"popover-target-{PAGE}-{VIZ_ID}",  # needs to be the same as dbc.Button id
-                    placement="top",
-                    is_open=False,
-                ),
-                dcc.Loading(
-                    dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
-                ),
-                dbc.Form(
-                    [
-                        dbc.Row(
-                            [
-                                dbc.Label(
-                                    "Date Interval:",
-                                    html_for=f"date-interval-{PAGE}-{VIZ_ID}",
-                                    width="auto",
-                                ),
-                                dbc.Col(
-                                    [
-                                        dbc.RadioItems(
-                                            id=f"date-interval-{PAGE}-{VIZ_ID}",
-                                            options=[
-                                                {
-                                                    "label": "Weekday",
-                                                    "value": "D",
-                                                },
-                                                {"label": "Hourly", "value": "H"},
-                                            ],
-                                            value="D",
-                                            inline=True,
-                                        ),
-                                    ]
-                                ),
-                                dbc.Col(
-                                    dbc.Button(
-                                        "About Graph",
-                                        id=f"popover-target-{PAGE}-{VIZ_ID}",
-                                        color="secondary",
-                                        size="sm",
+def card_contrib_activity_cycle():
+    card = dbc.Card(
+        [
+            dbc.CardBody(
+                [
+                    html.H3(
+                        "Contributor Activity Cycle",
+                        className="card-title",
+                        style={"textAlign": "center"},
+                    ),
+                    dbc.Popover(
+                        [
+                            dbc.PopoverHeader("Graph Info:"),
+                            dbc.PopoverBody(
+                                """
+                                Visualizes the distribution of Commit timestamps by Weekday or Hour.\n
+                                Helps to describe operating-hours of community code contributions.
+                                """
+                            ),
+                        ],
+                        id=f"popover-{PAGE}-{VIZ_ID}",
+                        target=f"popover-target-{PAGE}-{VIZ_ID}",  # needs to be the same as dbc.Button id
+                        placement="top",
+                        is_open=False,
+                    ),
+                    dcc.Loading(
+                        dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
+                    ),
+                    dbc.Form(
+                        [
+                            dbc.Row(
+                                [
+                                    dbc.Label(
+                                        "Date Interval:",
+                                        html_for=f"date-interval-{PAGE}-{VIZ_ID}",
+                                        width="auto",
                                     ),
-                                    width="auto",
-                                    style={"paddingTop": ".5em"},
-                                ),
-                            ],
-                            align="center",
-                        ),
-                    ]
-                ),
-            ]
-        )
-    ],
-)
+                                    dbc.Col(
+                                        [
+                                            dbc.RadioItems(
+                                                id=f"date-interval-{PAGE}-{VIZ_ID}",
+                                                options=[
+                                                    {
+                                                        "label": "Weekday",
+                                                        "value": "D",
+                                                    },
+                                                    {"label": "Hourly", "value": "H"},
+                                                ],
+                                                value="D",
+                                                inline=True,
+                                            ),
+                                        ]
+                                    ),
+                                    dbc.Col(
+                                        dbc.Button(
+                                            "About Graph",
+                                            id=f"popover-target-{PAGE}-{VIZ_ID}",
+                                            color="secondary",
+                                            size="sm",
+                                        ),
+                                        width="auto",
+                                        style={"paddingTop": ".5em"},
+                                    ),
+                                ],
+                                align="center",
+                            ),
+                        ]
+                    ),
+                ]
+            )
+        ],
+    )
+    return card
+
+
+gc_contrib_activity_cycle = card_contrib_activity_cycle()
 
 
 # callback for graph info popover

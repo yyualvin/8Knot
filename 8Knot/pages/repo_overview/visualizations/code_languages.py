@@ -18,7 +18,8 @@ import cache_manager.cache_facade as cf
 PAGE = "repo_info"
 VIZ_ID = "code-languages"
 
-gc_code_language = dbc.Card(
+def card_code_language(view: str = "file") -> dash.development.base_component.Component:
+    return dbc.Card(
     [
         dbc.CardBody(
             [
@@ -66,7 +67,7 @@ gc_code_language = dbc.Card(
                                                 "value": "line",
                                             },
                                         ],
-                                        value="file",
+                                        value=f"{view}",
                                         inline=True,
                                     ),
                                     className="me-2",
@@ -91,6 +92,7 @@ gc_code_language = dbc.Card(
     ],
 )
 
+gc_code_language = card_code_language(view="file")
 
 # callback for graph info popover
 @callback(

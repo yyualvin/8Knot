@@ -18,191 +18,191 @@ import cache_manager.cache_facade as cf
 PAGE = "affiliation"
 VIZ_ID = "organization-associated-activity"
 
-gc_org_associated_activity = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H3(
-                    "Organization Associated Activity",
-                    className="card-title",
-                    style={"textAlign": "center"},
-                ),
-                dbc.Popover(
-                    [
-                        dbc.PopoverHeader("Graph Info:"),
-                        dbc.PopoverBody(
-                            """
-                            For non-commit contributions (see definition of Contribution on Info page)\n
-                            we only know which contributor account contributed. We don't know which email,\n
-                            and therefore which possible institution the contribution represented.\n
-                            e.g. if we know that a PR comment was made by JaneDoe, and they have a '@redhat.com' and\n
-                            an '@gmail.com' email, we don't know whether they contributed individually\n
-                            or as a representative of an instituion. Therefore, we lower-bound the contribution\n
-                            of representation by counting each contribution as being made by ALL of the contributors\n
-                            linked email domains.\n
-                            This graph can therefore be interpreted as 'The minimum number of individuals who have\n
-                            been associated with each domain.'\n
-                            e.g. If there are 100 contributions and 20 contributors, and each contributor has an '@redhat.com'\n
-                            email associated with their account and one other random email, '@redhat.com' will be counted 100 times\n
-                            and the other contributor emails will also total a count of 100.\n
-                            """
-                        ),
-                    ],
-                    id=f"popover-{PAGE}-{VIZ_ID}",
-                    target=f"popover-target-{PAGE}-{VIZ_ID}",  # needs to be the same as dbc.Button id
-                    placement="top",
-                    is_open=False,
-                ),
-                dcc.Loading(
-                    dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
-                ),
-                dbc.Form(
-                    [
-                        dbc.Row(
-                            [
-                                dbc.Label(
-                                    "Contributions Required:",
-                                    html_for=f"contributions-required-{PAGE}-{VIZ_ID}",
-                                    width={"size": "auto"},
-                                ),
-                                dbc.Col(
-                                    dbc.Input(
-                                        id=f"contributions-required-{PAGE}-{VIZ_ID}",
-                                        type="number",
-                                        min=1,
-                                        max=100,
-                                        step=1,
-                                        value=10,
-                                        size="sm",
+
+def card_org_associated_activity():
+    card = dbc.Card(
+        [
+            dbc.CardBody(
+                [
+                    html.H3(
+                        "Organization Associated Activity",
+                        className="card-title",
+                        style={"textAlign": "center"},
+                    ),
+                    dbc.Popover(
+                        [
+                            dbc.PopoverHeader("Graph Info:"),
+                            dbc.PopoverBody(
+                                """
+                                For non-commit contributions (see definition of Contribution on Info page)\n
+                                we only know which contributor account contributed. We don't know which email,\n
+                                and therefore which possible institution the contribution represented.\n
+                                e.g. if we know that a PR comment was made by JaneDoe, and they have a '@redhat.com' and\n
+                                an '@gmail.com' email, we don't know whether they contributed individually\n
+                                or as a representative of an instituion. Therefore, we lower-bound the contribution\n
+                                of representation by counting each contribution as being made by ALL of the contributors\n
+                                linked email domains.\n
+                                This graph can therefore be interpreted as 'The minimum number of individuals who have\n
+                                been associated with each domain.'\n
+                                e.g. If there are 100 contributions and 20 contributors, and each contributor has an '@redhat.com'\n
+                                email associated with their account and one other random email, '@redhat.com' will be counted 100 times\n
+                                and the other contributor emails will also total a count of 100.\n
+                                """
+                            ),
+                        ],
+                        id=f"popover-{PAGE}-{VIZ_ID}",
+                        target=f"popover-target-{PAGE}-{VIZ_ID}",  # needs to be the same as dbc.Button id
+                        placement="top",
+                        is_open=False,
+                    ),
+                    dcc.Loading(
+                        dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
+                    ),
+                    dbc.Form(
+                        [
+                            dbc.Row(
+                                [
+                                    dbc.Label(
+                                        "Contributions Required:",
+                                        html_for=f"contributions-required-{PAGE}-{VIZ_ID}",
+                                        width={"size": "auto"},
                                     ),
-                                    className="me-2",
-                                    width=2,
-                                ),
-                                dbc.Col(
-                                    dbc.Checklist(
-                                        id=f"email-filter-{PAGE}-{VIZ_ID}",
-                                        options=[
-                                            {
-                                                "label": "Exclude Gmail",
-                                                "value": "gmail",
-                                            },
-                                            {
-                                                "label": "Exclude GitHub",
-                                                "value": "github",
-                                            },
-                                        ],
-                                        value=[""],
-                                        inline=True,
-                                        switch=True,
+                                    dbc.Col(
+                                        dbc.Input(
+                                            id=f"contributions-required-{PAGE}-{VIZ_ID}",
+                                            type="number",
+                                            min=1,
+                                            max=100,
+                                            step=1,
+                                            value=10,
+                                            size="sm",
+                                        ),
+                                        className="me-2",
+                                        width=2,
                                     ),
-                                    width=4,
-                                ),
-                            ],
-                            align="center",
-                        ),
-                        dbc.Row(
-                            [
-                                dbc.Col(
-                                    dcc.DatePickerRange(
-                                        id=f"date-picker-range-{PAGE}-{VIZ_ID}",
-                                        min_date_allowed=dt.date(2005, 1, 1),
-                                        max_date_allowed=dt.date.today(),
-                                        initial_visible_month=dt.date(dt.date.today().year, 1, 1),
-                                        clearable=True,
+                                    dbc.Col(
+                                        dbc.Checklist(
+                                            id=f"email-filter-{PAGE}-{VIZ_ID}",
+                                            options=[
+                                                {
+                                                    "label": "Exclude Gmail",
+                                                    "value": "gmail",
+                                                },
+                                                {
+                                                    "label": "Exclude GitHub",
+                                                    "value": "github",
+                                                },
+                                            ],
+                                            value=[""],
+                                            inline=True,
+                                            switch=True,
+                                        ),
+                                        width=4,
                                     ),
-                                    width="auto",
-                                ),
-                                dbc.Col(
-                                    dbc.Button(
-                                        "About Graph",
-                                        id=f"popover-target-{PAGE}-{VIZ_ID}",
-                                        color="secondary",
-                                        size="sm",
+                                ],
+                                align="center",
+                            ),
+                            dbc.Row(
+                                [
+                                    dbc.Col(
+                                        dcc.DatePickerRange(
+                                            id=f"date-picker-range-{PAGE}-{VIZ_ID}",
+                                            min_date_allowed=dt.date(2005, 1, 1),
+                                            max_date_allowed=dt.date.today(),
+                                            initial_visible_month=dt.date(dt.date.today().year, 1, 1),
+                                            clearable=True,
+                                        ),
+                                        width="auto",
                                     ),
-                                    width="auto",
-                                    style={"paddingTop": ".5em"},
-                                ),
-                            ],
-                            align="center",
-                            justify="between",
-                        ),
-                    ]
-                ),
-            ]
-        )
-    ],
-)
-
-
-# callback for graph info popover
-@callback(
-    Output(f"popover-{PAGE}-{VIZ_ID}", "is_open"),
-    [Input(f"popover-target-{PAGE}-{VIZ_ID}", "n_clicks")],
-    [State(f"popover-{PAGE}-{VIZ_ID}", "is_open")],
-)
-def toggle_popover(n, is_open):
-    if n:
-        return not is_open
-    return is_open
-
-
-# callback for Organization Affiliation by Github Account Info graph
-@callback(
-    Output(f"{PAGE}-{VIZ_ID}", "figure"),
-    [
-        Input("repo-choices", "data"),
-        Input(f"contributions-required-{PAGE}-{VIZ_ID}", "value"),
-        Input(f"date-picker-range-{PAGE}-{VIZ_ID}", "start_date"),
-        Input(f"date-picker-range-{PAGE}-{VIZ_ID}", "end_date"),
-        Input(f"email-filter-{PAGE}-{VIZ_ID}", "value"),
-        Input("bot-switch", "value"),
-    ],
-    background=True,
-)
-def org_associated_activity_graph(repolist, num, start_date, end_date, email_filter, bot_switch):
-    """Each contribution is associated with a contributor. That contributor can be associated with
-
-    more than one different email. Hence each contribution is associated with all of the emails that a contributor has historically used.
-
-    We don't always know which email (and therefore which organization) a contributor is affiliated with at contribution
-
-    time, so we choose to count all of their possible affiliations via their email list. e.g. if "Jane Doe" is associated with "gmail.com"
-
-    and "yahoo.com" and they have 5 contributions, "gmail.com" and "yahoo.com" would be counted 5 times each. We assume that relatively few people
-
-    will have many emails. We acknowledge that this will almost always contribute to an overcount but will never undercount."
-    """
-
-    # wait for data to asynchronously download and become available.
-    while not_cached := cf.get_uncached(func_name=aq.__name__, repolist=repolist):
-        logging.warning(f"{VIZ_ID}- WAITING ON DATA TO BECOME AVAILABLE")
-        time.sleep(0.5)
-
-    start = time.perf_counter()
-    logging.warning(f"{VIZ_ID}- START")
-
-    # GET ALL DATA FROM POSTGRES CACHE
-    df = cf.retrieve_from_cache(
-        tablename=aq.__name__,
-        repolist=repolist,
+                                    dbc.Col(
+                                        dbc.Button(
+                                            "About Graph",
+                                            id=f"popover-target-{PAGE}-{VIZ_ID}",
+                                            color="secondary",
+                                            size="sm",
+                                        ),
+                                        width="auto",
+                                        style={"paddingTop": ".5em"},
+                                    ),
+                                ],
+                                align="center",
+                                justify="between",
+                            ),
+                        ]
+                    ),
+                ]
+            )
+        ],
     )
 
-    # test if there is data
-    if df.empty:
-        logging.warning(f"{VIZ_ID} - NO DATA AVAILABLE")
-        return nodata_graph
+    # callback for graph info popover
+    @callback(
+        Output(f"popover-{PAGE}-{VIZ_ID}", "is_open"),
+        [Input(f"popover-target-{PAGE}-{VIZ_ID}", "n_clicks")],
+        [State(f"popover-{PAGE}-{VIZ_ID}", "is_open")],
+    )
+    def toggle_popover(n, is_open):
+        if n:
+            return not is_open
+        return is_open
 
-    # remove bot data
-    if bot_switch:
-        df = df[~df["cntrb_id"].isin(app.bots_list)]
+    # callback for Organization Affiliation by Github Account Info graph
+    @callback(
+        Output(f"{PAGE}-{VIZ_ID}", "figure"),
+        [
+            Input("repo-choices", "data"),
+            Input(f"contributions-required-{PAGE}-{VIZ_ID}", "value"),
+            Input(f"date-picker-range-{PAGE}-{VIZ_ID}", "start_date"),
+            Input(f"date-picker-range-{PAGE}-{VIZ_ID}", "end_date"),
+            Input(f"email-filter-{PAGE}-{VIZ_ID}", "value"),
+            Input("bot-switch", "value"),
+        ],
+        background=True,
+    )
+    def org_associated_activity_graph(repolist, num, start_date, end_date, email_filter, bot_switch):
+        """Each contribution is associated with a contributor. That contributor can be associated with
 
-    # function for all data pre processing, COULD HAVE ADDITIONAL INPUTS AND OUTPUTS
-    df = process_data(df, num, start_date, end_date, email_filter)
+        more than one different email. Hence each contribution is associated with all of the emails that a contributor has historically used.
 
-    fig = create_figure(df)
+        We don't always know which email (and therefore which organization) a contributor is affiliated with at contribution
 
-    logging.warning(f"{VIZ_ID} - END - {time.perf_counter() - start}")
-    return fig
+        time, so we choose to count all of their possible affiliations via their email list. e.g. if "Jane Doe" is associated with "gmail.com"
+
+        and "yahoo.com" and they have 5 contributions, "gmail.com" and "yahoo.com" would be counted 5 times each. We assume that relatively few people
+
+        will have many emails. We acknowledge that this will almost always contribute to an overcount but will never undercount."
+        """
+
+        # wait for data to asynchronously download and become available.
+        while not_cached := cf.get_uncached(func_name=aq.__name__, repolist=repolist):
+            logging.warning(f"{VIZ_ID}- WAITING ON DATA TO BECOME AVAILABLE")
+            time.sleep(0.5)
+
+        start = time.perf_counter()
+        logging.warning(f"{VIZ_ID}- START")
+
+        # GET ALL DATA FROM POSTGRES CACHE
+        df = cf.retrieve_from_cache(
+            tablename=aq.__name__,
+            repolist=repolist,
+        )
+
+        # test if there is data
+        if df.empty:
+            logging.warning(f"{VIZ_ID} - NO DATA AVAILABLE")
+            return nodata_graph
+
+        # remove bot data
+        if bot_switch:
+            df = df[~df["cntrb_id"].isin(app.bots_list)]
+
+        # function for all data pre processing, COULD HAVE ADDITIONAL INPUTS AND OUTPUTS
+        df = process_data(df, num, start_date, end_date, email_filter)
+
+        fig = create_figure(df)
+
+        logging.warning(f"{VIZ_ID} - END - {time.perf_counter() - start}")
+        return fig
 
 
 def process_data(df: pd.DataFrame, num, start_date, end_date, email_filter):
@@ -273,3 +273,6 @@ def create_figure(df: pd.DataFrame):
     )
 
     return fig
+
+
+gc_org_associated_activity = card_org_associated_activity()

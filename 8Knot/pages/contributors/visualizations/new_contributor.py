@@ -17,7 +17,8 @@ import cache_manager.cache_facade as cf
 PAGE = "contributors"
 VIZ_ID = "new-contributor"
 
-gc_new_contributor = dbc.Card(
+def card_new_contributor() -> dash.development.base_component.Component:
+    return dbc.Card(
     [
         dbc.CardBody(
             [
@@ -88,6 +89,7 @@ gc_new_contributor = dbc.Card(
     ],
 )
 
+gc_new_contributor = card_new_contributor()
 
 # callback for graph info popover
 @callback(

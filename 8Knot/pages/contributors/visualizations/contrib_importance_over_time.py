@@ -22,20 +22,22 @@ import cache_manager.cache_facade as cf
 PAGE = "contributors"
 VIZ_ID = "lottery-factor-over-time"
 
-gc_lottery_factor_over_time = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H3(
-                    id=f"graph-title-{PAGE}-{VIZ_ID}",
-                    className="card-title",
-                    style={"textAlign": "center"},
-                ),
-                dbc.Popover(
-                    [
-                        dbc.PopoverHeader("Graph Info:"),
-                        dbc.PopoverBody(
-                            """
+
+def card_lottery_factor_over_time():
+    card = dbc.Card(
+        [
+            dbc.CardBody(
+                [
+                    html.H3(
+                        id=f"graph-title-{PAGE}-{VIZ_ID}",
+                        className="card-title",
+                        style={"textAlign": "center"},
+                    ),
+                    dbc.Popover(
+                        [
+                            dbc.PopoverHeader("Graph Info:"),
+                            dbc.PopoverBody(
+                                """
                                         This analysis is also referred to as "Bus Factor". For each action type, visualizes
                                         the smallest group of contributors who account for a user-inputted percentage
                                         of the total number of contributions. By default, the threshold is set to 50%.
@@ -50,106 +52,111 @@ gc_lottery_factor_over_time = dbc.Card(
                                         in the graph indicate that no contributions of a specific action type(s) were made
                                         during that time period.
                                         """
-                        ),
-                    ],
-                    id=f"popover-{PAGE}-{VIZ_ID}",
-                    target=f"popover-target-{PAGE}-{VIZ_ID}",  # needs to be the same as dbc.Button id
-                    placement="top",
-                    is_open=False,
-                ),
-                dcc.Loading(
-                    dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
-                ),
-                dbc.Form(
-                    [
-                        dbc.Row(
-                            [
-                                dbc.Label(
-                                    "Window Width (Months):",
-                                    html_for=f"window-width-{PAGE}-{VIZ_ID}",
-                                    width="auto",
-                                ),
-                                dbc.Col(
-                                    dbc.Input(
-                                        id=f"window-width-{PAGE}-{VIZ_ID}",
-                                        type="number",
-                                        min=1,
-                                        max=12,
-                                        step=1,
-                                        value=6,
-                                        size="sm",
+                            ),
+                        ],
+                        id=f"popover-{PAGE}-{VIZ_ID}",
+                        target=f"popover-target-{PAGE}-{VIZ_ID}",  # needs to be the same as dbc.Button id
+                        placement="top",
+                        is_open=False,
+                    ),
+                    dcc.Loading(
+                        dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
+                    ),
+                    dbc.Form(
+                        [
+                            dbc.Row(
+                                [
+                                    dbc.Label(
+                                        "Window Width (Months):",
+                                        html_for=f"window-width-{PAGE}-{VIZ_ID}",
+                                        width="auto",
                                     ),
-                                    className="me-2",
-                                    width=2,
-                                ),
-                                dbc.Label(
-                                    "Step Size (Months):",
-                                    html_for=f"step-size-{PAGE}-{VIZ_ID}",
-                                    width="auto",
-                                ),
-                                dbc.Col(
-                                    dbc.Input(
-                                        id=f"step-size-{PAGE}-{VIZ_ID}",
-                                        type="number",
-                                        min=1,
-                                        max=12,
-                                        step=1,
-                                        value=6,
-                                        size="sm",
-                                    ),
-                                    className="me-2",
-                                    width=2,
-                                ),
-                                dbc.Alert(
-                                    children="Please ensure that 'Step Size' is less than or equal to 'Window Size'",
-                                    id=f"check-alert-{PAGE}-{VIZ_ID}",
-                                    dismissable=True,
-                                    fade=False,
-                                    is_open=False,
-                                    color="warning",
-                                ),
-                            ],
-                            align="center",
-                        ),
-                        dbc.Row(
-                            [
-                                dbc.Label(
-                                    "Threshold:",
-                                    html_for=f"threshold-{PAGE}-{VIZ_ID}",
-                                    width="auto",
-                                ),
-                                dbc.Col(
-                                    [
-                                        dcc.Slider(
-                                            id=f"threshold-{PAGE}-{VIZ_ID}",
-                                            min=10,
-                                            max=95,
-                                            value=50,
-                                            marks={i: f"{i}%" for i in range(10, 100, 5)},
+                                    dbc.Col(
+                                        dbc.Input(
+                                            id=f"window-width-{PAGE}-{VIZ_ID}",
+                                            type="number",
+                                            min=1,
+                                            max=12,
+                                            step=1,
+                                            value=6,
+                                            size="sm",
                                         ),
-                                    ],
-                                    className="me-2",
-                                    width=9,
-                                ),
-                                dbc.Col(
-                                    dbc.Button(
-                                        "About Graph",
-                                        id=f"popover-target-{PAGE}-{VIZ_ID}",
-                                        color="secondary",
-                                        size="sm",
+                                        className="me-2",
+                                        width=2,
                                     ),
-                                    width="auto",
-                                    style={"paddingTop": ".5em"},
-                                ),
-                            ],
-                            align="center",
-                        ),
-                    ]
-                ),
-            ]
-        )
-    ],
-)
+                                    dbc.Label(
+                                        "Step Size (Months):",
+                                        html_for=f"step-size-{PAGE}-{VIZ_ID}",
+                                        width="auto",
+                                    ),
+                                    dbc.Col(
+                                        dbc.Input(
+                                            id=f"step-size-{PAGE}-{VIZ_ID}",
+                                            type="number",
+                                            min=1,
+                                            max=12,
+                                            step=1,
+                                            value=6,
+                                            size="sm",
+                                        ),
+                                        className="me-2",
+                                        width=2,
+                                    ),
+                                    dbc.Alert(
+                                        children="Please ensure that 'Step Size' is less than or equal to 'Window Size'",
+                                        id=f"check-alert-{PAGE}-{VIZ_ID}",
+                                        dismissable=True,
+                                        fade=False,
+                                        is_open=False,
+                                        color="warning",
+                                    ),
+                                ],
+                                align="center",
+                            ),
+                            dbc.Row(
+                                [
+                                    dbc.Label(
+                                        "Threshold:",
+                                        html_for=f"threshold-{PAGE}-{VIZ_ID}",
+                                        width="auto",
+                                    ),
+                                    dbc.Col(
+                                        [
+                                            dcc.Slider(
+                                                id=f"threshold-{PAGE}-{VIZ_ID}",
+                                                min=10,
+                                                max=95,
+                                                value=50,
+                                                marks={i: f"{i}%" for i in range(10, 100, 5)},
+                                            ),
+                                        ],
+                                        className="me-2",
+                                        width=9,
+                                    ),
+                                    dbc.Col(
+                                        dbc.Button(
+                                            "About Graph",
+                                            id=f"popover-target-{PAGE}-{VIZ_ID}",
+                                            color="secondary",
+                                            size="sm",
+                                        ),
+                                        width="auto",
+                                        style={"paddingTop": ".5em"},
+                                    ),
+                                ],
+                                align="center",
+                            ),
+                        ]
+                    ),
+                ]
+            )
+        ],
+    )
+
+    return card
+
+
+gc_lottery_factor_over_time = card_lottery_factor_over_time()
 
 
 # callback for graph info popover

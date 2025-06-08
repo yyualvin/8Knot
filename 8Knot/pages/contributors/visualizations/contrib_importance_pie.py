@@ -21,20 +21,22 @@ import cache_manager.cache_facade as cf
 PAGE = "contributors"
 VIZ_ID = "contrib-importance-pie"
 
-gc_contrib_importance_pie = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H3(
-                    id=f"graph-title-{PAGE}-{VIZ_ID}",
-                    className="card-title",
-                    style={"textAlign": "center"},
-                ),
-                dbc.Popover(
-                    [
-                        dbc.PopoverHeader("Graph Info:"),
-                        dbc.PopoverBody(
-                            """
+
+def card_contrib_importance_pie():
+    card = dbc.Card(
+        [
+            dbc.CardBody(
+                [
+                    html.H3(
+                        id=f"graph-title-{PAGE}-{VIZ_ID}",
+                        className="card-title",
+                        style={"textAlign": "center"},
+                    ),
+                    dbc.Popover(
+                        [
+                            dbc.PopoverHeader("Graph Info:"),
+                            dbc.PopoverBody(
+                                """
                                         AKA Bus factor. For a given action type, this visualizes the proportional share of the top k anonymous
                                         contributors, aggregating the remaining contributors as "Other". Suppose Contributor A
                                         opens the most PRs of all contributors, accounting for 1/5 of all PRs. If k = 1,
@@ -43,130 +45,135 @@ gc_contrib_importance_pie = dbc.Card(
                                         Contributor ID of 'None' if there is no Github account is associated with the email that
                                         the contributor committed as.
                                         """
-                        ),
-                    ],
-                    id=f"popover-{PAGE}-{VIZ_ID}",
-                    target=f"popover-target-{PAGE}-{VIZ_ID}",
-                    placement="top",
-                    is_open=False,
-                ),
-                dcc.Loading(
-                    dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
-                ),
-                dbc.Form(
-                    [
-                        dbc.Row(
-                            [
-                                dbc.Label(
-                                    "Action Type:",
-                                    html_for=f"action-type-{PAGE}-{VIZ_ID}",
-                                    width="auto",
-                                ),
-                                dbc.Col(
-                                    [
-                                        dcc.Dropdown(
-                                            id=f"action-type-{PAGE}-{VIZ_ID}",
-                                            options=[
-                                                {"label": "Commit", "value": "Commit"},
-                                                {
-                                                    "label": "Issue Opened",
-                                                    "value": "Issue Opened",
-                                                },
-                                                {
-                                                    "label": "Issue Comment",
-                                                    "value": "Issue Comment",
-                                                },
-                                                {
-                                                    "label": "Issue Closed",
-                                                    "value": "Issue Closed",
-                                                },
-                                                {
-                                                    "label": "PR Open",
-                                                    "value": "PR Open",
-                                                },
-                                                {
-                                                    "label": "PR Review",
-                                                    "value": "PR Review",
-                                                },
-                                                {
-                                                    "label": "PR Comment",
-                                                    "value": "PR Comment",
-                                                },
-                                            ],
-                                            value="Commit",
-                                            clearable=False,
-                                        ),
-                                        dbc.Alert(
-                                            children="""No contributions of this type have been made.\n
-                                            Please select a different contribution type.""",
-                                            id=f"check-alert-{PAGE}-{VIZ_ID}",
-                                            dismissable=True,
-                                            fade=False,
-                                            is_open=False,
-                                            color="warning",
-                                        ),
-                                    ],
-                                    className="me-2",
-                                    width=3,
-                                ),
-                                dbc.Label(
-                                    "Top K Contributors:",
-                                    html_for=f"top-k-contributors-{PAGE}-{VIZ_ID}",
-                                    width="auto",
-                                ),
-                                dbc.Col(
-                                    [
-                                        dbc.Input(
-                                            id=f"top-k-contributors-{PAGE}-{VIZ_ID}",
-                                            type="number",
-                                            min=2,
-                                            max=100,
-                                            step=1,
-                                            value=10,
-                                            size="sm",
-                                        ),
-                                    ],
-                                    className="me-2",
-                                    width=2,
-                                ),
-                            ],
-                            align="center",
-                        ),
-                        dbc.Row(
-                            [
-                                dbc.Col(
-                                    [
-                                        dcc.DatePickerRange(
-                                            id=f"date-picker-range-{PAGE}-{VIZ_ID}",
-                                            min_date_allowed=dt.date(2005, 1, 1),
-                                            max_date_allowed=dt.date.today(),
-                                            initial_visible_month=dt.date(dt.date.today().year, 1, 1),
-                                            clearable=True,
-                                        ),
-                                    ],
-                                ),
-                                dbc.Col(
-                                    [
-                                        dbc.Button(
-                                            "About Graph",
-                                            id=f"popover-target-{PAGE}-{VIZ_ID}",
-                                            color="secondary",
-                                            size="sm",
-                                        ),
-                                    ],
-                                    width="auto",
-                                    style={"paddingTop": ".5em"},
-                                ),
-                            ],
-                            align="center",
-                            justify="between",
-                        ),
-                    ]
-                ),
-            ]
-        )
-    ],
-)
+                            ),
+                        ],
+                        id=f"popover-{PAGE}-{VIZ_ID}",
+                        target=f"popover-target-{PAGE}-{VIZ_ID}",
+                        placement="top",
+                        is_open=False,
+                    ),
+                    dcc.Loading(
+                        dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
+                    ),
+                    dbc.Form(
+                        [
+                            dbc.Row(
+                                [
+                                    dbc.Label(
+                                        "Action Type:",
+                                        html_for=f"action-type-{PAGE}-{VIZ_ID}",
+                                        width="auto",
+                                    ),
+                                    dbc.Col(
+                                        [
+                                            dcc.Dropdown(
+                                                id=f"action-type-{PAGE}-{VIZ_ID}",
+                                                options=[
+                                                    {"label": "Commit", "value": "Commit"},
+                                                    {
+                                                        "label": "Issue Opened",
+                                                        "value": "Issue Opened",
+                                                    },
+                                                    {
+                                                        "label": "Issue Comment",
+                                                        "value": "Issue Comment",
+                                                    },
+                                                    {
+                                                        "label": "Issue Closed",
+                                                        "value": "Issue Closed",
+                                                    },
+                                                    {
+                                                        "label": "PR Open",
+                                                        "value": "PR Open",
+                                                    },
+                                                    {
+                                                        "label": "PR Review",
+                                                        "value": "PR Review",
+                                                    },
+                                                    {
+                                                        "label": "PR Comment",
+                                                        "value": "PR Comment",
+                                                    },
+                                                ],
+                                                value="Commit",
+                                                clearable=False,
+                                            ),
+                                            dbc.Alert(
+                                                children="""No contributions of this type have been made.\n
+                                                Please select a different contribution type.""",
+                                                id=f"check-alert-{PAGE}-{VIZ_ID}",
+                                                dismissable=True,
+                                                fade=False,
+                                                is_open=False,
+                                                color="warning",
+                                            ),
+                                        ],
+                                        className="me-2",
+                                        width=3,
+                                    ),
+                                    dbc.Label(
+                                        "Top K Contributors:",
+                                        html_for=f"top-k-contributors-{PAGE}-{VIZ_ID}",
+                                        width="auto",
+                                    ),
+                                    dbc.Col(
+                                        [
+                                            dbc.Input(
+                                                id=f"top-k-contributors-{PAGE}-{VIZ_ID}",
+                                                type="number",
+                                                min=2,
+                                                max=100,
+                                                step=1,
+                                                value=10,
+                                                size="sm",
+                                            ),
+                                        ],
+                                        className="me-2",
+                                        width=2,
+                                    ),
+                                ],
+                                align="center",
+                            ),
+                            dbc.Row(
+                                [
+                                    dbc.Col(
+                                        [
+                                            dcc.DatePickerRange(
+                                                id=f"date-picker-range-{PAGE}-{VIZ_ID}",
+                                                min_date_allowed=dt.date(2005, 1, 1),
+                                                max_date_allowed=dt.date.today(),
+                                                initial_visible_month=dt.date(dt.date.today().year, 1, 1),
+                                                clearable=True,
+                                            ),
+                                        ],
+                                    ),
+                                    dbc.Col(
+                                        [
+                                            dbc.Button(
+                                                "About Graph",
+                                                id=f"popover-target-{PAGE}-{VIZ_ID}",
+                                                color="secondary",
+                                                size="sm",
+                                            ),
+                                        ],
+                                        width="auto",
+                                        style={"paddingTop": ".5em"},
+                                    ),
+                                ],
+                                align="center",
+                                justify="between",
+                            ),
+                        ]
+                    ),
+                ]
+            )
+        ],
+    )
+
+    return card
+
+
+gc_contrib_importance_pie = card_contrib_importance_pie()
 
 
 # callback for graph info popover

@@ -19,129 +19,136 @@ import cache_manager.cache_facade as cf
 PAGE = "affiliation"
 VIZ_ID = "org-core-contributors"
 
-gc_org_core_contributors = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H3(
-                    "Organization Core Contributors",
-                    className="card-title",
-                    style={"textAlign": "center"},
-                ),
-                dbc.Popover(
-                    [
-                        dbc.PopoverHeader("Graph Info:"),
-                        dbc.PopoverBody(
-                            "This graph counts the number of core contributions that COULD be linked to each organization.\n\
-                            The methodology behind this is to take each associated email to someones GitHub account\n\
-                            and link the contributions to each as it is unknown which initity the actvity was done for.\n\
-                            Then the graph groups contributions by contributors and filters by contributors that are core.\n\
-                            Contributions required is the amount of contributions necessary to be consider a core contributor\n\
-                            Core Contributors required is the amount of core contributors needed to have the domain listed."
-                        ),
-                    ],
-                    id=f"popover-{PAGE}-{VIZ_ID}",
-                    target=f"popover-target-{PAGE}-{VIZ_ID}",  # needs to be the same as dbc.Button id
-                    placement="top",
-                    is_open=False,
-                ),
-                dcc.Loading(
-                    dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
-                ),
-                dbc.Form(
-                    [
-                        dbc.Row(
-                            [
-                                dbc.Label(
-                                    "Contributions Required:",
-                                    html_for=f"contributions-required-{PAGE}-{VIZ_ID}",
-                                    width={"size": "auto"},
-                                ),
-                                dbc.Col(
-                                    dbc.Input(
-                                        id=f"contributions-required-{PAGE}-{VIZ_ID}",
-                                        type="number",
-                                        min=1,
-                                        max=100,
-                                        step=1,
-                                        value=10,
-                                        size="sm",
+
+def card_org_core_contributors():
+    card = dbc.Card(
+        [
+            dbc.CardBody(
+                [
+                    html.H3(
+                        "Organization Core Contributors",
+                        className="card-title",
+                        style={"textAlign": "center"},
+                    ),
+                    dbc.Popover(
+                        [
+                            dbc.PopoverHeader("Graph Info:"),
+                            dbc.PopoverBody(
+                                "This graph counts the number of core contributions that COULD be linked to each organization.\n\
+                                The methodology behind this is to take each associated email to someones GitHub account\n\
+                                and link the contributions to each as it is unknown which initity the actvity was done for.\n\
+                                Then the graph groups contributions by contributors and filters by contributors that are core.\n\
+                                Contributions required is the amount of contributions necessary to be consider a core contributor\n\
+                                Core Contributors required is the amount of core contributors needed to have the domain listed."
+                            ),
+                        ],
+                        id=f"popover-{PAGE}-{VIZ_ID}",
+                        target=f"popover-target-{PAGE}-{VIZ_ID}",  # needs to be the same as dbc.Button id
+                        placement="top",
+                        is_open=False,
+                    ),
+                    dcc.Loading(
+                        dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
+                    ),
+                    dbc.Form(
+                        [
+                            dbc.Row(
+                                [
+                                    dbc.Label(
+                                        "Contributions Required:",
+                                        html_for=f"contributions-required-{PAGE}-{VIZ_ID}",
+                                        width={"size": "auto"},
                                     ),
-                                    className="me-2",
-                                    width=2,
-                                ),
-                                dbc.Label(
-                                    "Core Contributors Required:",
-                                    html_for=f"contributors-required-{PAGE}-{VIZ_ID}",
-                                    width={"size": "auto"},
-                                ),
-                                dbc.Col(
-                                    dbc.Input(
-                                        id=f"contributors-required-{PAGE}-{VIZ_ID}",
-                                        type="number",
-                                        min=1,
-                                        max=50,
-                                        step=1,
-                                        value=3,
-                                        size="sm",
+                                    dbc.Col(
+                                        dbc.Input(
+                                            id=f"contributions-required-{PAGE}-{VIZ_ID}",
+                                            type="number",
+                                            min=1,
+                                            max=100,
+                                            step=1,
+                                            value=10,
+                                            size="sm",
+                                        ),
+                                        className="me-2",
+                                        width=2,
                                     ),
-                                    className="me-2",
-                                    width=2,
-                                ),
-                            ],
-                            align="center",
-                        ),
-                        dbc.Row(
-                            [
-                                dbc.Col(
-                                    dcc.DatePickerRange(
-                                        id=f"date-picker-range-{PAGE}-{VIZ_ID}",
-                                        min_date_allowed=dt.date(2005, 1, 1),
-                                        max_date_allowed=dt.date.today(),
-                                        initial_visible_month=dt.date(dt.date.today().year, 1, 1),
-                                        clearable=True,
+                                    dbc.Label(
+                                        "Core Contributors Required:",
+                                        html_for=f"contributors-required-{PAGE}-{VIZ_ID}",
+                                        width={"size": "auto"},
                                     ),
-                                    width="auto",
-                                ),
-                                dbc.Col(
-                                    dbc.Checklist(
-                                        id=f"email-filter-{PAGE}-{VIZ_ID}",
-                                        options=[
-                                            {
-                                                "label": "Exclude Gmail",
-                                                "value": "gmail",
-                                            },
-                                            {
-                                                "label": "Exclude GitHub",
-                                                "value": "github",
-                                            },
-                                        ],
-                                        value=[""],
-                                        inline=True,
-                                        switch=True,
+                                    dbc.Col(
+                                        dbc.Input(
+                                            id=f"contributors-required-{PAGE}-{VIZ_ID}",
+                                            type="number",
+                                            min=1,
+                                            max=50,
+                                            step=1,
+                                            value=3,
+                                            size="sm",
+                                        ),
+                                        className="me-2",
+                                        width=2,
                                     ),
-                                    width=4,
-                                ),
-                                dbc.Col(
-                                    dbc.Button(
-                                        "About Graph",
-                                        id=f"popover-target-{PAGE}-{VIZ_ID}",
-                                        color="secondary",
-                                        size="sm",
+                                ],
+                                align="center",
+                            ),
+                            dbc.Row(
+                                [
+                                    dbc.Col(
+                                        dcc.DatePickerRange(
+                                            id=f"date-picker-range-{PAGE}-{VIZ_ID}",
+                                            min_date_allowed=dt.date(2005, 1, 1),
+                                            max_date_allowed=dt.date.today(),
+                                            initial_visible_month=dt.date(dt.date.today().year, 1, 1),
+                                            clearable=True,
+                                        ),
+                                        width="auto",
                                     ),
-                                    width="auto",
-                                    style={"paddingTop": ".5em"},
-                                ),
-                            ],
-                            align="center",
-                            justify="between",
-                        ),
-                    ]
-                ),
-            ]
-        )
-    ],
-)
+                                    dbc.Col(
+                                        dbc.Checklist(
+                                            id=f"email-filter-{PAGE}-{VIZ_ID}",
+                                            options=[
+                                                {
+                                                    "label": "Exclude Gmail",
+                                                    "value": "gmail",
+                                                },
+                                                {
+                                                    "label": "Exclude GitHub",
+                                                    "value": "github",
+                                                },
+                                            ],
+                                            value=[""],
+                                            inline=True,
+                                            switch=True,
+                                        ),
+                                        width=4,
+                                    ),
+                                    dbc.Col(
+                                        dbc.Button(
+                                            "About Graph",
+                                            id=f"popover-target-{PAGE}-{VIZ_ID}",
+                                            color="secondary",
+                                            size="sm",
+                                        ),
+                                        width="auto",
+                                        style={"paddingTop": ".5em"},
+                                    ),
+                                ],
+                                align="center",
+                                justify="between",
+                            ),
+                        ]
+                    ),
+                ]
+            )
+        ],
+    )
+
+    return card
+
+
+gc_org_core_contributors = card_org_core_contributors()
 
 
 # callback for graph info popover

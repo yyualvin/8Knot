@@ -13,6 +13,7 @@ import logging
 
 # Repo Overview visualizations
 from ..repo_overview.visualizations.code_languages import gc_code_language
+from ..repo_overview.visualizations.code_languages import card_code_language
 from ..repo_overview.visualizations.ossf_scorecard import gc_ossf_scorecard
 from ..repo_overview.visualizations.package_version import gc_package_version
 from ..repo_overview.visualizations.repo_general_info import gc_repo_general_info
@@ -201,6 +202,9 @@ def update_response(n_clicks: int, message: str):
 
     # card_components = [gc_package_version, gc_code_language, gc_active_drifting_contributors]
     card_components = []
+
+    # card = card_code_language(view="line")
+    # card_components.append(card)
 
     ai_reply = turn_response.output_message.content.strip()
     graph_array = extract_id_array(ai_reply)

@@ -119,22 +119,26 @@ graph_loading = html.Div(
     ],
 )
 
-gc_contribution_file_heatmap = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H3(
-                    "Contribution File Heatmap",
-                    className="card-title",
-                    style={"textAlign": "center"},
-                ),
-                dcc.Loading(
-                    children=graph_loading,
-                ),
-            ]
-        )
-    ],
-)
+def card_contribution_file_heatmap():
+    return dbc.Card(
+        [
+            dbc.CardBody(
+                [
+                    html.H3(
+                        "Contribution File Heatmap",
+                        className="card-title",
+                        style={"textAlign": "center"},
+                    ),
+                    dcc.Loading(
+                        children=graph_loading,
+                    ),
+                ]
+            )
+        ],
+    )
+
+
+gc_contribution_file_heatmap = card_contribution_file_heatmap()
 
 
 # callback for graph info popover
@@ -458,7 +462,7 @@ def pr_per_directory_value(directory, df_file):
 
 def pr_to_dates(df_pr: pd.DataFrame, df_dynamic_directory: pd.DataFrame, graph_view):
     """
-    This function creates a df with the files and the the open and merge dates of the prs that
+    This function creates a df with the files and the open and merge dates of the prs that
     touch each file or subdirectory.
 
     Args:
