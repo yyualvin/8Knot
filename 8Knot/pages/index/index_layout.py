@@ -108,71 +108,171 @@ else:
     logging.warning("LOGIN DISABLED")
     login_navbar = [html.Div()]
 
-# navbar for top of screen
+# navbar for top of screen - modern sleek design
 navbar = html.Nav(
-    className="bg-blue-600 text-white sticky top-0 z-50 shadow-md",
+    className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 backdrop-blur-md bg-opacity-95 text-white sticky top-0 z-50 shadow-2xl border-b border-slate-700/50",
     children=[
         html.Div(
-            className="container mx-auto px-4",
+            className="container mx-auto px-6 py-3",
             children=[
                 html.Div(
-                    className="flex items-center justify-start gap-0",
+                    className="flex items-center justify-between",
                     children=[
+                        # Logo and Brand Section
                         html.Div(
-                            className="flex items-center w-auto",
+                            className="flex items-center space-x-3 group",
                             children=[
-                                html.Img(
-                                    src=dash.get_asset_url("8knot-logo-vertical.png"),
-                                    className="h-10",
+                                html.Div(
+                                    className="relative p-2 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg group-hover:shadow-blue-500/25 transition-all duration-300 group-hover:scale-105",
+                                    children=[
+                                        html.Img(
+                                            src=dash.get_asset_url("8knot-logo-vertical.png"),
+                                            className="h-8 w-8 filter brightness-0 invert",
+                                        ),
+                                    ],
                                 ),
                                 html.A(
                                     "8Knot",
                                     id="navbar-title",
-                                    className="ml-2 text-white font-bold text-xl no-underline hover:text-gray-200",
+                                    className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent no-underline hover:from-blue-300 hover:to-purple-300 transition-all duration-300",
                                     href="/",
                                 ),
                             ],
                         ),
+                        
+                        # Navigation Links Section
                         html.Div(
-                            className="flex items-center w-auto ml-8",
+                            className="hidden lg:flex items-center space-x-1",
                             children=[
+                                dcc.Link(
+                                    "Welcome", 
+                                    href="/", 
+                                    className="relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-white no-underline rounded-lg hover:bg-slate-800/50 transition-all duration-200 before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/10 hover:before:to-purple-500/10 before:transition-all before:duration-200"
+                                ),
+                                dcc.Link(
+                                    "Chat", 
+                                    href="/chat", 
+                                    className="relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-white no-underline rounded-lg hover:bg-slate-800/50 transition-all duration-200 before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/10 hover:before:to-purple-500/10 before:transition-all before:duration-200"
+                                ),
+                                dcc.Link(
+                                    "Repo Overview", 
+                                    href="/repo_overview", 
+                                    className="relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-white no-underline rounded-lg hover:bg-slate-800/50 transition-all duration-200 before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/10 hover:before:to-purple-500/10 before:transition-all before:duration-200"
+                                ),
+                                dcc.Link(
+                                    "Contributions", 
+                                    href="/contributions", 
+                                    className="relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-white no-underline rounded-lg hover:bg-slate-800/50 transition-all duration-200 before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/10 hover:before:to-purple-500/10 before:transition-all before:duration-200"
+                                ),
+                                
+                                # Advanced Dropdown Menu
                                 html.Div(
-                                    className="flex space-x-6",
+                                    className="relative group",
                                     children=[
-                                        dcc.Link("Welcome", href="/", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
-                                        dcc.Link("Chat", href="/chat", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
-                                        dcc.Link("Repo Overview", href="/repo_overview", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
-                                        dcc.Link("Contributions", href="/contributions", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
-                                        html.Div(
-                                            className="relative group",
-                                            children=[
-                                                html.Button(
-                                                    "Contributors",
-                                                    className="text-white hover:text-gray-200 px-3 py-2 rounded transition-colors bg-transparent border-none cursor-pointer",
+                                        html.Button(
+                                            [
+                                                "Contributors",
+                                                html.Span(
+                                                    "▼",
+                                                    className="ml-2 text-xs transition-transform duration-200 group-hover:rotate-180 inline-block",
                                                 ),
+                                            ],
+                                            className="flex items-center px-4 py-2 text-sm font-medium text-slate-300 hover:text-white rounded-lg hover:bg-slate-800/50 transition-all duration-200 bg-transparent border-none cursor-pointer",
+                                        ),
+                                        html.Div(
+                                            className="absolute left-0 mt-2 w-64 bg-slate-800/95 backdrop-blur-md rounded-xl shadow-2xl border border-slate-700/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 z-50",
+                                            children=[
                                                 html.Div(
-                                                    className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50",
+                                                    className="p-2",
                                                     children=[
-                                                        dcc.Link("Behavior", href="/contributors/behavior", className="block px-4 py-2 text-gray-800 hover:bg-gray-100 no-underline"),
-                                                        dcc.Link("Contribution Types", href="/contributors/contribution_types", className="block px-4 py-2 text-gray-800 hover:bg-gray-100 no-underline"),
+                                                        dcc.Link(
+                                                            [
+                                                                html.Div(
+                                                                    className="flex items-center p-3 rounded-lg hover:bg-slate-700/50 transition-all duration-200 group/item",
+                                                                    children=[
+                                                                        html.Div(
+                                                                            className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mr-3 group-hover/item:scale-110 transition-transform duration-200",
+                                                                            children=[
+                                                                                html.Span("📊", className="text-sm"),
+                                                                            ],
+                                                                        ),
+                                                                        html.Div(
+                                                                            children=[
+                                                                                html.Div("Behavior", className="text-white font-medium text-sm"),
+                                                                                html.Div("Analyze contributor patterns", className="text-slate-400 text-xs"),
+                                                                            ],
+                                                                        ),
+                                                                    ],
+                                                                ),
+                                                            ],
+                                                            href="/contributors/behavior", 
+                                                            className="block no-underline"
+                                                        ),
+                                                        dcc.Link(
+                                                            [
+                                                                html.Div(
+                                                                    className="flex items-center p-3 rounded-lg hover:bg-slate-700/50 transition-all duration-200 group/item",
+                                                                    children=[
+                                                                        html.Div(
+                                                                            className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mr-3 group-hover/item:scale-110 transition-transform duration-200",
+                                                                            children=[
+                                                                                html.Span("🔧", className="text-sm"),
+                                                                            ],
+                                                                        ),
+                                                                        html.Div(
+                                                                            children=[
+                                                                                html.Div("Contribution Types", className="text-white font-medium text-sm"),
+                                                                                html.Div("Explore different contributions", className="text-slate-400 text-xs"),
+                                                                            ],
+                                                                        ),
+                                                                    ],
+                                                                ),
+                                                            ],
+                                                            href="/contributors/contribution_types", 
+                                                            className="block no-underline"
+                                                        ),
                                                     ],
                                                 ),
                                             ],
                                         ),
-                                        dcc.Link("Affiliation", href="/affiliation", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
-                                        dcc.Link("CHAOSS", href="/chaoss", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
-                                        dcc.Link("Codebase", href="/codebase", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
-                                        dcc.Link("Info", href="/info", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
                                     ],
                                 ),
+                                
+                                dcc.Link(
+                                    "Affiliation", 
+                                    href="/affiliation", 
+                                    className="relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-white no-underline rounded-lg hover:bg-slate-800/50 transition-all duration-200 before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/10 hover:before:to-purple-500/10 before:transition-all before:duration-200"
+                                ),
+                                dcc.Link(
+                                    "CHAOSS", 
+                                    href="/chaoss", 
+                                    className="relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-white no-underline rounded-lg hover:bg-slate-800/50 transition-all duration-200 before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/10 hover:before:to-purple-500/10 before:transition-all before:duration-200"
+                                ),
+                                dcc.Link(
+                                    "Codebase", 
+                                    href="/codebase", 
+                                    className="relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-white no-underline rounded-lg hover:bg-slate-800/50 transition-all duration-200 before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/10 hover:before:to-purple-500/10 before:transition-all before:duration-200"
+                                ),
+                                dcc.Link(
+                                    "Info", 
+                                    href="/info", 
+                                    className="relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-white no-underline rounded-lg hover:bg-slate-800/50 transition-all duration-200 before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/10 hover:before:to-purple-500/10 before:transition-all before:duration-200"
+                                ),
+                            ],
+                        ),
+                        
+                        # Login Section
+                        html.Div(
+                            className="flex items-center",
+                            children=[
+                                # packaged as a list to make linter happy-
+                                # it keeps making the login_navpar page-wrap as a tuple,
+                                # so I wrapped it in a list.
+                                login_navbar[0],
                             ],
                         ),
                     ],
                 ),
-                # packaged as a list to make linter happy-
-                # it keeps making the login_navpar page-wrap as a tuple,
-                # so I wrapped it in a list.
-                login_navbar[0],
             ],
         ),
     ],
