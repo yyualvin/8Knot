@@ -626,3 +626,55 @@ def update_search_status(search_value):
 def hide_search_status_when_loaded(_):
     """Hide the search status indicator when results are loaded."""
     return [{"display": "none"}]
+
+
+# Mobile menu toggle callback
+@callback(
+    [Output("mobile-menu-panel", "className"), Output("mobile-menu-state", "data")],
+    [Input("mobile-menu-button", "n_clicks")],
+    [State("mobile-menu-state", "data")],
+    prevent_initial_call=True
+)
+def toggle_mobile_menu(n_clicks, is_open):
+    """Toggle mobile menu visibility"""
+    if n_clicks:
+        new_state = not is_open
+        if new_state:
+            # Show menu
+            class_name = "md:hidden mt-4 pt-4 border-t border-slate-700/30 block animate-fade-in"
+        else:
+            # Hide menu
+            class_name = "md:hidden mt-4 pt-4 border-t border-slate-700/30 hidden"
+        
+        return class_name, new_state
+    
+    # Default hidden state
+    return "md:hidden mt-4 pt-4 border-t border-slate-700/30 hidden", False
+
+
+# Contributors dropdown toggle callback
+@callback(
+    [Output("contributors-dropdown-panel", "className"), 
+     Output("contributors-arrow", "className"),
+     Output("contributors-dropdown-state", "data")],
+    [Input("contributors-dropdown-button", "n_clicks")],
+    [State("contributors-dropdown-state", "data")],
+    prevent_initial_call=True
+)
+def toggle_contributors_dropdown(n_clicks, is_open):
+    """Toggle contributors dropdown visibility"""
+    if n_clicks:
+        new_state = not is_open
+        if new_state:
+            # Show dropdown
+            panel_class = "absolute left-0 mt-2 lg:mt-3 w-64 lg:w-72 bg-slate-900/95 backdrop-blur-xl rounded-xl lg:rounded-2xl shadow-2xl border border-slate-700/40 block z-50 animate-fade-in"
+            arrow_class = "ml-1 lg:ml-2 text-xs transition-transform duration-300 inline-block transform rotate-180"
+        else:
+            # Hide dropdown
+            panel_class = "absolute left-0 mt-2 lg:mt-3 w-64 lg:w-72 bg-slate-900/95 backdrop-blur-xl rounded-xl lg:rounded-2xl shadow-2xl border border-slate-700/40 hidden z-50"
+            arrow_class = "ml-1 lg:ml-2 text-xs transition-transform duration-300 inline-block"
+        
+        return panel_class, arrow_class, new_state
+    
+    # Default hidden state
+    return "absolute left-0 mt-2 lg:mt-3 w-64 lg:w-72 bg-slate-900/95 backdrop-blur-xl rounded-xl lg:rounded-2xl shadow-2xl border border-slate-700/40 hidden z-50", "ml-1 lg:ml-2 text-xs transition-transform duration-300 inline-block", False

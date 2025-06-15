@@ -108,192 +108,313 @@ else:
     logging.warning("LOGIN DISABLED")
     login_navbar = [html.Div()]
 
-# navbar for top of screen - modern sleek design with responsive sizing
-navbar = html.Div(
-    className="fixed top-0 left-0 right-0 z-50 p-2 sm:p-3 lg:p-4",
-    children=[
-        html.Nav(
-            className="bg-slate-900/80 backdrop-blur-xl border border-slate-700/30 rounded-xl lg:rounded-2xl shadow-2xl mx-auto max-w-full lg:max-w-7xl",
-            children=[
-                html.Div(
-                    className="px-3 sm:px-4 lg:px-6 py-2 sm:py-2.5 lg:py-3",
-                    children=[
-                        html.Div(
-                            className="flex items-center justify-between",
-                            children=[
-                                # Logo and Brand Section with Diamond
-                                html.Div(
-                                    className="flex items-center space-x-2 sm:space-x-3 group flex-shrink-0",
-                                    children=[
-                                        html.Div(
-                                            className="relative",
-                                            children=[
-                                                html.Div(
-                                                    className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 transform rotate-45 rounded-lg shadow-lg group-hover:shadow-blue-500/50 transition-all duration-300 group-hover:scale-110 group-hover:rotate-[225deg]",
-                                                ),
-                                                html.Div(
-                                                    className="absolute inset-0 w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-tl from-cyan-400 via-blue-500 to-purple-600 transform rotate-45 rounded-lg opacity-70 group-hover:opacity-90 transition-all duration-300 animate-pulse",
-                                                ),
-                                            ],
-                                        ),
-                                        html.A(
-                                            "8Knot",
-                                            id="navbar-title",
-                                            className="text-xl sm:text-2xl lg:text-3xl font-black bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 bg-clip-text text-transparent no-underline hover:from-blue-200 hover:via-purple-200 hover:to-pink-200 transition-all duration-300 tracking-tight font-serif",
-                                            href="/",
-                                            style={"fontFamily": "'Playfair Display', 'Georgia', serif"},
-                                        ),
-                                    ],
-                                ),
-                                
-                                # Navigation Links Section - Responsive
-                                html.Div(
-                                    className="hidden md:flex items-center space-x-0.5 lg:space-x-1 xl:space-x-2 flex-wrap",
-                                    children=[
-                                        dcc.Link(
-                                            "Welcome", 
-                                            href="/", 
-                                            className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 font-sans tracking-wide whitespace-nowrap",
-                                            style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
-                                        ),
-                                        dcc.Link(
-                                            "Chat", 
-                                            href="/chat", 
-                                            className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 font-sans tracking-wide whitespace-nowrap",
-                                            style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
-                                        ),
-                                        dcc.Link(
-                                            "Overview", 
-                                            href="/repo_overview", 
-                                            className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 font-sans tracking-wide whitespace-nowrap",
-                                            style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
-                                        ),
-                                        dcc.Link(
-                                            "Contributions", 
-                                            href="/contributions", 
-                                            className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 font-sans tracking-wide whitespace-nowrap",
-                                            style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
-                                        ),
-                                        
-                                        # Advanced Dropdown Menu - Responsive
-                                        html.Div(
-                                            className="relative group",
-                                            children=[
-                                                html.Button(
-                                                    [
-                                                        "Contributors",
-                                                        html.Span(
-                                                            "▼",
-                                                            className="ml-1 lg:ml-2 text-xs transition-transform duration-300 group-hover:rotate-180 inline-block",
-                                                        ),
-                                                    ],
-                                                    className="flex items-center px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 bg-transparent border-none cursor-pointer font-sans tracking-wide whitespace-nowrap",
-                                                    style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
-                                                ),
-                                                html.Div(
-                                                    className="absolute left-0 mt-2 lg:mt-3 w-64 lg:w-72 bg-slate-900/95 backdrop-blur-xl rounded-xl lg:rounded-2xl shadow-2xl border border-slate-700/40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-3 z-50",
-                                                    children=[
-                                                        html.Div(
-                                                            className="p-2 lg:p-3",
-                                                            children=[
-                                                                dcc.Link(
-                                                                    [
-                                                                        html.Div(
-                                                                            className="flex items-center p-3 lg:p-4 rounded-lg xl:rounded-xl hover:bg-slate-800/60 transition-all duration-300 group/item",
-                                                                            children=[
-                                                                                html.Div(
-                                                                                    className="w-8 h-8 lg:w-10 lg:h-10 rounded-lg xl:rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center mr-3 lg:mr-4 group-hover/item:scale-110 transition-transform duration-300 shadow-lg",
-                                                                                    children=[
-                                                                                        html.Span("📊", className="text-sm lg:text-lg"),
-                                                                                    ],
-                                                                                ),
-                                                                                html.Div(
-                                                                                    children=[
-                                                                                        html.Div("Behavior", className="text-white font-bold text-sm lg:text-base mb-1", style={"fontFamily": "'Inter', sans-serif"}),
-                                                                                        html.Div("Analyze contributor patterns", className="text-slate-300 text-xs lg:text-sm font-medium", style={"fontFamily": "'Inter', sans-serif"}),
-                                                                                    ],
-                                                                                ),
-                                                                            ],
-                                                                        ),
-                                                                    ],
-                                                                    href="/contributors/behavior", 
-                                                                    className="block no-underline"
-                                                                ),
-                                                                dcc.Link(
-                                                                    [
-                                                                        html.Div(
-                                                                            className="flex items-center p-3 lg:p-4 rounded-lg xl:rounded-xl hover:bg-slate-800/60 transition-all duration-300 group/item",
-                                                                            children=[
-                                                                                html.Div(
-                                                                                    className="w-8 h-8 lg:w-10 lg:h-10 rounded-lg xl:rounded-xl bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center mr-3 lg:mr-4 group-hover/item:scale-110 transition-transform duration-300 shadow-lg",
-                                                                                    children=[
-                                                                                        html.Span("🔧", className="text-sm lg:text-lg"),
-                                                                                    ],
-                                                                                ),
-                                                                                html.Div(
-                                                                                    children=[
-                                                                                        html.Div("Contribution Types", className="text-white font-bold text-sm lg:text-base mb-1", style={"fontFamily": "'Inter', sans-serif"}),
-                                                                                        html.Div("Explore contribution categories", className="text-slate-300 text-xs lg:text-sm font-medium", style={"fontFamily": "'Inter', sans-serif"}),
-                                                                                    ],
-                                                                                ),
-                                                                            ],
-                                                                        ),
-                                                                    ],
-                                                                    href="/contributors/contribution_types", 
-                                                                    className="block no-underline"
-                                                                ),
-                                                            ],
-                                                        ),
-                                                    ],
-                                                ),
-                                            ],
-                                        ),
-                                        
-                                        dcc.Link(
-                                            "Affiliation", 
-                                            href="/affiliation", 
-                                            className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 font-sans tracking-wide whitespace-nowrap",
-                                            style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
-                                        ),
-                                        dcc.Link(
-                                            "CHAOSS", 
-                                            href="/chaoss", 
-                                            className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 font-sans tracking-wide whitespace-nowrap",
-                                            style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
-                                        ),
-                                        dcc.Link(
-                                            "Codebase", 
-                                            href="/codebase", 
-                                            className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 font-sans tracking-wide whitespace-nowrap",
-                                            style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
-                                        ),
-                                        dcc.Link(
-                                            "Info", 
-                                            href="/info", 
-                                            className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 font-sans tracking-wide whitespace-nowrap",
-                                            style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
-                                        ),
-                                    ],
-                                ),
-                                
-                                # Login Section
-                                html.Div(
-                                    className="flex items-center flex-shrink-0",
-                                    children=[
-                                        # packaged as a list to make linter happy-
-                                        # it keeps making the login_navpar page-wrap as a tuple,
-                                        # so I wrapped it in a list.
-                                        login_navbar[0],
-                                    ],
-                                ),
-                            ],
-                        ),
-                    ],
-                ),
-            ],
-        ),
-    ],
+# Add Google Fonts link for remote font loading
+google_fonts_link = html.Link(
+    rel="stylesheet",
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap"
 )
+
+# navbar for top of screen - modern sleek design with responsive sizing and mobile menu
+navbar = html.Div([
+    google_fonts_link,
+    html.Div(
+        className="fixed top-0 left-0 right-0 z-50 p-2 sm:p-3 lg:p-4",
+        children=[
+            html.Nav(
+                className="bg-slate-900/80 backdrop-blur-xl border border-slate-700/30 rounded-xl lg:rounded-2xl shadow-2xl mx-auto max-w-full lg:max-w-7xl",
+                children=[
+                    html.Div(
+                        className="px-3 sm:px-4 lg:px-6 py-2 sm:py-2.5 lg:py-3",
+                        children=[
+                            html.Div(
+                                className="flex items-center justify-between",
+                                children=[
+                                    # Logo and Brand Section with Diamond (properly sized)
+                                    html.Div(
+                                        className="flex items-center space-x-2 sm:space-x-3 group flex-shrink-0",
+                                        children=[
+                                            html.Div(
+                                                className="relative",
+                                                children=[
+                                                    html.Div(
+                                                        className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 transform rotate-45 rounded-md shadow-lg group-hover:shadow-blue-500/50 transition-all duration-300 group-hover:scale-110 group-hover:rotate-[225deg]",
+                                                    ),
+                                                    html.Div(
+                                                        className="absolute inset-0 w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-gradient-to-tl from-cyan-400 via-blue-500 to-purple-600 transform rotate-45 rounded-md opacity-70 group-hover:opacity-90 transition-all duration-300 animate-pulse",
+                                                    ),
+                                                ],
+                                            ),
+                                            html.A(
+                                                "8Knot",
+                                                id="navbar-title",
+                                                className="text-lg sm:text-xl lg:text-2xl font-black bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 bg-clip-text text-transparent no-underline hover:from-blue-200 hover:via-purple-200 hover:to-pink-200 transition-all duration-300 tracking-tight",
+                                                href="/",
+                                                style={"fontFamily": "'Playfair Display', Georgia, serif"},
+                                            ),
+                                        ],
+                                    ),
+                                    
+                                    # Desktop Navigation Links Section
+                                    html.Div(
+                                        className="hidden md:flex items-center space-x-0.5 lg:space-x-1 xl:space-x-2 flex-wrap",
+                                        children=[
+                                            dcc.Link(
+                                                "Welcome", 
+                                                href="/", 
+                                                className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 tracking-wide whitespace-nowrap",
+                                                style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
+                                            ),
+                                            dcc.Link(
+                                                "Chat", 
+                                                href="/chat", 
+                                                className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 tracking-wide whitespace-nowrap",
+                                                style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
+                                            ),
+                                            dcc.Link(
+                                                "Overview", 
+                                                href="/repo_overview", 
+                                                className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 tracking-wide whitespace-nowrap",
+                                                style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
+                                            ),
+                                            dcc.Link(
+                                                "Contributions", 
+                                                href="/contributions", 
+                                                className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 tracking-wide whitespace-nowrap",
+                                                style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
+                                            ),
+                                            
+                                            # Advanced Dropdown Menu - Responsive
+                                            html.Div(
+                                                className="relative",
+                                                children=[
+                                                    html.Button(
+                                                        [
+                                                            "Contributors",
+                                                            html.Span(
+                                                                "▼",
+                                                                className="ml-1 lg:ml-2 text-xs transition-transform duration-300 inline-block",
+                                                                id="contributors-arrow"
+                                                            ),
+                                                        ],
+                                                        id="contributors-dropdown-button",
+                                                        n_clicks=0,
+                                                        className="flex items-center px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 bg-transparent border-none cursor-pointer tracking-wide whitespace-nowrap",
+                                                        style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
+                                                    ),
+                                                    html.Div(
+                                                        id="contributors-dropdown-panel",
+                                                        className="absolute left-0 mt-2 lg:mt-3 w-64 lg:w-72 bg-slate-900/95 backdrop-blur-xl rounded-xl lg:rounded-2xl shadow-2xl border border-slate-700/40 hidden z-50",
+                                                        children=[
+                                                            html.Div(
+                                                                className="p-2 lg:p-3",
+                                                                children=[
+                                                                    dcc.Link(
+                                                                        [
+                                                                            html.Div(
+                                                                                className="flex items-center p-3 lg:p-4 rounded-lg xl:rounded-xl hover:bg-slate-800/60 transition-all duration-300 group/item",
+                                                                                children=[
+                                                                                    html.Div(
+                                                                                        className="w-8 h-8 lg:w-10 lg:h-10 rounded-lg xl:rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center mr-3 lg:mr-4 group-hover/item:scale-110 transition-transform duration-300 shadow-lg",
+                                                                                        children=[
+                                                                                            html.Span("📊", className="text-sm lg:text-lg"),
+                                                                                        ],
+                                                                                    ),
+                                                                                    html.Div(
+                                                                                        children=[
+                                                                                            html.Div("Behavior", className="text-white font-bold text-sm lg:text-base mb-1", style={"fontFamily": "'Inter', sans-serif"}),
+                                                                                            html.Div("Analyze contributor patterns", className="text-slate-300 text-xs lg:text-sm font-medium", style={"fontFamily": "'Inter', sans-serif"}),
+                                                                                        ],
+                                                                                    ),
+                                                                                ],
+                                                                            ),
+                                                                        ],
+                                                                        href="/contributors/behavior", 
+                                                                        className="block no-underline"
+                                                                    ),
+                                                                    dcc.Link(
+                                                                        [
+                                                                            html.Div(
+                                                                                className="flex items-center p-3 lg:p-4 rounded-lg xl:rounded-xl hover:bg-slate-800/60 transition-all duration-300 group/item",
+                                                                                children=[
+                                                                                    html.Div(
+                                                                                        className="w-8 h-8 lg:w-10 lg:h-10 rounded-lg xl:rounded-xl bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center mr-3 lg:mr-4 group-hover/item:scale-110 transition-transform duration-300 shadow-lg",
+                                                                                        children=[
+                                                                                            html.Span("🔧", className="text-sm lg:text-lg"),
+                                                                                        ],
+                                                                                    ),
+                                                                                    html.Div(
+                                                                                        children=[
+                                                                                            html.Div("Contribution Types", className="text-white font-bold text-sm lg:text-base mb-1", style={"fontFamily": "'Inter', sans-serif"}),
+                                                                                            html.Div("Explore contribution categories", className="text-slate-300 text-xs lg:text-sm font-medium", style={"fontFamily": "'Inter', sans-serif"}),
+                                                                                        ],
+                                                                                    ),
+                                                                                ],
+                                                                            ),
+                                                                        ],
+                                                                        href="/contributors/contribution_types", 
+                                                                        className="block no-underline"
+                                                                    ),
+                                                                ],
+                                                            ),
+                                                        ],
+                                                    ),
+                                                ],
+                                            ),
+                                            
+                                            dcc.Link(
+                                                "Affiliation", 
+                                                href="/affiliation", 
+                                                className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 tracking-wide whitespace-nowrap",
+                                                style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
+                                            ),
+                                            dcc.Link(
+                                                "CHAOSS", 
+                                                href="/chaoss", 
+                                                className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 tracking-wide whitespace-nowrap",
+                                                style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
+                                            ),
+                                            dcc.Link(
+                                                "Codebase", 
+                                                href="/codebase", 
+                                                className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 tracking-wide whitespace-nowrap",
+                                                style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
+                                            ),
+                                            dcc.Link(
+                                                "Info", 
+                                                href="/info", 
+                                                className="relative px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-xs sm:text-sm lg:text-sm font-semibold text-slate-200 hover:text-white no-underline rounded-lg xl:rounded-xl hover:bg-slate-800/50 transition-all duration-300 before:absolute before:inset-0 before:rounded-lg xl:before:rounded-xl before:bg-gradient-to-r before:from-blue-500/0 before:to-purple-500/0 hover:before:from-blue-500/20 hover:before:to-purple-500/20 before:transition-all before:duration-300 tracking-wide whitespace-nowrap",
+                                                style={"fontFamily": "'Inter', 'SF Pro Display', sans-serif"},
+                                            ),
+                                        ],
+                                    ),
+                                    
+                                    # Mobile Menu Button & Login Section
+                                    html.Div(
+                                        className="flex items-center space-x-2 flex-shrink-0",
+                                        children=[
+                                            # Mobile Menu Button
+                                            html.Button(
+                                                [
+                                                    html.Div(
+                                                        className="w-5 h-0.5 bg-slate-200 rounded transition-all duration-300"
+                                                    ),
+                                                    html.Div(
+                                                        className="w-5 h-0.5 bg-slate-200 rounded mt-1 transition-all duration-300"
+                                                    ),
+                                                    html.Div(
+                                                        className="w-5 h-0.5 bg-slate-200 rounded mt-1 transition-all duration-300"
+                                                    ),
+                                                ],
+                                                id="mobile-menu-button",
+                                                n_clicks=0,
+                                                className="md:hidden flex flex-col items-center justify-center w-8 h-8 rounded-lg hover:bg-slate-800/50 transition-all duration-300 bg-transparent border-none cursor-pointer",
+                                            ),
+                                            # Login Section
+                                            html.Div(
+                                                className="flex items-center",
+                                                children=[
+                                                    # packaged as a list to make linter happy-
+                                                    # it keeps making the login_navpar page-wrap as a tuple,
+                                                    # so I wrapped it in a list.
+                                                    login_navbar[0],
+                                                ],
+                                            ),
+                                        ],
+                                    ),
+                                ],
+                            ),
+                            
+                            # Mobile Menu Panel
+                            html.Div(
+                                id="mobile-menu-panel",
+                                className="md:hidden mt-4 pt-4 border-t border-slate-700/30 hidden",
+                                children=[
+                                    html.Div(
+                                        className="flex flex-col space-y-1",
+                                        children=[
+                                            dcc.Link(
+                                                "Welcome", 
+                                                href="/", 
+                                                className="px-4 py-3 text-sm font-semibold text-slate-200 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-300 no-underline",
+                                                style={"fontFamily": "'Inter', sans-serif"},
+                                            ),
+                                            dcc.Link(
+                                                "Chat", 
+                                                href="/chat", 
+                                                className="px-4 py-3 text-sm font-semibold text-slate-200 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-300 no-underline",
+                                                style={"fontFamily": "'Inter', sans-serif"},
+                                            ),
+                                            dcc.Link(
+                                                "Repo Overview", 
+                                                href="/repo_overview", 
+                                                className="px-4 py-3 text-sm font-semibold text-slate-200 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-300 no-underline",
+                                                style={"fontFamily": "'Inter', sans-serif"},
+                                            ),
+                                            dcc.Link(
+                                                "Contributions", 
+                                                href="/contributions", 
+                                                className="px-4 py-3 text-sm font-semibold text-slate-200 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-300 no-underline",
+                                                style={"fontFamily": "'Inter', sans-serif"},
+                                            ),
+                                            # Contributors submenu for mobile
+                                            html.Div(
+                                                className="pl-4",
+                                                children=[
+                                                    html.Div("Contributors:", className="px-4 py-2 text-xs font-medium text-slate-400 uppercase tracking-wider"),
+                                                    dcc.Link(
+                                                        "Behavior", 
+                                                        href="/contributors/behavior", 
+                                                        className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-300 no-underline block",
+                                                        style={"fontFamily": "'Inter', sans-serif"},
+                                                    ),
+                                                    dcc.Link(
+                                                        "Contribution Types", 
+                                                        href="/contributors/contribution_types", 
+                                                        className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-300 no-underline block",
+                                                        style={"fontFamily": "'Inter', sans-serif"},
+                                                    ),
+                                                ],
+                                            ),
+                                            dcc.Link(
+                                                "Affiliation", 
+                                                href="/affiliation", 
+                                                className="px-4 py-3 text-sm font-semibold text-slate-200 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-300 no-underline",
+                                                style={"fontFamily": "'Inter', sans-serif"},
+                                            ),
+                                            dcc.Link(
+                                                "CHAOSS", 
+                                                href="/chaoss", 
+                                                className="px-4 py-3 text-sm font-semibold text-slate-200 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-300 no-underline",
+                                                style={"fontFamily": "'Inter', sans-serif"},
+                                            ),
+                                            dcc.Link(
+                                                "Codebase", 
+                                                href="/codebase", 
+                                                className="px-4 py-3 text-sm font-semibold text-slate-200 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-300 no-underline",
+                                                style={"fontFamily": "'Inter', sans-serif"},
+                                            ),
+                                            dcc.Link(
+                                                "Info", 
+                                                href="/info", 
+                                                className="px-4 py-3 text-sm font-semibold text-slate-200 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-300 no-underline",
+                                                style={"fontFamily": "'Inter', sans-serif"},
+                                            ),
+                                        ],
+                                    ),
+                                ],
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+        ],
+    ),
+    
+    # Store for mobile menu state
+    dcc.Store(id="mobile-menu-state", data=False),
+    # Store for contributors dropdown state
+    dcc.Store(id="contributors-dropdown-state", data=False),
+])
 
 navbar_bottom = dbc.NavbarSimple(
     children=[
