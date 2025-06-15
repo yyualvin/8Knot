@@ -109,80 +109,73 @@ else:
     login_navbar = [html.Div()]
 
 # navbar for top of screen
-navbar = dbc.Navbar(
-    dbc.Container(
-        [
-            dbc.Row(
-                [
-                    dbc.Col(
-                        [
-                            html.Img(
-                                src=dash.get_asset_url("8knot-logo-vertical.png"),
-                                height="40px",
-                            ),
-                            dbc.NavbarBrand(
-                                "8Knot",
-                                id="navbar-title",
-                                className="ms-2",
-                            ),
-                        ],
-                        width={"size": "auto"},
-                    ),
-                    dbc.Col(
-                        [
-                            dbc.Nav(
-                                [
-                                    dbc.NavLink("Welcome", href="/", active="exact"),
-                                    dbc.NavLink("Chat", href="/chat", active="exact"),
-                                    dbc.NavLink("Repo Overview", href="/repo_overview", active="exact"),
-                                    dbc.NavLink(
-                                        "Contributions",
-                                        href="/contributions",
-                                        active="exact",
-                                    ),
-                                    dbc.DropdownMenu(
-                                        [
-                                            dbc.DropdownMenuItem(
-                                                "Behavior",
-                                                href="/contributors/behavior",
-                                            ),
-                                            dbc.DropdownMenuItem(
-                                                "Contribution Types",
-                                                href="/contributors/contribution_types",
-                                            ),
-                                        ],
-                                        label="Contributors",
-                                        nav=True,
-                                    ),
-                                    dbc.NavLink(
-                                        "Affiliation",
-                                        href="/affiliation",
-                                        active="exact",
-                                    ),
-                                    dbc.NavLink("CHAOSS", href="/chaoss", active="exact"),
-                                    dbc.NavLink("Codebase", href="/codebase", active="exact"),
-                                    dbc.NavLink("Info", href="/info", active="exact"),
-                                ],
-                                navbar=True,
-                            )
-                        ],
-                        width={"size": "auto"},
-                    ),
-                ],
-                align="center",
-                className="g-0",
-                justify="start",
-            ),
-            # packaged as a list to make linter happy-
-            # it keeps making the login_navpar page-wrap as a tuple,
-            # so I wrapped it in a list.
-            login_navbar[0],
-        ],
-        fluid=True,
-    ),
-    color="primary",
-    dark=True,
-    sticky="top",
+navbar = html.Nav(
+    className="bg-blue-600 text-white sticky top-0 z-50 shadow-md",
+    children=[
+        html.Div(
+            className="container mx-auto px-4",
+            children=[
+                html.Div(
+                    className="flex items-center justify-start gap-0",
+                    children=[
+                        html.Div(
+                            className="flex items-center w-auto",
+                            children=[
+                                html.Img(
+                                    src=dash.get_asset_url("8knot-logo-vertical.png"),
+                                    className="h-10",
+                                ),
+                                html.A(
+                                    "8Knot",
+                                    id="navbar-title",
+                                    className="ml-2 text-white font-bold text-xl no-underline hover:text-gray-200",
+                                    href="/",
+                                ),
+                            ],
+                        ),
+                        html.Div(
+                            className="flex items-center w-auto ml-8",
+                            children=[
+                                html.Div(
+                                    className="flex space-x-6",
+                                    children=[
+                                        dcc.Link("Welcome", href="/", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
+                                        dcc.Link("Chat", href="/chat", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
+                                        dcc.Link("Repo Overview", href="/repo_overview", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
+                                        dcc.Link("Contributions", href="/contributions", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
+                                        html.Div(
+                                            className="relative group",
+                                            children=[
+                                                html.Button(
+                                                    "Contributors",
+                                                    className="text-white hover:text-gray-200 px-3 py-2 rounded transition-colors bg-transparent border-none cursor-pointer",
+                                                ),
+                                                html.Div(
+                                                    className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50",
+                                                    children=[
+                                                        dcc.Link("Behavior", href="/contributors/behavior", className="block px-4 py-2 text-gray-800 hover:bg-gray-100 no-underline"),
+                                                        dcc.Link("Contribution Types", href="/contributors/contribution_types", className="block px-4 py-2 text-gray-800 hover:bg-gray-100 no-underline"),
+                                                    ],
+                                                ),
+                                            ],
+                                        ),
+                                        dcc.Link("Affiliation", href="/affiliation", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
+                                        dcc.Link("CHAOSS", href="/chaoss", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
+                                        dcc.Link("Codebase", href="/codebase", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
+                                        dcc.Link("Info", href="/info", className="text-white hover:text-gray-200 no-underline px-3 py-2 rounded transition-colors"),
+                                    ],
+                                ),
+                            ],
+                        ),
+                    ],
+                ),
+                # packaged as a list to make linter happy-
+                # it keeps making the login_navpar page-wrap as a tuple,
+                # so I wrapped it in a list.
+                login_navbar[0],
+            ],
+        ),
+    ],
 )
 
 navbar_bottom = dbc.NavbarSimple(
