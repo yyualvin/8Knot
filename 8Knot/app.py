@@ -17,6 +17,7 @@ import logging
 import dash
 import pandas as pd
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import text
 import plotly.io as plt_io
 import dash_bootstrap_components as dbc
 import dash_bootstrap_templates as dbt
@@ -90,8 +91,55 @@ app = dash.Dash(
 server = app.server
 server = _login.configure_server_login(server)
 
-"""HEALTH CHECK ENDPOINT"""
+"""REGISTER CLIENTSIDE CALLBACKS"""
+# Clientside callback to handle clicking outside the search dropdown
+app.clientside_callback(
+    """
+    function(trigger) {
+        // Setup click outside behavior for search dropdown
+        setTimeout(function() {
+            const searchContainer = document.getElementById('search-input-container');
+            const dropdown = document.getElementById('search-dropdown-popup');
+            const input = document.getElementById('my-input');
+            
+            if (!searchContainer || !dropdown || !input) {
+                return;
+            }
+            
+            // Function to handle clicks outside
+            function handleClickOutside(event) {
+                // Check if click is outside both the search container and dropdown
+                if (!searchContainer.contains(event.target) && !dropdown.contains(event.target)) {
+                    // Hide dropdown when clicking outside
+                    dropdown.style.display = 'none';
+                }
+            }
+            
+            // Function to show dropdown when input gets focus
+            function handleInputFocus() {
+                dropdown.style.display = 'block';
+            }
+            
+            // Remove existing listeners to avoid duplicates
+            document.removeEventListener('click', handleClickOutside);
+            input.removeEventListener('focus', handleInputFocus);
+            
+            // Add the event listeners
+            document.addEventListener('click', handleClickOutside);
+            input.addEventListener('focus', handleInputFocus);
+            
+        }, 100);
+        
+        return window.dash_clientside.no_update;
+    }
+    """,
+    dash.dependencies.Output('search-dropdown-popup', 'data-click-outside-initialized', allow_duplicate=True),
+    dash.dependencies.Input('cache-init-trigger', 'children'),
+    prevent_initial_call='initial_duplicate'
+)
 
+"""HEALTH CHECK ENDPOINT"""
+#HELLO????
 
 @server.route("/health")
 def health_check():
@@ -99,7 +147,7 @@ def health_check():
     try:
         # Test database connection
         with engine.connect() as conn:
-            conn.execute("SELECT 1")
+            conn.execute(text("SELECT 1"))
 
         return {"status": "healthy", "database": "connected", "timestamp": str(pd.Timestamp.now())}, 200
     except Exception as e:
@@ -116,7 +164,7 @@ app.layout = layout
 """DASH STARTUP PARAMETERS"""
 
 if os.getenv("8KNOT_DEBUG", "False") == "True":
-    app.enable_dev_tools(dev_tools_ui=True, dev_tools_hot_reload=False)
+    app.enable_dev_tools(dev_tools_ui=True, dev_tools_hot_reload=True)
 
 """GITHUB BOTS LIST"""
 bots_list = bots.get_bots_list()
