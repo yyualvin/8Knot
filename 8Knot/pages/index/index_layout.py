@@ -165,9 +165,9 @@ navbar = html.Div([
                                     html.Div(
                                         className="relative group",
                                         children=[
-                                            # Compact Search Bar with Controls
+                                            # Compact Search Bar with Controls - Blended Design
                                             html.Div(
-                                                className="flex items-center gap-2 bg-gradient-to-r from-slate-800/60 via-slate-800/70 to-slate-800/60 backdrop-blur-md border border-slate-600/40 rounded-lg shadow-lg hover:shadow-xl hover:border-slate-500/50 transition-all duration-300 group-focus-within:border-blue-400/60 group-focus-within:shadow-blue-400/20 px-3 py-1.5",
+                                                className="flex items-center gap-2 bg-gradient-to-r from-slate-800/70 via-slate-700/80 to-slate-800/70 backdrop-blur-xl rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group-focus-within:shadow-blue-400/30 px-3 py-1.5 border border-slate-600/20 hover:border-slate-500/30 group-focus-within:border-blue-400/40",
                                                 children=[
                                                     # Search Icon
                                                     html.Div(
@@ -205,13 +205,16 @@ navbar = html.Div([
                                                                         "minHeight": "auto",
                                                                     },
                                                                     "pill": {
-                                                                        "backgroundColor": "rgba(59, 130, 246, 0.15)",
-                                                                        "border": "1px solid rgba(59, 130, 246, 0.4)",
-                                                                        "color": "#93c5fd",
-                                                                        "borderRadius": "4px",
+                                                                        "backgroundColor": "rgba(59, 130, 246, 0.2)",
+                                                                        "border": "1px solid rgba(139, 92, 246, 0.4)",
+                                                                        "background": "linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15), rgba(236, 72, 153, 0.1))",
+                                                                        "color": "#a5b4fc",
+                                                                        "borderRadius": "6px",
                                                                         "fontSize": "11px",
                                                                         "fontWeight": "500",
-                                                                        "padding": "1px 6px",
+                                                                        "padding": "2px 8px",
+                                                                        "backdropFilter": "blur(8px)",
+                                                                        "boxShadow": "0 2px 8px rgba(59, 130, 246, 0.1)",
                                                                     },
                                                                     "dropdown": {
                                                                         "backgroundColor": "#1e293b",
@@ -223,14 +226,19 @@ navbar = html.Div([
                                                             ),
                                                         ],
                                                     ),
-                                                    # Bot Filter Toggle - Inline
+                                                    # Bot Filter Toggle - Modern Gradient Style
                                                     html.Div(
-                                                        className="hidden md:flex items-center gap-1.5",
+                                                        className="hidden md:flex items-center gap-1.5 px-2 py-1 rounded-md",
+                                                        style={
+                                                            "background": "linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1))",
+                                                            "border": "1px solid rgba(139, 92, 246, 0.3)",
+                                                            "backdropFilter": "blur(8px)",
+                                                        },
                                                         children=[
                                                             html.Label(
                                                                 "Bot Filter",
                                                                 htmlFor="bot-switch",
-                                                                className="text-slate-300 text-xs font-medium cursor-pointer",
+                                                                className="text-slate-200 text-xs font-medium cursor-pointer",
                                                                 style={"fontFamily": "'Inter', sans-serif"},
                                                             ),
                                                             dbc.Switch(
@@ -241,7 +249,7 @@ navbar = html.Div([
                                                             ),
                                                         ],
                                                     ),
-                                                    # Compact Action Buttons
+                                                    # Modern Gradient Action Buttons
                                                     html.Div(
                                                         className="flex items-center gap-1",
                                                         children=[
@@ -250,13 +258,15 @@ navbar = html.Div([
                                                                 id="search-help",
                                                                 n_clicks=0,
                                                                 size="sm",
-                                                                className="px-2 py-0.5 text-xs",
+                                                                className="px-2 py-0.5 text-xs border-0",
                                                                 style={
-                                                                    "backgroundColor": "rgba(71, 85, 105, 0.6)",
-                                                                    "border": "1px solid rgba(71, 85, 105, 0.4)",
-                                                                    "color": "#cbd5e1",
+                                                                    "background": "linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7)",
+                                                                    "color": "white",
                                                                     "fontFamily": "'Inter', sans-serif",
                                                                     "fontSize": "10px",
+                                                                    "fontWeight": "500",
+                                                                    "boxShadow": "0 2px 8px rgba(139, 92, 246, 0.3)",
+                                                                    "transition": "all 0.3s ease",
                                                                 },
                                                             ),
                                                             dbc.Button(
@@ -264,13 +274,15 @@ navbar = html.Div([
                                                                 id="repo-list-button",
                                                                 n_clicks=0,
                                                                 size="sm",
-                                                                className="px-2 py-0.5 text-xs",
+                                                                className="px-2 py-0.5 text-xs border-0",
                                                                 style={
-                                                                    "backgroundColor": "rgba(71, 85, 105, 0.6)",
-                                                                    "border": "1px solid rgba(71, 85, 105, 0.4)",
-                                                                    "color": "#cbd5e1",
+                                                                    "background": "linear-gradient(135deg, #10b981, #06b6d4, #3b82f6)",
+                                                                    "color": "white",
                                                                     "fontFamily": "'Inter', sans-serif",
                                                                     "fontSize": "10px",
+                                                                    "fontWeight": "500",
+                                                                    "boxShadow": "0 2px 8px rgba(16, 185, 129, 0.3)",
+                                                                    "transition": "all 0.3s ease",
                                                                 },
                                                             ),
                                                             dbc.Button(
@@ -278,14 +290,15 @@ navbar = html.Div([
                                                                 id="search",
                                                                 n_clicks=0,
                                                                 size="sm",
-                                                                className="px-2.5 py-0.5",
+                                                                className="px-2.5 py-0.5 border-0",
                                                                 style={
-                                                                    "background": "linear-gradient(135deg, #3b82f6, #6366f1)",
-                                                                    "border": "none",
+                                                                    "background": "linear-gradient(135deg, #f59e0b, #f97316, #ec4899)",
                                                                     "color": "white",
                                                                     "fontFamily": "'Inter', sans-serif",
                                                                     "fontSize": "11px",
                                                                     "fontWeight": "600",
+                                                                    "boxShadow": "0 2px 8px rgba(245, 158, 11, 0.4)",
+                                                                    "transition": "all 0.3s ease",
                                                                 },
                                                             ),
                                                         ],
