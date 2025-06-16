@@ -652,6 +652,24 @@ def toggle_mobile_menu(n_clicks, is_open):
     return "mt-4 pt-4 border-t border-slate-700/30 hidden", False
 
 
+# Auto-close mobile menu on URL change
+@callback(
+    [Output("mobile-menu-panel", "className", allow_duplicate=True), 
+     Output("mobile-menu-state", "data", allow_duplicate=True)],
+    [Input("url", "pathname")],
+    [State("mobile-menu-state", "data")],
+    prevent_initial_call=True
+)
+def close_mobile_menu_on_navigation(pathname, is_open):
+    """Automatically close mobile menu when navigating to a new page"""
+    if is_open:
+        # Close the menu when URL changes
+        return "mt-4 pt-4 border-t border-slate-700/30 hidden", False
+    
+    # If menu is already closed, don't change anything
+    return dash.no_update, dash.no_update
+
+
 # Contributors dropdown toggle callback
 @callback(
     [Output("contributors-dropdown-panel", "className"), 
