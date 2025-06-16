@@ -128,7 +128,7 @@ navbar = html.Div([
                         children=[
                             # Logo and Brand Section with Diamond
                             html.Div(
-                                className="flex items-center space-x-3 group flex-shrink-0",
+                                className="flex items-center space-x-4 group flex-shrink-0",
                                 children=[
                                     html.Div(
                                         className="relative",
@@ -147,6 +147,13 @@ navbar = html.Div([
                                         className="text-xl font-black bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 bg-clip-text text-transparent no-underline hover:from-blue-200 hover:via-purple-200 hover:to-pink-200 transition-all duration-300 tracking-tight",
                                         href="/",
                                         style={"fontFamily": "'Orbitron', 'JetBrains Mono', monospace", "letterSpacing": "0.05em"},
+                                    ),
+                                    # Navigation Menu Button
+                                    html.Button(
+                                        "Menu",
+                                        id="mobile-menu-button",
+                                        n_clicks=0,
+                                        className="flex items-center justify-center px-3 py-1.5 rounded-lg hover:bg-slate-800/50 transition-all duration-300 bg-transparent border border-slate-600/30 cursor-pointer text-slate-300 hover:text-white text-sm font-medium",
                                     ),
                                 ],
                             ),
@@ -285,24 +292,6 @@ navbar = html.Div([
                                                 className="bg-slate-700/50 border-slate-600/30 text-slate-300 hover:bg-slate-600/50 hover:text-white transition-all duration-300",
                                             ),
                                         ],
-                                    ),
-                                    
-                                    # Hamburger Menu Button (Always Visible)
-                                    html.Button(
-                                        [
-                                            html.Div(
-                                                className="w-5 h-0.5 bg-slate-200 rounded transition-all duration-300"
-                                            ),
-                                            html.Div(
-                                                className="w-5 h-0.5 bg-slate-200 rounded mt-1 transition-all duration-300"
-                                            ),
-                                            html.Div(
-                                                className="w-5 h-0.5 bg-slate-200 rounded mt-1 transition-all duration-300"
-                                            ),
-                                        ],
-                                        id="mobile-menu-button",
-                                        n_clicks=0,
-                                        className="flex flex-col items-center justify-center w-9 h-9 rounded-lg hover:bg-slate-800/50 transition-all duration-300 bg-transparent border-none cursor-pointer",
                                     ),
                                     
                                     # Login Section
