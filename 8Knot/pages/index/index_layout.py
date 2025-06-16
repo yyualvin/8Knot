@@ -111,7 +111,7 @@ else:
 # Add Google Fonts link for remote font loading
 google_fonts_link = html.Link(
     rel="stylesheet",
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap"
 )
 
 # navbar for top of screen - fixed design with integrated search and always-hamburger menu
@@ -146,7 +146,7 @@ navbar = html.Div([
                                         id="navbar-title",
                                         className="text-xl font-black bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 bg-clip-text text-transparent no-underline hover:from-blue-200 hover:via-purple-200 hover:to-pink-200 transition-all duration-300 tracking-tight",
                                         href="/",
-                                        style={"fontFamily": "'Playfair Display', Georgia, serif"},
+                                        style={"fontFamily": "'Orbitron', 'JetBrains Mono', monospace", "letterSpacing": "0.05em"},
                                     ),
                                 ],
                             ),
