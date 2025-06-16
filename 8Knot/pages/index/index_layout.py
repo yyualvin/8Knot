@@ -121,30 +121,30 @@ navbar = html.Div([
         className="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-xl border-b border-slate-700/20 shadow-lg",
         children=[
             html.Div(
-                className="container mx-auto px-4 py-3",
+                className="container mx-auto px-4 py-2",
                 children=[
                     html.Div(
                         className="flex items-center justify-between",
                         children=[
                             # Logo and Brand Section with Diamond
                             html.Div(
-                                className="flex items-center space-x-4 group flex-shrink-0",
+                                className="flex items-center space-x-3 group flex-shrink-0",
                                 children=[
                                     html.Div(
                                         className="relative",
                                         children=[
                                             html.Div(
-                                                className="w-7 h-7 bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 transform rotate-45 rounded-md shadow-lg group-hover:shadow-blue-500/50 transition-all duration-300 group-hover:scale-110 group-hover:rotate-[225deg]",
+                                                className="w-6 h-6 bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 transform rotate-45 rounded-md shadow-lg group-hover:shadow-blue-500/50 transition-all duration-300 group-hover:scale-110 group-hover:rotate-[225deg]",
                                             ),
                                             html.Div(
-                                                className="absolute inset-0 w-7 h-7 bg-gradient-to-tl from-cyan-400 via-blue-500 to-purple-600 transform rotate-45 rounded-md opacity-70 group-hover:opacity-90 transition-all duration-300 animate-pulse",
+                                                className="absolute inset-0 w-6 h-6 bg-gradient-to-tl from-cyan-400 via-blue-500 to-purple-600 transform rotate-45 rounded-md opacity-70 group-hover:opacity-90 transition-all duration-300 animate-pulse",
                                             ),
                                         ],
                                     ),
                                     html.A(
                                         "8Knot",
                                         id="navbar-title",
-                                        className="text-xl font-black bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 bg-clip-text text-transparent no-underline hover:from-blue-200 hover:via-purple-200 hover:to-pink-200 transition-all duration-300 tracking-tight",
+                                        className="text-lg font-black bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 bg-clip-text text-transparent no-underline hover:from-blue-200 hover:via-purple-200 hover:to-pink-200 transition-all duration-300 tracking-tight",
                                         href="/",
                                         style={"fontFamily": "'Orbitron', 'JetBrains Mono', monospace", "letterSpacing": "0.05em"},
                                     ),
@@ -153,26 +153,26 @@ navbar = html.Div([
                                         "Menu",
                                         id="mobile-menu-button",
                                         n_clicks=0,
-                                        className="flex items-center justify-center px-3 py-1.5 rounded-lg hover:bg-slate-800/50 transition-all duration-300 bg-transparent border border-slate-600/30 cursor-pointer text-slate-300 hover:text-white text-sm font-medium",
+                                        className="flex items-center justify-center px-2.5 py-1 rounded-lg hover:bg-slate-800/50 transition-all duration-300 bg-transparent border border-slate-600/30 cursor-pointer text-slate-300 hover:text-white text-xs font-medium",
                                     ),
                                 ],
                             ),
                             
                             # Compact Integrated Search Section
                             html.Div(
-                                className="flex-1 max-w-4xl mx-4",
+                                className="flex-1 max-w-4xl mx-3",
                                 children=[
                                     html.Div(
                                         className="relative group",
                                         children=[
                                             # Compact Search Bar with Controls
                                             html.Div(
-                                                className="flex items-center gap-3 bg-gradient-to-r from-slate-800/60 via-slate-800/70 to-slate-800/60 backdrop-blur-md border border-slate-600/40 rounded-xl shadow-lg hover:shadow-xl hover:border-slate-500/50 transition-all duration-300 group-focus-within:border-blue-400/60 group-focus-within:shadow-blue-400/20 px-4 py-2",
+                                                className="flex items-center gap-2 bg-gradient-to-r from-slate-800/60 via-slate-800/70 to-slate-800/60 backdrop-blur-md border border-slate-600/40 rounded-lg shadow-lg hover:shadow-xl hover:border-slate-500/50 transition-all duration-300 group-focus-within:border-blue-400/60 group-focus-within:shadow-blue-400/20 px-3 py-1.5",
                                                 children=[
                                                     # Search Icon
                                                     html.Div(
                                                         className="text-slate-400 group-focus-within:text-blue-400 transition-colors duration-300",
-                                                        children=[html.Span("🔍", className="text-base")],
+                                                        children=[html.Span("🔍", className="text-sm")],
                                                     ),
                                                     # MultiSelect Component - More Compact
                                                     html.Div(
@@ -188,7 +188,7 @@ navbar = html.Div([
                                                                 debounce=100,
                                                                 data=[augur.initial_multiselect_option()],
                                                                 value=[augur.initial_multiselect_option()["value"]],
-                                                                style={"fontSize": 14},
+                                                                style={"fontSize": 13},
                                                                 maxDropdownHeight=350,
                                                                 zIndex=9999,
                                                                 dropdownPosition="bottom",
@@ -199,8 +199,8 @@ navbar = html.Div([
                                                                         "backgroundColor": "transparent",
                                                                         "border": "none",
                                                                         "color": "#f1f5f9",
-                                                                        "fontSize": "14px",
-                                                                        "padding": "4px 0",
+                                                                        "fontSize": "13px",
+                                                                        "padding": "2px 0",
                                                                         "fontFamily": "'Inter', sans-serif",
                                                                         "minHeight": "auto",
                                                                     },
@@ -208,10 +208,10 @@ navbar = html.Div([
                                                                         "backgroundColor": "rgba(59, 130, 246, 0.15)",
                                                                         "border": "1px solid rgba(59, 130, 246, 0.4)",
                                                                         "color": "#93c5fd",
-                                                                        "borderRadius": "6px",
-                                                                        "fontSize": "12px",
+                                                                        "borderRadius": "4px",
+                                                                        "fontSize": "11px",
                                                                         "fontWeight": "500",
-                                                                        "padding": "2px 8px",
+                                                                        "padding": "1px 6px",
                                                                     },
                                                                     "dropdown": {
                                                                         "backgroundColor": "#1e293b",
@@ -225,7 +225,7 @@ navbar = html.Div([
                                                     ),
                                                     # Bot Filter Toggle - Inline
                                                     html.Div(
-                                                        className="hidden md:flex items-center gap-2",
+                                                        className="hidden md:flex items-center gap-1.5",
                                                         children=[
                                                             html.Label(
                                                                 "Bot Filter",
@@ -237,7 +237,7 @@ navbar = html.Div([
                                                                 id="bot-switch",
                                                                 value=True,
                                                                 className="mb-0",
-                                                                input_style={"transform": "scale(0.8)"},
+                                                                input_style={"transform": "scale(0.7)"},
                                                             ),
                                                         ],
                                                     ),
@@ -250,13 +250,13 @@ navbar = html.Div([
                                                                 id="search-help",
                                                                 n_clicks=0,
                                                                 size="sm",
-                                                                className="px-2 py-1 text-xs",
+                                                                className="px-2 py-0.5 text-xs",
                                                                 style={
                                                                     "backgroundColor": "rgba(71, 85, 105, 0.6)",
                                                                     "border": "1px solid rgba(71, 85, 105, 0.4)",
                                                                     "color": "#cbd5e1",
                                                                     "fontFamily": "'Inter', sans-serif",
-                                                                    "fontSize": "11px",
+                                                                    "fontSize": "10px",
                                                                 },
                                                             ),
                                                             dbc.Button(
@@ -264,13 +264,13 @@ navbar = html.Div([
                                                                 id="repo-list-button",
                                                                 n_clicks=0,
                                                                 size="sm",
-                                                                className="px-2 py-1 text-xs",
+                                                                className="px-2 py-0.5 text-xs",
                                                                 style={
                                                                     "backgroundColor": "rgba(71, 85, 105, 0.6)",
                                                                     "border": "1px solid rgba(71, 85, 105, 0.4)",
                                                                     "color": "#cbd5e1",
                                                                     "fontFamily": "'Inter', sans-serif",
-                                                                    "fontSize": "11px",
+                                                                    "fontSize": "10px",
                                                                 },
                                                             ),
                                                             dbc.Button(
@@ -278,13 +278,13 @@ navbar = html.Div([
                                                                 id="search",
                                                                 n_clicks=0,
                                                                 size="sm",
-                                                                className="px-3 py-1",
+                                                                className="px-2.5 py-0.5",
                                                                 style={
                                                                     "background": "linear-gradient(135deg, #3b82f6, #6366f1)",
                                                                     "border": "none",
                                                                     "color": "white",
                                                                     "fontFamily": "'Inter', sans-serif",
-                                                                    "fontSize": "12px",
+                                                                    "fontSize": "11px",
                                                                     "fontWeight": "600",
                                                                 },
                                                             ),
@@ -572,7 +572,7 @@ layout = dbc.Container(
         
         # Main content area with top padding for fixed navbar
         html.Div(
-            className="pt-20",  # Add padding to account for fixed navbar
+            className="pt-16",  # Reduced padding for slimmer navbar
             children=[
                 dcc.Loading(
                     children=[html.Div(id="results-output-container", className="mb-4")],
