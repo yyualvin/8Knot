@@ -158,94 +158,162 @@ navbar = html.Div([
                                 ],
                             ),
                             
-                            # Integrated Search Bar (Center)
+                            # Compact Integrated Search Section
                             html.Div(
-                                className="flex-1 max-w-2xl mx-6",
+                                className="flex-1 max-w-4xl mx-4",
                                 children=[
                                     html.Div(
-                                        className="relative",
+                                        className="relative group",
                                         children=[
-                                            # Search Input Field
+                                            # Compact Search Bar with Controls
                                             html.Div(
-                                                className="flex items-center bg-slate-800/50 backdrop-blur-sm border border-slate-600/30 rounded-xl shadow-inner",
+                                                className="flex items-center gap-3 bg-gradient-to-r from-slate-800/60 via-slate-800/70 to-slate-800/60 backdrop-blur-md border border-slate-600/40 rounded-xl shadow-lg hover:shadow-xl hover:border-slate-500/50 transition-all duration-300 group-focus-within:border-blue-400/60 group-focus-within:shadow-blue-400/20 px-4 py-2",
                                                 children=[
                                                     # Search Icon
                                                     html.Div(
-                                                        className="pl-4 pr-2 text-slate-400",
-                                                        children=[
-                                                            html.Span("🔍", className="text-lg"),
-                                                        ],
+                                                        className="text-slate-400 group-focus-within:text-blue-400 transition-colors duration-300",
+                                                        children=[html.Span("🔍", className="text-base")],
                                                     ),
-                                                    # MultiSelect Component
+                                                    # MultiSelect Component - More Compact
                                                     html.Div(
-                                                        className="flex-1",
+                                                        className="flex-1 min-w-0",
                                                         children=[
                                                             dmc.MultiSelect(
                                                                 id="projects",
-                                                                placeholder="Select GitHub repos or organizations...",
+                                                                placeholder="Search repositories and organizations...",
                                                                 searchable=True,
                                                                 clearable=True,
-                                                                nothingFound="No matching repos/orgs.",
+                                                                nothingFound="No matching repos/orgs found.",
                                                                 variant="unstyled",
                                                                 debounce=100,
                                                                 data=[augur.initial_multiselect_option()],
                                                                 value=[augur.initial_multiselect_option()["value"]],
                                                                 style={"fontSize": 14},
-                                                                maxDropdownHeight=300,
+                                                                maxDropdownHeight=350,
                                                                 zIndex=9999,
                                                                 dropdownPosition="bottom",
-                                                                transitionDuration=150,
+                                                                transitionDuration=200,
                                                                 className="navbar-search-input",
                                                                 styles={
                                                                     "input": {
                                                                         "backgroundColor": "transparent",
                                                                         "border": "none",
-                                                                        "color": "#e2e8f0",
+                                                                        "color": "#f1f5f9",
                                                                         "fontSize": "14px",
-                                                                        "padding": "8px 0",
+                                                                        "padding": "4px 0",
+                                                                        "fontFamily": "'Inter', sans-serif",
+                                                                        "minHeight": "auto",
                                                                     },
                                                                     "pill": {
-                                                                        "backgroundColor": "rgba(59, 130, 246, 0.1)",
-                                                                        "border": "1px solid rgba(59, 130, 246, 0.3)",
+                                                                        "backgroundColor": "rgba(59, 130, 246, 0.15)",
+                                                                        "border": "1px solid rgba(59, 130, 246, 0.4)",
                                                                         "color": "#93c5fd",
+                                                                        "borderRadius": "6px",
+                                                                        "fontSize": "12px",
+                                                                        "fontWeight": "500",
+                                                                        "padding": "2px 8px",
+                                                                    },
+                                                                    "dropdown": {
+                                                                        "backgroundColor": "#1e293b",
+                                                                        "border": "1px solid rgba(59, 130, 246, 0.3)",
+                                                                        "borderRadius": "8px",
+                                                                        "boxShadow": "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
                                                                     },
                                                                 },
                                                             ),
                                                         ],
                                                     ),
-                                                    # Search Button
-                                                    html.Button(
-                                                        "Search",
-                                                        id="search",
-                                                        n_clicks=0,
-                                                        className="px-4 py-2 mx-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white text-sm font-semibold rounded-lg transition-all duration-300 shadow-md hover:shadow-lg border-none cursor-pointer",
-                                                        style={"fontFamily": "'Inter', sans-serif"},
+                                                    # Bot Filter Toggle - Inline
+                                                    html.Div(
+                                                        className="hidden md:flex items-center gap-2",
+                                                        children=[
+                                                            html.Label(
+                                                                "Bot Filter",
+                                                                htmlFor="bot-switch",
+                                                                className="text-slate-300 text-xs font-medium cursor-pointer",
+                                                                style={"fontFamily": "'Inter', sans-serif"},
+                                                            ),
+                                                            dbc.Switch(
+                                                                id="bot-switch",
+                                                                value=True,
+                                                                className="mb-0",
+                                                                input_style={"transform": "scale(0.8)"},
+                                                            ),
+                                                        ],
+                                                    ),
+                                                    # Compact Action Buttons
+                                                    html.Div(
+                                                        className="flex items-center gap-1",
+                                                        children=[
+                                                            dbc.Button(
+                                                                "Help",
+                                                                id="search-help",
+                                                                n_clicks=0,
+                                                                size="sm",
+                                                                className="px-2 py-1 text-xs",
+                                                                style={
+                                                                    "backgroundColor": "rgba(71, 85, 105, 0.6)",
+                                                                    "border": "1px solid rgba(71, 85, 105, 0.4)",
+                                                                    "color": "#cbd5e1",
+                                                                    "fontFamily": "'Inter', sans-serif",
+                                                                    "fontSize": "11px",
+                                                                },
+                                                            ),
+                                                            dbc.Button(
+                                                                "List",
+                                                                id="repo-list-button",
+                                                                n_clicks=0,
+                                                                size="sm",
+                                                                className="px-2 py-1 text-xs",
+                                                                style={
+                                                                    "backgroundColor": "rgba(71, 85, 105, 0.6)",
+                                                                    "border": "1px solid rgba(71, 85, 105, 0.4)",
+                                                                    "color": "#cbd5e1",
+                                                                    "fontFamily": "'Inter', sans-serif",
+                                                                    "fontSize": "11px",
+                                                                },
+                                                            ),
+                                                            dbc.Button(
+                                                                "Search",
+                                                                id="search",
+                                                                n_clicks=0,
+                                                                size="sm",
+                                                                className="px-3 py-1",
+                                                                style={
+                                                                    "background": "linear-gradient(135deg, #3b82f6, #6366f1)",
+                                                                    "border": "none",
+                                                                    "color": "white",
+                                                                    "fontFamily": "'Inter', sans-serif",
+                                                                    "fontSize": "12px",
+                                                                    "fontWeight": "600",
+                                                                },
+                                                            ),
+                                                        ],
                                                     ),
                                                 ],
                                             ),
-                                            # Search Status and Alerts
+                                            # Search Status and Alerts - Positioned Below
                                             html.Div(
-                                                className="absolute top-full left-0 right-0 mt-2 space-y-2",
+                                                className="absolute top-full left-0 right-0 mt-2 space-y-2 z-50",
                                                 children=[
                                                     html.Div(id="search-status", className="search-status-indicator", style={"display": "none"}),
                                                     dbc.Alert(
-                                                        children='Please ensure that your spelling is correct. If your selection definitely isn\'t present, please request that it be loaded using the "REPO/ORG Request" button.',
+                                                        'Please ensure that your spelling is correct. If your selection definitely isn\'t present, please request that it be loaded using the "REPO/ORG Request" button.',
                                                         id="help-alert",
-                                                        dismissable=True,
-                                                        fade=True,
-                                                        is_open=False,
                                                         color="info",
-                                                        className="text-sm",
+                                                        dismissable=True,
+                                                        is_open=False,
+                                                        className="mb-2",
+                                                        style={"fontSize": "13px"},
                                                     ),
                                                     dbc.Alert(
-                                                        children="List of repos",
+                                                        "Repository list will appear here",
                                                         id="repo-list-alert",
+                                                        color="secondary",
                                                         dismissable=True,
-                                                        fade=True,
                                                         is_open=False,
-                                                        color="light",
-                                                        className="text-sm",
-                                                        style={"overflow-y": "scroll", "max-height": "300px"},
+                                                        className="mb-2",
+                                                        style={"fontSize": "13px", "maxHeight": "300px", "overflowY": "auto"},
                                                     ),
                                                 ],
                                             ),
@@ -254,46 +322,10 @@ navbar = html.Div([
                                 ],
                             ),
                             
-                            # Right Side Controls
+                            # Right Side Controls - Login Only
                             html.Div(
-                                className="flex items-center space-x-3 flex-shrink-0",
+                                className="flex items-center space-x-4 flex-shrink-0",
                                 children=[
-                                    # Bot Filter Switch
-                                    html.Div(
-                                        className="hidden sm:flex items-center",
-                                        children=[
-                                            dbc.Switch(
-                                                id="bot-switch",
-                                                label="Bot Filter",
-                                                value=True,
-                                                input_class_name="botlist-filter-switch",
-                                                className="text-slate-300 text-sm",
-                                                style={"fontFamily": "'Inter', sans-serif"},
-                                            ),
-                                        ],
-                                    ),
-                                    
-                                    # Search Help & Repo List Buttons
-                                    html.Div(
-                                        className="hidden sm:flex items-center space-x-2",
-                                        children=[
-                                            dbc.Button(
-                                                "Help",
-                                                id="search-help",
-                                                n_clicks=0,
-                                                size="sm",
-                                                className="bg-slate-700/50 border-slate-600/30 text-slate-300 hover:bg-slate-600/50 hover:text-white transition-all duration-300",
-                                            ),
-                                            dbc.Button(
-                                                "Repo List",
-                                                id="repo-list-button",
-                                                n_clicks=0,
-                                                size="sm",
-                                                className="bg-slate-700/50 border-slate-600/30 text-slate-300 hover:bg-slate-600/50 hover:text-white transition-all duration-300",
-                                            ),
-                                        ],
-                                    ),
-                                    
                                     # Login Section
                                     html.Div(
                                         className="flex items-center",
