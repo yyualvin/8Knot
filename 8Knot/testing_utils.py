@@ -10,6 +10,7 @@ import sys
 import logging
 import traceback
 from functools import wraps
+from sqlalchemy import text
 
 # Configure logging for testing
 def setup_testing_logging():
@@ -80,7 +81,7 @@ def check_required_services():
         augur = AugurManager()
         engine = augur.get_engine()
         with engine.connect() as conn:
-            conn.execute("SELECT 1")
+            conn.execute(text("SELECT 1"))
         checks.append("Database connection: OK")
     except Exception as e:
         checks.append(f"Database connection failed: {str(e)}")
