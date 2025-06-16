@@ -641,15 +641,15 @@ def toggle_mobile_menu(n_clicks, is_open):
         new_state = not is_open
         if new_state:
             # Show menu
-            class_name = "md:hidden mt-4 pt-4 border-t border-slate-700/30 block animate-fade-in"
+            class_name = "mt-4 pt-4 border-t border-slate-700/30 block animate-fade-in"
         else:
             # Hide menu
-            class_name = "md:hidden mt-4 pt-4 border-t border-slate-700/30 hidden"
+            class_name = "mt-4 pt-4 border-t border-slate-700/30 hidden"
         
         return class_name, new_state
     
     # Default hidden state
-    return "md:hidden mt-4 pt-4 border-t border-slate-700/30 hidden", False
+    return "mt-4 pt-4 border-t border-slate-700/30 hidden", False
 
 
 # Contributors dropdown toggle callback
