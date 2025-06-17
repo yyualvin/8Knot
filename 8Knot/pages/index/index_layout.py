@@ -165,9 +165,9 @@ navbar = html.Div([
                                     html.Div(
                                         className="relative group",
                                         children=[
-                                            # Compact Search Bar with Controls - Blended Design
+                                            # Compact Search Bar with Controls - Seamless Blend
                                             html.Div(
-                                                className="flex items-center gap-2 bg-gradient-to-r from-slate-800/70 via-slate-700/80 to-slate-800/70 backdrop-blur-xl rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group-focus-within:shadow-blue-400/30 px-3 py-1.5 border border-slate-600/20 hover:border-slate-500/30 group-focus-within:border-blue-400/40",
+                                                className="flex items-center gap-2 bg-gradient-to-r from-slate-800/40 via-slate-700/50 to-slate-800/40 backdrop-blur-xl rounded-lg shadow-inner hover:shadow-lg transition-all duration-300 group-focus-within:shadow-blue-400/20 group-focus-within:bg-slate-700/60 px-3 py-1.5",
                                                 children=[
                                                     # Search Icon
                                                     html.Div(
