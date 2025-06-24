@@ -388,22 +388,6 @@ search_bar = html.Div(
                         "marginBottom": "16px",
                     },
                 ),
-                html.Div(
-                    [
-                        dbc.Button(
-                            "Search",
-                            id="search",
-                            n_clicks=0,
-                            size="md",
-                            className="mb-2",
-                        ),
-                    ],
-                    style={
-                        "display": "flex",
-                        "flexWrap": "wrap",
-                        "marginBottom": "16px",
-                    },
-                ),
             ],
             direction="vertical",
             style={
