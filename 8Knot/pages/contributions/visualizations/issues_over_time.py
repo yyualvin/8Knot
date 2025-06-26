@@ -110,10 +110,10 @@ gc_issues_over_time = dbc.Card(
                                 ),
                                 dbc.Col(
                                     [
-                                        dbc.Label(
-                                            "Date Range:",
-                                            style={"marginBottom": "8px", "fontSize": "14px"}
-                                        ),
+                                        # dbc.Label(
+                                        #     "Date Range:",
+                                        #     style={"marginBottom": "8px", "fontSize": "14px"}
+                                        # ),
                                         dcc.DatePickerRange(
                                             id=f"date-picker-range-{PAGE}-{VIZ_ID}",
                                             min_date_allowed=dt.date(2005, 1, 1),
@@ -125,7 +125,10 @@ gc_issues_over_time = dbc.Card(
                                                 dt.date.today().day,
                                             ),
                                             clearable=True,
-                                            style={"fontSize": "14px"}
+                                            style={
+                                                "marginTop": "29px",
+                                                "fontSize": "14px"
+                                            }
                                         ),
                                     ],
                                     width="auto"
