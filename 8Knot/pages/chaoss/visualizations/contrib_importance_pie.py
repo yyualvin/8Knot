@@ -179,16 +179,19 @@ gc_contrib_importance_pie = dbc.Card(
                                 ),
                                 dbc.Col(
                                     [
-                                        dbc.Label(
-                                            "Date Range:",
-                                            style={"marginBottom": "8px", "fontSize": "14px"}
-                                        ),
+                                        # dbc.Label(
+                                        #     "Date Range:",
+                                        #     style={"marginBottom": "8px", "fontSize": "14px"}
+                                        # ),
                                         dcc.DatePickerRange(
                                             id=f"date-picker-range-{PAGE}-{VIZ_ID}",
                                             min_date_allowed=dt.date(2005, 1, 1),
                                             max_date_allowed=dt.date.today(),
                                             initial_visible_month=dt.date(dt.date.today().year, 1, 1),
                                             clearable=True,
+                                            style={
+                                                "marginTop": "29.5px",
+                                            }
                                         ),
                                     ],
                                     width="auto"
