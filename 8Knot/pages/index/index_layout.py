@@ -459,7 +459,7 @@ layout = html.Div(
                                         dbc.NavLink(
                                             [
                                                 html.Img(
-                                                    src=dash.get_asset_url("repo_overview.svg"),
+                                                    src=dash.get_asset_url("sidebar/repo_overview.svg"),
                                                     style={"width": "30px", "height": "30px", "marginRight": "12px", "verticalAlign": "middle"},
                                                 ),
                                                 html.Span(
@@ -494,7 +494,7 @@ layout = html.Div(
                                         dbc.NavLink(
                                             [
                                                 html.Img(
-                                                    src=dash.get_asset_url("contributions.svg"),
+                                                    src=dash.get_asset_url("sidebar/contributions.svg"),
                                                     style={"width": "30px", "height": "30px", "marginRight": "12px", "verticalAlign": "middle"},
                                                 ),
                                                 html.Span(
@@ -532,7 +532,7 @@ layout = html.Div(
                                                 html.Div(
                                                     [
                                                         html.Img(
-                                                            src=dash.get_asset_url("contributors.svg"),
+                                                            src=dash.get_asset_url("sidebar/contributors.svg"),
                                                             style={"width": "30px", "height": "30px", "marginRight": "12px", "verticalAlign": "middle"},
                                                         ),
                                                         html.Span(
@@ -622,7 +622,7 @@ layout = html.Div(
                                         dbc.NavLink(
                                             [
                                                 html.Img(
-                                                    src=dash.get_asset_url("affiliation.svg"),
+                                                    src=dash.get_asset_url("sidebar/affiliation.svg"),
                                                     style={"width": "30px", "height": "30px", "marginRight": "12px", "verticalAlign": "middle"},
                                                 ),
                                                 html.Span(
@@ -657,7 +657,7 @@ layout = html.Div(
                                         dbc.NavLink(
                                             [
                                                 html.Img(
-                                                    src=dash.get_asset_url("chaoss.svg"),
+                                                    src=dash.get_asset_url("sidebar/chaoss.svg"),
                                                     style={"width": "30px", "height": "30px", "marginRight": "12px", "verticalAlign": "middle"},
                                                 ),
                                                 html.Span(
@@ -692,7 +692,7 @@ layout = html.Div(
                                         # dbc.NavLink(
                                         #     [
                                         #         html.Img(
-                                        #             src=dash.get_asset_url("codebase.svg"),
+                                        #             src=dash.get_asset_url("sidebar/codebase.svg"),
                                         #             style={"width": "30px", "height": "30px", "marginRight": "12px", "verticalAlign": "middle"},
                                         #         ),
                                         #         html.Span(
