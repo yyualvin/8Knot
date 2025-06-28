@@ -168,22 +168,6 @@ search_bar = html.Div(
             [
                 html.Div(
                     [
-                        # dmc.MultiSelect(
-                        #     id="projects",
-                        #     searchable=True,
-                        #     clearable=True,
-                        #     nothingFound="No matching repos/orgs.",
-                        #     variant="filled",
-                        #     debounce=100,  # debounce time for the search input, since we're implementing client-side caching, we can use a faster debounce
-                        #     data=[augur.initial_multiselect_option()],
-                        #     value=[augur.initial_multiselect_option()["value"]],
-                        #     style={"fontSize": 16},
-                        #     maxDropdownHeight=300,  # limits the dropdown menu's height to 300px
-                        #     zIndex=9999,  # ensures the dropdown menu is on top of other elements
-                        #     dropdownPosition="bottom",  # forces the dropdown to open downwards
-                        #     transitionDuration=150,  # transition duration for the dropdown menu
-                        #     className="searchbar-dropdown",
-                        # ),
                         html.Div(
                             [
                                 # Combined search container with tags inside
@@ -424,83 +408,7 @@ layout = html.Div(
         sidebar_state_store,
         contributors_dropdown_state,
         dcc.Location(id="url"),
-        html.Script(
-            """
-            // CSS for search result hover effects and inline tags
-            const style = document.createElement('style');
-            style.textContent = `
-                .search-result-item:hover {
-                    background-color: #3A3A3A !important;
-                }
-                .selected-tag {
-                    background-color: #119DFF;
-                    color: white;
-                    padding: 2px 6px;
-                    border-radius: 12px;
-                    font-size: 13px;
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 4px;
-                    white-space: nowrap;
-                    max-width: 200px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-                .tag-remove-btn {
-                    background: none;
-                    border: none;
-                    color: white;
-                    cursor: pointer;
-                    font-size: 14px;
-                    line-height: 1;
-                    padding: 0;
-                    width: 14px;
-                    height: 14px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border-radius: 50%;
-                    flex-shrink: 0;
-                }
-                .tag-remove-btn:hover {
-                    background-color: rgba(255, 255, 255, 0.2);
-                }
-                #search-input-container:focus-within {
-                    border-color: #119DFF;
-                    box-shadow: 0 0 0 2px rgba(17, 157, 255, 0.2);
-                }
-            `;
-            document.head.appendChild(style);
 
-            window.addEventListener('error', function(event) {
-                if (event.message && event.message.toLowerCase().includes('quota') &&
-                    event.message.toLowerCase().includes('exceeded')) {
-                    var warningEl = document.getElementById('storage-quota-warning');
-                    if (warningEl) {
-                        warningEl.style.display = 'block';
-                    }
-                }
-            });
-
-            // Test storage capacity
-            try {
-                var testKey = 'storage_test';
-                var testString = new Array(512 * 1024).join('a');  // 512KB
-                sessionStorage.setItem(testKey, testString);
-                sessionStorage.removeItem(testKey);
-            } catch (e) {
-                if (e.name === 'QuotaExceededError' ||
-                    (e.message &&
-                    (e.message.toLowerCase().includes('quota') ||
-                     e.message.toLowerCase().includes('exceeded')))) {
-                    var warningEl = document.getElementById('storage-quota-warning');
-                    if (warningEl) {
-                        warningEl.style.display = 'block';
-                    }
-                }
-            }
-        """
-        ),
         navbar,
         html.Div(
             [
@@ -548,29 +456,6 @@ layout = html.Div(
                                 ),
                                 dbc.Nav(
                                     [
-                                        # dbc.NavLink(
-                                        #     [
-                                        #         html.Img(
-                                        #             src=dash.get_asset_url("home.svg"),
-                                        #             style={"width": "30px", "height": "30px", "marginRight": "12px", "verticalAlign": "middle"},
-                                        #         ),
-                                        #         html.Span("Home", id="home-text")
-                                        #     ],
-                                        #     href="/",
-                                        #     active="exact",
-                                        #     className="sidebar-nav-link",
-                                        #     style={
-                                        #         "display": "flex",
-                                        #         "alignItems": "center",
-                                        #         "padding": "12px 16px",
-                                        #         "marginBottom": "8px",
-                                        #         "borderRadius": "8px",
-                                        #         "color": "#ffffff",
-                                        #         "textDecoration": "none",
-                                        #         "fontSize": "16px",
-                                        #         "fontWeight": "400",
-                                        #     }
-                                        # ),
                                         dbc.NavLink(
                                             [
                                                 html.Img(
