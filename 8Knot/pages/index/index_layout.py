@@ -412,6 +412,22 @@ layout = html.Div(
         navbar,
         html.Div(
             [
+                # Pseudo card behind sidebar (fills gap when sidebar is retracted)
+                html.Div(
+                    id="sidebar-pseudo-card",
+                    style={
+                        "width": "260px",  # Fill the gap (340px original - 80px collapsed = 260px)
+                        "height": "95vh",
+                        "background": "#1D1D1D",  # Match sidebar background color
+                        "position": "absolute",
+                        "left": "90px",  # Start after collapsed sidebar (80px + 10px margin)
+                        "top": "0px",
+                        "zIndex": 1,  # Behind sidebar
+                        "borderRadius": "0 0 0 0",  # No rounded corners since it's filling a gap
+                        "margin": "0px 0 20px 0",
+                        "display": "none",  # Initially hidden
+                    }
+                ),
                 # Sidebar Card (retractable)
                 html.Div(
                     [
@@ -739,7 +755,8 @@ layout = html.Div(
                                 "color": "#fff",
                                 "padding": "32px 18px 32px 18px",
                                 "boxShadow": "none",  # Remove shadow from sidebar card
-                                "borderRight": "1px solid #404040",
+                                "border": "none",  # Remove all default borders
+                                "borderRight": "1px solid #404040",  # Keep only right border
                                 "display": "flex",
                                 "flexDirection": "column",
                                 "justifyContent": "flex-start",
@@ -753,12 +770,11 @@ layout = html.Div(
                     ],
                     id="sidebar-container",
                     style={
-                        "position": "relative",
-                        "transition": "width 0.3s cubic-bezier(.4,2,.6,1)",
-                        "display": "flex",
-                        "flexDirection": "row",
-                        "alignItems": "stretch",
-                        "background": "#242424",  # set background for sidebar container back to #242424
+                        "position": "absolute",
+                        "left": "0px",
+                        "top": "0px",
+                        "transition": "transform 0.3s cubic-bezier(.4,2,.6,1)",
+                        "zIndex": 3,  # Above main card and pseudo card
                     },
                 ),
                 # Main Card
@@ -807,26 +823,28 @@ layout = html.Div(
                         "margin": "0px 10px 20px 0",      # set top margin to 0 to remove space below navbar
                         "width": "calc(99vw - 340px)",
                         "maxWidth": "calc(100vw - 340px)",
+                        "position": "absolute",  # Fixed position
+                        "right": "10px",  # Position from right edge
+                        "top": "0px",
                         "boxShadow": "none",  # Remove shadow from main card
+                        "border": "none",  # Remove border from main card
                         "background": "#1D1D1D",
                         "height": "95vh",
                         "overflowY": "auto",
                         "overflowX": "hidden",
                         "display": "flex",
                         "flexDirection": "column",
-                        "transition": "margin-left 0.3s cubic-bezier(.4,2,.6,1)",
-                        "marginLeft": "0",
+                        "zIndex": 2,  # Above pseudo card
                     },
                     className="big-main-card",
                     id="main-card",
                 ),
             ],
             style={
-                "display": "flex",
-                "flexDirection": "row",
-                "alignItems": "stretch",
+                "position": "relative",  # Enable absolute positioning for children
                 "width": "100vw",
-                "background": "#242424",  # set background for the flex row
+                "height": "95vh",
+                "background": "#242424",  # set background for the container
             },
         ),
     ]

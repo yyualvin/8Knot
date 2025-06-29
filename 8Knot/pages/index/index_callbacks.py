@@ -416,7 +416,9 @@ def initialize_cache(_):
 # Dash callback for sidebar toggle
 @dash.callback(
     [
+        Output("sidebar-container", "style"),
         Output("sidebar-card", "style"),
+        Output("sidebar-pseudo-card", "style"),
         Output("sidebar-full-content", "style"),
         # Output("home-text", "style"),
         Output("repo-overview-text", "style"),
@@ -425,7 +427,6 @@ def initialize_cache(_):
         Output("affiliation-text", "style"),
         Output("chaoss-text", "style"),
         # Output("codebase-text", "style"),  # codebase page disabled
-        Output("main-card", "style"),
         Output("sidebar-toggle-icon", "className"),
         Output("sidebar-collapsed", "data"),
         # Contributors dropdown outputs to close dropdown when sidebar collapses
@@ -449,39 +450,48 @@ def toggle_sidebar(n, collapsed):
     # Full content visibility style
     full_content_style = {"display": "none"} if collapsed else {"display": "block"}
     
-    sidebar_style = {
+    # Sidebar container style - keep in place
+    sidebar_container_style = {
+        "position": "absolute",
+        "left": "0px",
+        "top": "0px",
+        "zIndex": 3,  # Above main card and pseudo card
+    }
+    
+    # Sidebar card style - change width when collapsed
+    sidebar_card_style = {
         "borderRadius": "14px 0 0 14px",
         "height": "95vh",
         "width": "80px" if collapsed else "340px",
-        "background": "#1D1D1D",  # FIXED: match static style
+        "background": "#1D1D1D",
         "color": "#fff",
         "padding": "32px 12px 32px 12px" if collapsed else "32px 18px 32px 18px",
-        "boxShadow": "none",  # Remove shadow from sidebar card
-        "borderRight": "1px solid #404040",
+        "boxShadow": "none",
+        "border": "none",  # Remove all default borders
+        "borderRight": "1px solid #404040",  # Keep only right border
         "display": "flex",
         "flexDirection": "column",
         "justifyContent": "flex-start",
-        "margin": "0px 0 20px 10px",  # always 0 top margin to keep content flush with navbar
+        "margin": "0px 0 20px 10px",
         "zIndex": 2,
         "transition": "width 0.3s cubic-bezier(.4,2,.6,1)",
         "overflow": "hidden",
     }
-    main_style = {
-        "borderRadius": "0 14px 14px 0",
-        "padding": "0px 40px 40px 40px",  # always 0 top padding
-        "margin": "0px 10px 20px 0",      # always 0 top margin
-        "width": f"calc(99vw - {'80px' if collapsed else '340px'})",
-        "maxWidth": f"calc(100vw - {'80px' if collapsed else '340px'})",
-        "boxShadow": "none",  # Remove shadow from main card
-        "background": "#1D1D1D",  # FIXED: match static style
+    
+    # Pseudo card style - show when sidebar is collapsed to fill the gap
+    pseudo_card_style = {
+        "width": "260px",  # Fill the gap (340px original - 80px collapsed = 260px)
         "height": "95vh",
-        "overflowY": "auto",
-        "overflowX": "hidden",
-        "display": "flex",
-        "flexDirection": "column",
-        "transition": "margin-left 0.3s cubic-bezier(.4,2,.6,1)",
-        "marginLeft": "0",
+        "background": "#1D1D1D",  # Match sidebar background color
+        "position": "absolute",
+        "left": "90px",  # Start after collapsed sidebar (80px + 10px margin)
+        "top": "0px",
+        "zIndex": 1,  # Behind sidebar
+        "borderRadius": "0 0 0 0",  # No rounded corners since it's filling a gap
+        "margin": "0px 0 20px 0",
+        "display": "block" if collapsed else "none",  # Show when collapsed
     }
+    
     icon = "fas fa-chevron-right" if collapsed else "fas fa-chevron-left"
     
     # When sidebar is collapsed, always close the contributors dropdown
@@ -498,10 +508,11 @@ def toggle_sidebar(n, collapsed):
         dropdown_wrapper_class = dash.no_update
     
     return (
-        sidebar_style, 
+        sidebar_container_style,
+        sidebar_card_style,
+        pseudo_card_style,
         full_content_style, 
         text_style, text_style, text_style, text_style, text_style,  # removed one text_style for commented codebase-text
-        main_style, 
         icon, 
         collapsed,
         dropdown_content_style,
@@ -518,7 +529,9 @@ def toggle_sidebar(n, collapsed):
         Output("contributors-dropdown-open", "data"),
         Output("sidebar-collapsed", "data", allow_duplicate=True),
         Output("contributors-dropdown-wrapper", "className"),
+        Output("sidebar-container", "style", allow_duplicate=True),
         Output("sidebar-card", "style", allow_duplicate=True),
+        Output("sidebar-pseudo-card", "style", allow_duplicate=True),
         Output("sidebar-full-content", "style", allow_duplicate=True),
         Output("repo-overview-text", "style", allow_duplicate=True),
         Output("contributions-text", "style", allow_duplicate=True),
@@ -526,7 +539,6 @@ def toggle_sidebar(n, collapsed):
         Output("affiliation-text", "style", allow_duplicate=True),
         Output("chaoss-text", "style", allow_duplicate=True),
         # Output("codebase-text", "style", allow_duplicate=True),  # codebase page disabled
-        Output("main-card", "style", allow_duplicate=True),
         Output("sidebar-toggle-icon", "className", allow_duplicate=True),
     ],
     [
@@ -556,7 +568,7 @@ def toggle_contributors_dropdown(dropdown_clicks, repo_clicks, contrib_clicks, a
         icon_class = "bi bi-chevron-down"
         wrapper_class = ""
         # Return current sidebar state unchanged - use dash.no_update for all sidebar-related outputs
-        return dropdown_style, icon_class, False, sidebar_collapsed, wrapper_class, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update  # removed one no_update for commented codebase-text
+        return dropdown_style, icon_class, False, sidebar_collapsed, wrapper_class, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update  # added one more no_update for sidebar-card
     
     # If contributors dropdown toggle was clicked
     if trigger_id == "contributors-dropdown-toggle":
@@ -578,19 +590,19 @@ def toggle_contributors_dropdown(dropdown_clicks, repo_clicks, contrib_clicks, a
         # Text visibility style (expanded)
         text_style = {"display": "inline"}
         
-        # Contributors dropdown icon style (expanded)
-        dropdown_icon_style = {
-            "marginLeft": "auto",
-            "fontSize": "12px",
-            "color": "#B0B0B0",
-            "display": "inline"
-        }
-        
         # Full content visibility style (expanded)
         full_content_style = {"display": "block"}
         
-        # Sidebar style (expanded)
-        sidebar_style = {
+        # Sidebar container style (expanded)
+        sidebar_container_style = {
+            "position": "absolute",
+            "left": "0px",
+            "top": "0px",
+            "zIndex": 3,  # Above main card and pseudo card
+        }
+        
+        # Sidebar card style (expanded)
+        sidebar_card_style = {
             "borderRadius": "14px 0 0 14px",
             "height": "95vh",
             "width": "340px",
@@ -598,7 +610,8 @@ def toggle_contributors_dropdown(dropdown_clicks, repo_clicks, contrib_clicks, a
             "color": "#fff",
             "padding": "32px 18px 32px 18px",
             "boxShadow": "none",
-            "borderRight": "1px solid #404040",
+            "border": "none",  # Remove all default borders
+            "borderRight": "1px solid #404040",  # Keep only right border
             "display": "flex",
             "flexDirection": "column",
             "justifyContent": "flex-start",
@@ -608,28 +621,24 @@ def toggle_contributors_dropdown(dropdown_clicks, repo_clicks, contrib_clicks, a
             "overflow": "hidden",
         }
         
-        # Main card style (expanded)
-        main_style = {
-            "borderRadius": "0 14px 14px 0",
-            "padding": "0px 40px 40px 40px",
-            "margin": "0px 10px 20px 0",
-            "width": "calc(99vw - 340px)",
-            "maxWidth": "calc(100vw - 340px)",
-            "boxShadow": "none",
-            "background": "#1D1D1D",
+        # Pseudo card style (hidden when expanded)
+        pseudo_card_style = {
+            "width": "260px",  # Fill the gap (340px original - 80px collapsed = 260px)
             "height": "95vh",
-            "overflowY": "auto",
-            "overflowX": "hidden",
-            "display": "flex",
-            "flexDirection": "column",
-            "transition": "margin-left 0.3s cubic-bezier(.4,2,.6,1)",
-            "marginLeft": "0",
+            "background": "#1D1D1D",  # Match sidebar background color
+            "position": "absolute",
+            "left": "90px",  # Start after collapsed sidebar (80px + 10px margin)
+            "top": "0px",
+            "zIndex": 1,  # Behind sidebar
+            "borderRadius": "0 0 0 0",  # No rounded corners since it's filling a gap
+            "margin": "0px 0 20px 0",
+            "display": "none",  # Hidden when expanded
         }
         
         # Toggle icon (expanded)
         toggle_icon = "fas fa-chevron-left"
         
-        return dropdown_style, icon_class, dropdown_open, collapsed, wrapper_class, sidebar_style, full_content_style, text_style, text_style, text_style, text_style, text_style, main_style, toggle_icon  # removed one text_style for commented codebase-text
+        return dropdown_style, icon_class, dropdown_open, collapsed, wrapper_class, sidebar_container_style, sidebar_card_style, pseudo_card_style, full_content_style, text_style, text_style, text_style, text_style, text_style, toggle_icon  # removed one text_style for commented codebase-text
     
     raise dash.exceptions.PreventUpdate
 
