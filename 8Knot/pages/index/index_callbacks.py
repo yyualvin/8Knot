@@ -457,7 +457,8 @@ def toggle_sidebar(n, collapsed):
         "color": "#fff",
         "padding": "32px 12px 32px 12px" if collapsed else "32px 18px 32px 18px",
         "boxShadow": "none",  # Remove shadow from sidebar card
-        "borderRight": "1px solid #404040",
+        "border": "none",  # Remove all default borders
+        "borderRight": "1px solid #404040",  # Keep only right border
         "display": "flex",
         "flexDirection": "column",
         "justifyContent": "flex-start",
@@ -473,6 +474,7 @@ def toggle_sidebar(n, collapsed):
         "width": f"calc(99vw - {'80px' if collapsed else '340px'})",
         "maxWidth": f"calc(100vw - {'80px' if collapsed else '340px'})",
         "boxShadow": "none",  # Remove shadow from main card
+        "border": "none",  # Remove all default borders
         "background": "#1D1D1D",  # FIXED: match static style
         "height": "95vh",
         "overflowY": "auto",
@@ -598,7 +600,8 @@ def toggle_contributors_dropdown(dropdown_clicks, repo_clicks, contrib_clicks, a
             "color": "#fff",
             "padding": "32px 18px 32px 18px",
             "boxShadow": "none",
-            "borderRight": "1px solid #404040",
+            "border": "none",  # Remove all default borders
+            "borderRight": "1px solid #404040",  # Keep only right border
             "display": "flex",
             "flexDirection": "column",
             "justifyContent": "flex-start",
@@ -616,6 +619,7 @@ def toggle_contributors_dropdown(dropdown_clicks, repo_clicks, contrib_clicks, a
             "width": "calc(99vw - 340px)",
             "maxWidth": "calc(100vw - 340px)",
             "boxShadow": "none",
+            "border": "none",  # Remove all default borders
             "background": "#1D1D1D",
             "height": "95vh",
             "overflowY": "auto",

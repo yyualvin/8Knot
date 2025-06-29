@@ -739,7 +739,8 @@ layout = html.Div(
                                 "color": "#fff",
                                 "padding": "32px 18px 32px 18px",
                                 "boxShadow": "none",  # Remove shadow from sidebar card
-                                "borderRight": "1px solid #404040",
+                                "border": "none",  # Remove all default borders
+                                "borderRight": "1px solid #404040",  # Keep only right border
                                 "display": "flex",
                                 "flexDirection": "column",
                                 "justifyContent": "flex-start",
@@ -808,6 +809,7 @@ layout = html.Div(
                         "width": "calc(99vw - 340px)",
                         "maxWidth": "calc(100vw - 340px)",
                         "boxShadow": "none",  # Remove shadow from main card
+                        "border": "none",  # Remove all default borders
                         "background": "#1D1D1D",
                         "height": "95vh",
                         "overflowY": "auto",

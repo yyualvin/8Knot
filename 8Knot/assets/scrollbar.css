@@ -25,4 +25,5 @@
 .big-main-card {
   scrollbar-width: thin;
   scrollbar-color: rgba(120,120,120,0.35) rgba(60,60,60,0.10);
+  border: none !important; /* Remove all default Bootstrap card borders */
 }
