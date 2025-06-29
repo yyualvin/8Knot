@@ -713,7 +713,7 @@ def trigger_initial_search(selected_tags, current_clicks):
 
 # Updated callback for repo selections to work with the new tag system
 @callback(
-    [Output("results-output-container", "children"), Output("repo-choices", "data")],
+    [Output("results-output-container", "children"), Output("repo-choices", "data"), Output("page-container-wrapper", "style")],
     [
         Input("search", "n_clicks"),
         Input("my-input", "n_submit"),  # Trigger when user hits Enter in search input
@@ -725,8 +725,37 @@ def multiselect_values_to_repo_ids(n_clicks, n_submit, selected_tags):
     # Allow triggering from either search button click or Enter key press
     if not selected_tags:
         logging.warning("NOTHING SELECTED IN SEARCH BAR")
-        # Don't prevent update - let it run with empty list to show empty state
-        return "", []
+        # Return empty card that matches the main content area size and styling
+        empty_card = dbc.Card(
+            dbc.CardBody(
+                html.Div(
+                    html.P(
+                        "Please enter a search",
+                        className="text-center text-muted",
+                        style={"margin": "0", "fontSize": "24px", "fontWeight": "300"}
+                    ),
+                    style={
+                        "display": "flex",
+                        "alignItems": "center", 
+                        "justifyContent": "center",
+                        "height": "100%",
+                        "width": "100%"
+                    }
+                ),
+                style={"height": "100%", "padding": "0"}
+            ),
+            style={
+                "width": "100%",
+                "display": "flex",
+                "flexDirection": "column",
+                "background": "#1D1D1D",
+                "border": "none",
+                "borderRadius": "8px",
+                "flex": "1",  # Fill available space in main card
+                "minHeight": "400px"  # Minimum height for visual balance
+            }
+        )
+        return empty_card, [], {"display": "none"}  # Hide page container when no search
 
     # individual repo numbers
     repos = [r for r in selected_tags if isinstance(r, int)]
@@ -754,7 +783,7 @@ def multiselect_values_to_repo_ids(n_clicks, n_submit, selected_tags):
             users_cache.ping()
         except redis.exceptions.ConnectionError:
             logging.error("SEARCH-BUTTON: Could not connect to users-cache.")
-            return dash.no_update
+            return dash.no_update, dash.no_update, dash.no_update
 
         try:
             if users_cache.exists(f"{current_user.get_id()}_groups"):
@@ -772,7 +801,7 @@ def multiselect_values_to_repo_ids(n_clicks, n_submit, selected_tags):
     all_repo_ids = list(set().union(*[repos, org_repos, group_repos]))
     logging.warning(f"SELECTED_REPOS: {all_repo_ids}")
 
-    return "", all_repo_ids
+    return "", all_repo_ids, {"display": "block"}  # Show page container when there is a search
 
 
 # Callback to handle removing tags

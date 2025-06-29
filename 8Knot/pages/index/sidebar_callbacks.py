@@ -78,7 +78,6 @@ def toggle_sidebar(toggle_n, contributors_n, dummy_search_n, collapsed, contribu
     
     sidebar_style = {
         "borderRadius": "14px 0 0 14px",
-        "height": "95vh",
         "width": "100px" if collapsed else "340px",
         "background": "#1D1D1D",
         "color": "#fff",
@@ -89,26 +88,25 @@ def toggle_sidebar(toggle_n, contributors_n, dummy_search_n, collapsed, contribu
         "display": "flex",
         "flexDirection": "column",
         "justifyContent": "flex-start",
-        "margin": "0px 0 20px 10px",
+        "margin": "0px",  # Remove all margins, spacing handled by container padding
         "zIndex": 2,
         "overflow": "hidden",
+        "flex": "0 0 auto",  # Don't grow or shrink
     }
     
     main_style = {
         "borderRadius": "0 14px 14px 0",
         "padding": "0px 40px 40px 40px",
-        "margin": "0px 10px 20px 0",
-        "width": f"calc(99vw - {'100px' if collapsed else '340px'})",
-        "maxWidth": f"calc(100vw - {'100px' if collapsed else '340px'})",
+        "margin": "0px",  # Remove all margins, spacing handled by container padding
         "boxShadow": "none",
         "border": "none",
         "background": "#1D1D1D",
-        "height": "95vh",
         "overflowY": "auto",
         "overflowX": "hidden",
         "display": "flex",
         "flexDirection": "column",
         "marginLeft": "0",
+        "flex": "1",  # Grow to fill remaining space
     }
     
     icon = "fas fa-chevron-right" if collapsed else "fas fa-chevron-left"

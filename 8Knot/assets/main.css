@@ -13,6 +13,7 @@
  * 4. Navigation - Sidebar and navigation elements
  * 5. Search - Search functionality specific styling
  * 6. Scrollbar - Custom scrollbar styling (kept separate for specificity)
+ * 7. Body Override - Override Bootstrap theme defaults
  * 
  * This modular approach provides:
  * - Better organization and maintainability
@@ -45,6 +46,11 @@
    SEARCH FUNCTIONALITY
    ============================================================================= */
 @import url('search.css');
+
+/* =============================================================================
+   BOOTSTRAP THEME OVERRIDES
+   ============================================================================= */
+@import url('body-override.css');
 
 /* =============================================================================
    SPECIALIZED STYLING

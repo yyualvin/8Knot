@@ -790,7 +790,6 @@ layout = html.Div(
                             id="sidebar-card",
                             style={
                                 "borderRadius": "14px 0 0 14px",
-                                "height": "95vh",
                                 "width": "340px",
                                 "background": "#1D1D1D",
                                 "color": "#fff",
@@ -801,9 +800,10 @@ layout = html.Div(
                                 "display": "flex",
                                 "flexDirection": "column",
                                 "justifyContent": "flex-start",
-                                "margin": "0px 0 20px 10px",  # set top margin to 0 to remove space below navbar
+                                "margin": "0px",  # Remove all margins, spacing handled by container padding
                                 "zIndex": 2,
                                 "overflow": "hidden",
+                                "flex": "0 0 auto",  # Don't grow or shrink
                             },
                             className="sidebar-card",
                         ),
@@ -849,7 +849,7 @@ layout = html.Div(
                                             type="cube",
                                             color="#436755",
                                         ),
-                                        dash.page_container,
+                                        html.Div(dash.page_container, id="page-container-wrapper"),
                                     ],
                                     style={"padding": "32px"},  # Added padding to main content
                                 ),
@@ -860,18 +860,16 @@ layout = html.Div(
                     style={
                         "borderRadius": "0 14px 14px 0",
                         "padding": "0px 40px 40px 40px",  # set top padding to 0 to remove space below navbar
-                        "margin": "0px 10px 20px 0",      # set top margin to 0 to remove space below navbar
-                        "width": "calc(99vw - 340px)",
-                        "maxWidth": "calc(100vw - 340px)",
+                        "margin": "0px",  # Remove all margins, spacing handled by container padding
                         "boxShadow": "none",  # Remove shadow from main card
                         "border": "none",  # Remove all default borders
                         "background": "#1D1D1D",
-                        "height": "95vh",
                         "overflowY": "auto",
                         "overflowX": "hidden",
                         "display": "flex",
                         "flexDirection": "column",
                         "marginLeft": "0",
+                        "flex": "1",  # Grow to fill remaining space
                     },
                     className="big-main-card",
                     id="main-card",
@@ -881,11 +879,16 @@ layout = html.Div(
                 "display": "flex",
                 "flexDirection": "row",
                 "alignItems": "stretch",
-                "width": "100vw",
+                "height": "calc(100vh - 90px)",  # Full viewport minus navbar and dev tools bar
+                "padding": "0px 10px 0px 10px",  # top right bottom left - normal bottom padding
                 "background": "#242424",  # set background for the flex row
+                "boxSizing": "border-box",
             },
         ),
-    ]
+    ],
+    style={
+        "background": "#242424 !important",  # Match the main container background
+    }
 )
 
 
