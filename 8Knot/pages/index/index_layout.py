@@ -218,7 +218,36 @@ search_bar = html.Div(
                                 # Search results popup
                                 html.Div(
                                     [
-                                        # First card: Options and controls (Help, Repo List, Bot Filter)
+                                        # First card: Searchable content (scrollable) - moved to top
+                                        dbc.Card(
+                                            [
+                                                dbc.CardBody(
+                                                    [
+                                                        html.Div(
+                                                            id="search-results-list",
+                                                            children=[
+                                                                html.Div(
+                                                                    "Start typing to search for repositories and organizations...",
+                                                                    style={"padding": "12px", "color": "#B0B0B0", "textAlign": "center"}
+                                                                )
+                                                            ]
+                                                        )
+                                                    ],
+                                                    style={"padding": "8px"}
+                                                )
+                                            ],
+                                            style={
+                                                "backgroundColor": "#292929",
+                                                "border": "1px solid #555",
+                                                "borderRadius": "16px 16px 0 0",  # Rounded top corners only
+                                                "borderBottom": "none",  # No bottom border to connect with second card
+                                                "color": "#fff",
+                                                "maxHeight": "240px",  # Limit height for scrolling
+                                                "overflowY": "auto",  # Make this card scrollable
+                                                "marginBottom": "0"  # No margin between cards
+                                            }
+                                        ),
+                                        # Second card: Options and controls - moved to bottom
                                         dbc.Card(
                                             [
                                                 dbc.CardBody(
@@ -299,40 +328,11 @@ search_bar = html.Div(
                                                 )
                                             ],
                                             style={
-                                                "backgroundColor": "#2D2D2D",
-                                                "border": "1px solid #555",
-                                                "borderRadius": "16px 16px 0 0",  # Rounded top corners only
-                                                "borderBottom": "none",  # No bottom border to connect with second card
-                                                "color": "#fff",
-                                                "marginBottom": "0"  # No margin between cards
-                                            }
-                                        ),
-                                        # Second card: Searchable content (scrollable)
-                                        dbc.Card(
-                                            [
-                                                dbc.CardBody(
-                                                    [
-                                                        html.Div(
-                                                            id="search-results-list",
-                                                            children=[
-                                                                html.Div(
-                                                                    "Start typing to search for repositories and organizations...",
-                                                                    style={"padding": "12px", "color": "#B0B0B0", "textAlign": "center"}
-                                                                )
-                                                            ]
-                                                        )
-                                                    ],
-                                                    style={"padding": "8px"}
-                                                )
-                                            ],
-                                            style={
-                                                "backgroundColor": "#2D2D2D",
+                                                "backgroundColor": "#292929",
                                                 "border": "1px solid #555",
                                                 "borderRadius": "0 0 16px 16px",  # Rounded bottom corners only
                                                 "borderTop": "none",  # No top border to connect with first card
                                                 "color": "#fff",
-                                                "maxHeight": "240px",  # Limit height for scrolling
-                                                "overflowY": "auto",  # Make this card scrollable
                                                 "marginTop": "0"  # No margin between cards
                                             }
                                         )
