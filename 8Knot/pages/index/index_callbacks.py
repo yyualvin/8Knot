@@ -464,7 +464,6 @@ def toggle_sidebar(n, collapsed):
         "justifyContent": "flex-start",
         "margin": "0px 0 20px 10px",  # always 0 top margin to keep content flush with navbar
         "zIndex": 2,
-        "transition": "width 0.3s cubic-bezier(.4,2,.6,1)",
         "overflow": "hidden",
     }
     main_style = {
@@ -481,7 +480,6 @@ def toggle_sidebar(n, collapsed):
         "overflowX": "hidden",
         "display": "flex",
         "flexDirection": "column",
-        "transition": "margin-left 0.3s cubic-bezier(.4,2,.6,1)",
         "marginLeft": "0",
     }
     icon = "fas fa-chevron-right" if collapsed else "fas fa-chevron-left"
@@ -607,7 +605,6 @@ def toggle_contributors_dropdown(dropdown_clicks, repo_clicks, contrib_clicks, a
             "justifyContent": "flex-start",
             "margin": "0px 0 20px 10px",
             "zIndex": 2,
-            "transition": "width 0.3s cubic-bezier(.4,2,.6,1)",
             "overflow": "hidden",
         }
         
@@ -626,7 +623,6 @@ def toggle_contributors_dropdown(dropdown_clicks, repo_clicks, contrib_clicks, a
             "overflowX": "hidden",
             "display": "flex",
             "flexDirection": "column",
-            "transition": "margin-left 0.3s cubic-bezier(.4,2,.6,1)",
             "marginLeft": "0",
         }
         

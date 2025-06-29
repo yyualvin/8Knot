@@ -746,7 +746,6 @@ layout = html.Div(
                                 "justifyContent": "flex-start",
                                 "margin": "0px 0 20px 10px",  # set top margin to 0 to remove space below navbar
                                 "zIndex": 2,
-                                "transition": "width 0.3s cubic-bezier(.4,2,.6,1)",
                                 "overflow": "hidden",
                             },
                             className="sidebar-card",
@@ -755,7 +754,6 @@ layout = html.Div(
                     id="sidebar-container",
                     style={
                         "position": "relative",
-                        "transition": "width 0.3s cubic-bezier(.4,2,.6,1)",
                         "display": "flex",
                         "flexDirection": "row",
                         "alignItems": "stretch",
@@ -816,7 +814,6 @@ layout = html.Div(
                         "overflowX": "hidden",
                         "display": "flex",
                         "flexDirection": "column",
-                        "transition": "margin-left 0.3s cubic-bezier(.4,2,.6,1)",
                         "marginLeft": "0",
                     },
                     className="big-main-card",
