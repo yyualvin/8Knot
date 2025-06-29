@@ -110,4 +110,45 @@
 #search-input-container:focus-within {
     border-color: #119DFF;
     box-shadow: 0 0 0 2px rgba(17, 157, 255, 0.2);
+}
+
+/* =============================================================================
+   SEARCH DROPDOWN SCROLLBAR
+   ============================================================================= */
+
+/**
+ * Search Dropdown Scrollbar Styling
+ * Matches the main card scrollbar for visual consistency
+ * Features:
+ * - Subtle appearance that doesn't draw attention
+ * - Smooth transitions on hover
+ * - Rounded corners for modern look
+ * - Consistent with main content area
+ */
+#search-dropdown-popup::-webkit-scrollbar {
+    width: 10px;
+    background: transparent;
+    transition: background 0.3s;
+}
+
+#search-dropdown-popup:hover::-webkit-scrollbar {
+    background: rgba(60, 60, 60, 0.15);
+}
+
+#search-dropdown-popup::-webkit-scrollbar-thumb {
+    background: rgba(120, 120, 120, 0.35);
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    transition: background 0.3s;
+}
+
+#search-dropdown-popup:hover::-webkit-scrollbar-thumb {
+    background: rgba(120, 120, 120, 0.65);
+}
+
+/* Firefox scrollbar styling for search dropdown */
+#search-dropdown-popup {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(120,120,120,0.35) rgba(60,60,60,0.10);
 } 
