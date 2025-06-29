@@ -547,6 +547,8 @@ def toggle_sidebar(n, collapsed):
         Input("contributions-navlink", "n_clicks"), 
         Input("affiliation-navlink", "n_clicks"),
         Input("chaoss-navlink", "n_clicks"),
+        Input("contributors-behavior-navlink", "n_clicks"),
+        Input("contributors-types-navlink", "n_clicks"),
         # Input("codebase-navlink", "n_clicks"),  # codebase page disabled
     ],
     [
@@ -555,7 +557,7 @@ def toggle_sidebar(n, collapsed):
     ],
     prevent_initial_call=True,
 )
-def toggle_contributors_dropdown(dropdown_clicks, repo_clicks, contrib_clicks, aff_clicks, chaoss_clicks, dropdown_open, sidebar_collapsed):
+def toggle_contributors_dropdown(dropdown_clicks, repo_clicks, contrib_clicks, aff_clicks, chaoss_clicks, behavior_clicks, types_clicks, dropdown_open, sidebar_collapsed):
     ctx = dash.callback_context
     if not ctx.triggered:
         raise dash.exceptions.PreventUpdate
@@ -569,6 +571,69 @@ def toggle_contributors_dropdown(dropdown_clicks, repo_clicks, contrib_clicks, a
         wrapper_class = ""
         # Return current sidebar state unchanged - use dash.no_update for all sidebar-related outputs
         return dropdown_style, icon_class, False, sidebar_collapsed, wrapper_class, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update  # added one more no_update for sidebar-card
+    
+    # If contributors sub-page navlinks were clicked, expand sidebar with correct styling
+    if trigger_id in ["contributors-behavior-navlink", "contributors-types-navlink"]:
+        # Close dropdown and expand sidebar
+        dropdown_style = {"display": "none", "height": 0, "overflow": "hidden", "padding": 0, "border": 0}
+        icon_class = "bi bi-chevron-down"
+        wrapper_class = ""
+        
+        # Force sidebar to expanded state with correct border styling
+        collapsed = False  # Always expanded
+        
+        # Text visibility style (expanded)
+        text_style = {"display": "inline"}
+        
+        # Full content visibility style (expanded)
+        full_content_style = {"display": "block"}
+        
+        # Sidebar container style (expanded)
+        sidebar_container_style = {
+            "position": "absolute",
+            "left": "0px",
+            "top": "0px",
+            "zIndex": 3,  # Above main card and pseudo card
+        }
+        
+        # Sidebar card style (expanded) with correct border styling
+        sidebar_card_style = {
+            "borderRadius": "14px 0 0 14px",
+            "height": "95vh",
+            "width": "340px",
+            "background": "#1D1D1D",
+            "color": "#fff",
+            "padding": "32px 18px 32px 18px",
+            "boxShadow": "none",
+            "border": "none",  # Remove all default borders
+            "borderRight": "1px solid #404040",  # Keep only right border
+            "display": "flex",
+            "flexDirection": "column",
+            "justifyContent": "flex-start",
+            "margin": "0px 0 20px 10px",
+            "zIndex": 2,
+            "transition": "width 0.3s cubic-bezier(.4,2,.6,1)",
+            "overflow": "hidden",
+        }
+        
+        # Pseudo card style (hidden when expanded)
+        pseudo_card_style = {
+            "width": "260px",  # Fill the gap (340px original - 80px collapsed = 260px)
+            "height": "95vh",
+            "background": "#1D1D1D",  # Match sidebar background color
+            "position": "absolute",
+            "left": "90px",  # Start after collapsed sidebar (80px + 10px margin)
+            "top": "0px",
+            "zIndex": 1,  # Behind sidebar
+            "borderRadius": "0 0 0 0",  # No rounded corners since it's filling a gap
+            "margin": "0px 0 20px 0",
+            "display": "none",  # Hidden when expanded
+        }
+        
+        # Toggle icon (expanded)
+        toggle_icon = "fas fa-chevron-left"
+        
+        return dropdown_style, icon_class, False, collapsed, wrapper_class, sidebar_container_style, sidebar_card_style, pseudo_card_style, full_content_style, text_style, text_style, text_style, text_style, text_style, toggle_icon
     
     # If contributors dropdown toggle was clicked
     if trigger_id == "contributors-dropdown-toggle":
@@ -1040,5 +1105,7 @@ def update_placeholder(selected_tags):
         return "Add more repos/organizations..."
     else:
         return "Search for repos/organizations..."
+
+
 
 

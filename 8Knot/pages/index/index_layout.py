@@ -593,6 +593,7 @@ layout = html.Div(
                                                             "Behavior",
                                                             href="/contributors/behavior",
                                                             active="exact",
+                                                            id="contributors-behavior-navlink",
                                                             style={
                                                                 "color": "#B0B0B0",
                                                                 "fontSize": "14px",
@@ -608,6 +609,7 @@ layout = html.Div(
                                                             "Contribution Types",
                                                             href="/contributors/contribution_types",
                                                             active="exact",
+                                                            id="contributors-types-navlink",
                                                             style={
                                                                 "color": "#B0B0B0",
                                                                 "fontSize": "14px",
