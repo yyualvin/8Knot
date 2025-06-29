@@ -421,11 +421,11 @@ layout = html.Div(
                             color="secondary",
                             style={
                                 "borderRadius": "50%",
-                                "width": "32px",
-                                "height": "32px",
+                                "width": "24px",
+                                "height": "24px",
                                 "position": "absolute",
                                 "top": "64px",  # moved further down from the top
-                                "right": "-16px",
+                                "right": "-12px",
                                 "zIndex": 10,
                                 "boxShadow": "0 2px 8px rgba(0,0,0,0.15)",
                                 "padding": 0,
@@ -440,7 +440,7 @@ layout = html.Div(
                                 id="sidebar-toggle-icon", 
                                 className="fas fa-chevron-left",
                                 style={
-                                    "fontSize": "14px",
+                                    "fontSize": "10px",
                                     "lineHeight": "1"
                                 }
                             ),
@@ -467,7 +467,7 @@ layout = html.Div(
                                                     id="repo-overview-text",
                                                     style={
                                                         "color": "#B0B0B0",  # match icon color (light gray)
-                                                        "fontWeight": 300,   # thinner font
+                                                        "fontWeight": 400,   # thinner font
                                                         "fontSize": "16px",
                                                         "verticalAlign": "middle",
                                                         "letterSpacing": "0.01em",
@@ -487,7 +487,7 @@ layout = html.Div(
                                                 "color": "#B0B0B0",  # match icon color
                                                 "textDecoration": "none",
                                                 "fontSize": "16px",
-                                                "fontWeight": 300,  # thinner font
+                                                "fontWeight": 400,  # thinner font
                                                 "transition": "background-color 0.2s ease",
                                             }
                                         ),
@@ -502,7 +502,7 @@ layout = html.Div(
                                                     id="contributions-text",
                                                     style={
                                                         "color": "#B0B0B0",  # match icon color (light gray)
-                                                        "fontWeight": 300,   # thinner font
+                                                        "fontWeight": 400,   # thinner font
                                                         "fontSize": "16px",
                                                         "verticalAlign": "middle",
                                                         "letterSpacing": "0.01em",
@@ -522,7 +522,7 @@ layout = html.Div(
                                                 "color": "#B0B0B0",  # match icon color
                                                 "textDecoration": "none",
                                                 "fontSize": "16px",
-                                                "fontWeight": 300,  # thinner font
+                                                "fontWeight": 400,  # thinner font
                                                 "transition": "background-color 0.2s ease",
                                             }
                                         ),
@@ -540,7 +540,7 @@ layout = html.Div(
                                                             id="contributors-text",
                                                             style={
                                                                 "color": "#B0B0B0",  # match icon color (light gray)
-                                                                "fontWeight": 300,   # thinner font
+                                                                "fontWeight": 400,   # thinner font
                                                                 "fontSize": "16px",
                                                                 "verticalAlign": "middle",
                                                                 "letterSpacing": "0.01em",
@@ -566,7 +566,7 @@ layout = html.Div(
                                                         "color": "#B0B0B0",  # match icon color
                                                         "textDecoration": "none",
                                                         "fontSize": "16px",
-                                                        "fontWeight": 300,  # thinner font
+                                                        "fontWeight": 400,  # thinner font
                                                         "cursor": "pointer",
                                                         "transition": "background-color 0.2s ease",
                                                     }
@@ -580,7 +580,7 @@ layout = html.Div(
                                                             style={
                                                                 "color": "#B0B0B0",
                                                                 "fontSize": "14px",
-                                                                "fontWeight": 300,
+                                                                "fontWeight": 400,
                                                                 "padding": "8px 16px 8px 58px",  # indent to align with text
                                                                 "marginBottom": "4px",
                                                                 "borderRadius": "6px",
@@ -595,7 +595,7 @@ layout = html.Div(
                                                             style={
                                                                 "color": "#B0B0B0",
                                                                 "fontSize": "14px",
-                                                                "fontWeight": 300,
+                                                                "fontWeight": 400,
                                                                 "padding": "8px 16px 8px 58px",  # indent to align with text
                                                                 "marginBottom": "4px",
                                                                 "borderRadius": "6px",
@@ -630,7 +630,7 @@ layout = html.Div(
                                                     id="affiliation-text",
                                                     style={
                                                         "color": "#B0B0B0",  # match icon color (light gray)
-                                                        "fontWeight": 300,   # thinner font
+                                                        "fontWeight": 400,   # thinner font
                                                         "fontSize": "16px",
                                                         "verticalAlign": "middle",
                                                         "letterSpacing": "0.01em",
@@ -650,7 +650,7 @@ layout = html.Div(
                                                 "color": "#B0B0B0",  # match icon color
                                                 "textDecoration": "none",
                                                 "fontSize": "16px",
-                                                "fontWeight": 300,  # thinner font
+                                                "fontWeight": 400,  # thinner font
                                                 "transition": "background-color 0.2s ease",
                                             }
                                         ),
@@ -665,7 +665,7 @@ layout = html.Div(
                                                     id="chaoss-text",
                                                     style={
                                                         "color": "#B0B0B0",  # match icon color (light gray)
-                                                        "fontWeight": 300,   # thinner font
+                                                        "fontWeight": 400,   # thinner font
                                                         "fontSize": "16px",
                                                         "verticalAlign": "middle",
                                                         "letterSpacing": "0.01em",
@@ -685,7 +685,7 @@ layout = html.Div(
                                                 "color": "#B0B0B0",  # match icon color
                                                 "textDecoration": "none",
                                                 "fontSize": "16px",
-                                                "fontWeight": 300,  # thinner font
+                                                "fontWeight": 400,  # thinner font
                                                 "transition": "background-color 0.2s ease",
                                             }
                                         ),
