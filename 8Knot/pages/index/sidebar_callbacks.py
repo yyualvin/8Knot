@@ -7,6 +7,7 @@ from dash.dependencies import Input, Output, State
 @dash.callback(
     [
         Output("sidebar-card", "style"),
+        Output("sidebar-card", "className"),
         Output("sidebar-full-content", "style"),
         Output("repo-overview-text", "style"),
         Output("contributions-text", "style"),
@@ -20,10 +21,12 @@ from dash.dependencies import Input, Output, State
         Output("contributors-dropdown-icon", "className", allow_duplicate=True),
         Output("contributors-dropdown-open", "data", allow_duplicate=True),
         Output("contributors-dropdown-wrapper", "className", allow_duplicate=True),
+        Output("dummy-search-navlink", "style"),
     ],
     [
         Input("sidebar-toggle-btn", "n_clicks"), 
-        Input("contributors-dropdown-toggle", "n_clicks")
+        Input("contributors-dropdown-toggle", "n_clicks"),
+        Input("dummy-search-navlink", "n_clicks")
     ],
     [
         State("sidebar-collapsed", "data"), 
@@ -31,7 +34,10 @@ from dash.dependencies import Input, Output, State
     ],
     prevent_initial_call=True,
 )
-def toggle_sidebar(toggle_n, contributors_n, collapsed, contributors_open):
+def toggle_sidebar(toggle_n, contributors_n, dummy_search_n, collapsed, contributors_open):
+    # SEARCH ICON POSITIONING CONSTANT - Adjust this value to move search icon left/right
+    SEARCH_ICON_LEFT_ADJUSTMENT = -15  # Negative values move left, positive values move right
+    
     ctx = dash.callback_context
     if not ctx.triggered:
         raise dash.exceptions.PreventUpdate
@@ -42,12 +48,27 @@ def toggle_sidebar(toggle_n, contributors_n, collapsed, contributors_open):
     if trigger_id == "contributors-dropdown-toggle":
         collapsed = False  # Force expand
         contributors_open = not contributors_open
+    # If dummy search navlink was clicked, always expand sidebar
+    elif trigger_id == "dummy-search-navlink":
+        collapsed = False  # Force expand
+        contributors_open = False  # Close contributors dropdown
     # If sidebar toggle was clicked, toggle sidebar state
     elif trigger_id == "sidebar-toggle-btn":
         collapsed = not collapsed
         # When collapsing, close contributors dropdown
         if collapsed:
             contributors_open = False
+    
+    # Calculate centering for collapsed sidebar
+    collapsed_sidebar_width = 100  # px
+    search_icon_width = 60  # px (including border)
+    regular_icon_width = 30  # px
+    
+    # For search icon: center the 60px circle in 100px sidebar, shifted left
+    search_horizontal_padding = (collapsed_sidebar_width - search_icon_width) // 2 - 8  # Subtract 8px to shift left
+    
+    # For regular icons: center in 100px sidebar, shifted left more
+    regular_horizontal_padding = (collapsed_sidebar_width - regular_icon_width) // 2 - 15  # Subtract 15px to shift left
     
     # Text visibility style
     text_style = {"display": "none"} if collapsed else {"display": "inline"}
@@ -58,10 +79,10 @@ def toggle_sidebar(toggle_n, contributors_n, collapsed, contributors_open):
     sidebar_style = {
         "borderRadius": "14px 0 0 14px",
         "height": "95vh",
-        "width": "80px" if collapsed else "340px",
+        "width": "100px" if collapsed else "340px",
         "background": "#1D1D1D",
         "color": "#fff",
-        "padding": "32px 12px 32px 12px" if collapsed else "32px 18px 32px 18px",
+        "padding": f"32px {regular_horizontal_padding}px 32px {regular_horizontal_padding}px" if collapsed else "32px 18px 32px 18px",
         "boxShadow": "none",
         "border": "none",
         "borderRight": "1px solid #404040",
@@ -77,8 +98,8 @@ def toggle_sidebar(toggle_n, contributors_n, collapsed, contributors_open):
         "borderRadius": "0 14px 14px 0",
         "padding": "0px 40px 40px 40px",
         "margin": "0px 10px 20px 0",
-        "width": f"calc(99vw - {'80px' if collapsed else '340px'})",
-        "maxWidth": f"calc(100vw - {'80px' if collapsed else '340px'})",
+        "width": f"calc(99vw - {'100px' if collapsed else '340px'})",
+        "maxWidth": f"calc(100vw - {'100px' if collapsed else '340px'})",
         "boxShadow": "none",
         "border": "none",
         "background": "#1D1D1D",
@@ -102,8 +123,28 @@ def toggle_sidebar(toggle_n, contributors_n, collapsed, contributors_open):
         dropdown_icon_class = "bi bi-chevron-down"
         dropdown_wrapper_class = ""
     
+    # Dummy search navlink styling - only show when collapsed
+    dummy_search_style = {
+        "display": "flex" if collapsed else "none",
+        "alignItems": "center",
+        "padding": f"12px {search_horizontal_padding}px" if collapsed else "12px 16px",
+        "marginBottom": "24px",  # More spacing before next navlink
+        "marginTop": "-40px",  # Move up relative to sidebar
+        "marginLeft": f"{SEARCH_ICON_LEFT_ADJUSTMENT}px" if collapsed else "0",  # Adjustable positioning
+        "borderRadius": "0" if collapsed else "12px",  # No rounded highlight when collapsed
+        "color": "#B0B0B0",
+        "textDecoration": "none",
+        "fontSize": "16px",
+        "fontWeight": 400,
+        "transition": "background-color 0.2s ease",
+    }
+    
+    # Sidebar className based on collapsed state
+    sidebar_class = "sidebar-card collapsed" if collapsed else "sidebar-card"
+    
     return (
         sidebar_style,
+        sidebar_class,
         full_content_style,
         text_style, text_style, text_style, text_style, text_style,
         main_style,
@@ -113,6 +154,7 @@ def toggle_sidebar(toggle_n, contributors_n, collapsed, contributors_open):
         dropdown_icon_class,
         contributors_open,
         dropdown_wrapper_class,
+        dummy_search_style,
     )
 
 

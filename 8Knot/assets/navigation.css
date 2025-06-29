@@ -29,6 +29,27 @@
 }
 
 /**
+ * Remove rounded rectangle hover effect when sidebar is collapsed
+ */
+.sidebar-card.collapsed .sidebar-nav-link:hover {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+}
+
+.sidebar-card.collapsed #contributors-dropdown-wrapper:hover {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+}
+
+/**
+ * Remove rounded rectangle active/selected effect when sidebar is collapsed
+ */
+.sidebar-card.collapsed .sidebar-nav-link.active {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+}
+
+/**
  * Navigation Icon Hover Effects
  * Icons become fully white and slightly brighter on hover
  * Uses CSS filter to convert colored icons to white

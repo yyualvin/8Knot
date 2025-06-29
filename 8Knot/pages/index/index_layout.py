@@ -456,6 +456,63 @@ layout = html.Div(
                                 ),
                                 dbc.Nav(
                                     [
+                                        # Dummy Search NavLink - only visible when sidebar is collapsed
+                                        dbc.NavLink(
+                                            [
+                                                html.Div(
+                                                    [
+                                                        html.I(
+                                                            className="fas fa-search",
+                                                            style={
+                                                                "fontSize": "16px",
+                                                                "color": "#B0B0B0",
+                                                                "lineHeight": "1",
+                                                            }
+                                                        )
+                                                    ],
+                                                    style={
+                                                        "width": "60px",
+                                                        "height": "60px",
+                                                        "borderRadius": "50%",
+                                                        "border": "2px solid #404040",
+                                                        "display": "flex",
+                                                        "alignItems": "center",
+                                                        "justifyContent": "center",
+                                                        "marginRight": "12px",
+                                                        "flexShrink": "0",
+                                                    }
+                                                ),
+                                                html.Span(
+                                                    "Search",
+                                                    id="dummy-search-text",
+                                                    style={
+                                                        "color": "#B0B0B0",
+                                                        "fontWeight": 400,
+                                                        "fontSize": "16px",
+                                                        "verticalAlign": "middle",
+                                                        "letterSpacing": "0.01em",
+                                                        "display": "none",  # Hidden by default
+                                                    },
+                                                )
+                                            ],
+                                            href="#",  # dummy link
+                                            id="dummy-search-navlink",
+                                            className="sidebar-nav-link",
+                                            style={
+                                                "display": "none",  # Hidden by default, shown only when collapsed
+                                                "alignItems": "center",
+                                                "padding": "12px 8px",  # Reduced left/right padding from 16px to 8px
+                                                "marginBottom": "24px",  # More spacing before next navlink
+                                                "marginTop": "-40px",  # Move up relative to sidebar
+                                                "marginLeft": "0",  # Centering handled by calculated padding
+                                                "borderRadius": "12px",
+                                                "color": "#B0B0B0",
+                                                "textDecoration": "none",
+                                                "fontSize": "16px",
+                                                "fontWeight": 400,
+                                                "transition": "background-color 0.2s ease",
+                                            }
+                                        ),
                                         dbc.NavLink(
                                             [
                                                 html.Img(
