@@ -61,7 +61,18 @@ gc_org_core_contributors = dbc.Card(
                 ),
                 dbc.Popover(
                     [
-                        dbc.PopoverHeader("Graph Info:"),
+                        dbc.PopoverHeader(
+                            "Graph Info:",
+                            style={
+                                "backgroundColor": "#404040",
+                                "color": "white",
+                                "border": "none",
+                                "borderBottom": "1px solid #606060",
+                                "fontSize": "16px",
+                                "fontWeight": "600",
+                                "padding": "12px 16px"
+                            }
+                        ),
                         dbc.PopoverBody(
                             "This graph counts the number of core contributions that COULD be linked to each organization.\n\
                             The methodology behind this is to take each associated email to someones GitHub account\n\

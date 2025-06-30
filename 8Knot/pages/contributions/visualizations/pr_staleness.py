@@ -59,13 +59,33 @@ gc_pr_staleness = dbc.Card(
                 ),
                 dbc.Popover(
                     [
-                        dbc.PopoverHeader("Graph Info:"),
+                        dbc.PopoverHeader(
+                            "Graph Info:",
+                            style={
+                                "backgroundColor": "#404040",
+                                "color": "white",
+                                "border": "none",
+                                "borderBottom": "1px solid #606060",
+                                "fontSize": "16px",
+                                "fontWeight": "600",
+                                "padding": "12px 16px"
+                            }
+                        ),
                         dbc.PopoverBody(
                             """
                             Visualizes growth of Open Pull Request backlog. Differentiates sub-populations\n
                             of PRs by their 'Staleness.'\n
                             Please see the definition of 'Staleness' on the Info page.
                             """
+                        ,
+                            style={
+                                "backgroundColor": "#292929",
+                                "color": "#E0E0E0",
+                                "border": "none",
+                                "fontSize": "14px",
+                                "lineHeight": "1.5",
+                                "padding": "16px"
+                            }
                         ),
                     ],
                     id=f"popover-{PAGE}-{VIZ_ID}",

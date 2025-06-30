@@ -61,7 +61,18 @@ gc_contrib_drive_repeat = dbc.Card(
                 ),
                 dbc.Popover(
                     [
-                        dbc.PopoverHeader("Graph Info:"),
+                        dbc.PopoverHeader(
+                            "Graph Info:",
+                            style={
+                                "backgroundColor": "#404040",
+                                "color": "white",
+                                "border": "none",
+                                "borderBottom": "1px solid #606060",
+                                "fontSize": "16px",
+                                "fontWeight": "600",
+                                "padding": "12px 16px"
+                            }
+                        ),
                         dbc.PopoverBody(
                             """
                             Visualizes the per-quarter consistency of contributors.\n
@@ -70,13 +81,31 @@ gc_contrib_drive_repeat = dbc.Card(
                             be counted once in 'Open PR' and in 'PR Comment' if they made 2 or more PR's AND commented 2 or more times on PRs.\n
                             Please read definition of 'Contributor Consistency' on Info page.
                             """
+                        ,
+                            style={
+                                "backgroundColor": "#292929",
+                                "color": "#E0E0E0",
+                                "border": "none",
+                                "fontSize": "14px",
+                                "lineHeight": "1.5",
+                                "padding": "16px"
+                            }
                         ),
                     ],
                     id=f"popover-{PAGE}-{VIZ_ID}",
                     target=f"popover-target-{PAGE}-{VIZ_ID}",
                     placement="top",
                     is_open=False,
-                ),
+
+                    style={
+                        "backgroundColor": "#292929",
+                        "border": "1px solid #606060",
+                        "borderRadius": "8px",
+                        "boxShadow": "0 4px 12px rgba(0, 0, 0, 0.3)",
+                        "maxWidth": "400px"
+                    }
+
+                    ),
                 dcc.Loading(
                     dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
                 ),

@@ -61,13 +61,33 @@ gc_gh_org_affiliation = dbc.Card(
                 ),
                 dbc.Popover(
                     [
-                        dbc.PopoverHeader("Graph Info:"),
+                        dbc.PopoverHeader(
+                            "Graph Info:",
+                            style={
+                                "backgroundColor": "#404040",
+                                "color": "white",
+                                "border": "none",
+                                "borderBottom": "1px solid #606060",
+                                "fontSize": "16px",
+                                "fontWeight": "600",
+                                "padding": "12px 16px"
+                            }
+                        ),
                         dbc.PopoverBody(
                             """
                             Visualizes GitHub account institution affiliation.\n
                             Many individuals don't report an affiliated institution, but\n
                             this count may be considered an absolute lower-bound on affiliation.
                             """
+                        ,
+                            style={
+                                "backgroundColor": "#292929",
+                                "color": "#E0E0E0",
+                                "border": "none",
+                                "fontSize": "14px",
+                                "lineHeight": "1.5",
+                                "padding": "16px"
+                            }
                         ),
                     ],
                     id=f"popover-{PAGE}-{VIZ_ID}",

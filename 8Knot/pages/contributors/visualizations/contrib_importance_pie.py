@@ -63,7 +63,18 @@ gc_contrib_importance_pie = dbc.Card(
                 ),
                 dbc.Popover(
                     [
-                        dbc.PopoverHeader("Graph Info:"),
+                        dbc.PopoverHeader(
+                            "Graph Info:",
+                            style={
+                                "backgroundColor": "#404040",
+                                "color": "white",
+                                "border": "none",
+                                "borderBottom": "1px solid #606060",
+                                "fontSize": "16px",
+                                "fontWeight": "600",
+                                "padding": "12px 16px"
+                            }
+                        ),
                         dbc.PopoverBody(
                             """
                                         AKA Bus factor. For a given action type, this visualizes the proportional share of the top k anonymous
@@ -73,13 +84,28 @@ gc_contrib_importance_pie = dbc.Card(
                                         with the remaining 4/5 representing all other contributors. Note: Some commits may have a
                                         Contributor ID of 'None' if there is no Github account is associated with the email that
                                         the contributor committed as.
-                                        """
+                                        """,
+                            style={
+                                "backgroundColor": "#292929",
+                                "color": "#E0E0E0",
+                                "border": "none",
+                                "fontSize": "14px",
+                                "lineHeight": "1.5",
+                                "padding": "16px"
+                            }
                         ),
                     ],
                     id=f"popover-{PAGE}-{VIZ_ID}",
                     target=f"popover-target-{PAGE}-{VIZ_ID}",
                     placement="top",
                     is_open=False,
+                    style={
+                        "backgroundColor": "#292929",
+                        "border": "1px solid #606060",
+                        "borderRadius": "8px",
+                        "boxShadow": "0 4px 12px rgba(0, 0, 0, 0.3)",
+                        "maxWidth": "400px"
+                    }
                 ),
                 dcc.Loading(
                     dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
