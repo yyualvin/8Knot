@@ -168,22 +168,6 @@ search_bar = html.Div(
             [
                 html.Div(
                     [
-                        # dmc.MultiSelect(
-                        #     id="projects",
-                        #     searchable=True,
-                        #     clearable=True,
-                        #     nothingFound="No matching repos/orgs.",
-                        #     variant="filled",
-                        #     debounce=100,  # debounce time for the search input, since we're implementing client-side caching, we can use a faster debounce
-                        #     data=[augur.initial_multiselect_option()],
-                        #     value=[augur.initial_multiselect_option()["value"]],
-                        #     style={"fontSize": 16},
-                        #     maxDropdownHeight=300,  # limits the dropdown menu's height to 300px
-                        #     zIndex=9999,  # ensures the dropdown menu is on top of other elements
-                        #     dropdownPosition="bottom",  # forces the dropdown to open downwards
-                        #     transitionDuration=150,  # transition duration for the dropdown menu
-                        #     className="searchbar-dropdown",
-                        # ),
                         html.Div(
                             [
                                 # Combined search container with tags inside
@@ -234,7 +218,36 @@ search_bar = html.Div(
                                 # Search results popup
                                 html.Div(
                                     [
-                                        # First card: Options and controls (Help, Repo List, Bot Filter)
+                                        # First card: Searchable content (scrollable) - moved to top
+                                        dbc.Card(
+                                            [
+                                                dbc.CardBody(
+                                                    [
+                                                        html.Div(
+                                                            id="search-results-list",
+                                                            children=[
+                                                                html.Div(
+                                                                    "Start typing to search for repositories and organizations...",
+                                                                    style={"padding": "12px", "color": "#B0B0B0", "textAlign": "center"}
+                                                                )
+                                                            ]
+                                                        )
+                                                    ],
+                                                    style={"padding": "8px"}
+                                                )
+                                            ],
+                                            style={
+                                                "backgroundColor": "#292929",
+                                                "border": "1px solid #555",
+                                                "borderRadius": "16px 16px 0 0",  # Rounded top corners only
+                                                "borderBottom": "none",  # No bottom border to connect with second card
+                                                "color": "#fff",
+                                                "maxHeight": "240px",  # Limit height for scrolling
+                                                "overflowY": "auto",  # Make this card scrollable
+                                                "marginBottom": "0"  # No margin between cards
+                                            }
+                                        ),
+                                        # Second card: Options and controls - moved to bottom
                                         dbc.Card(
                                             [
                                                 dbc.CardBody(
@@ -315,40 +328,11 @@ search_bar = html.Div(
                                                 )
                                             ],
                                             style={
-                                                "backgroundColor": "#2D2D2D",
-                                                "border": "1px solid #555",
-                                                "borderRadius": "16px 16px 0 0",  # Rounded top corners only
-                                                "borderBottom": "none",  # No bottom border to connect with second card
-                                                "color": "#fff",
-                                                "marginBottom": "0"  # No margin between cards
-                                            }
-                                        ),
-                                        # Second card: Searchable content (scrollable)
-                                        dbc.Card(
-                                            [
-                                                dbc.CardBody(
-                                                    [
-                                                        html.Div(
-                                                            id="search-results-list",
-                                                            children=[
-                                                                html.Div(
-                                                                    "Start typing to search for repositories and organizations...",
-                                                                    style={"padding": "12px", "color": "#B0B0B0", "textAlign": "center"}
-                                                                )
-                                                            ]
-                                                        )
-                                                    ],
-                                                    style={"padding": "8px"}
-                                                )
-                                            ],
-                                            style={
-                                                "backgroundColor": "#2D2D2D",
+                                                "backgroundColor": "#292929",
                                                 "border": "1px solid #555",
                                                 "borderRadius": "0 0 16px 16px",  # Rounded bottom corners only
                                                 "borderTop": "none",  # No top border to connect with first card
                                                 "color": "#fff",
-                                                "maxHeight": "240px",  # Limit height for scrolling
-                                                "overflowY": "auto",  # Make this card scrollable
                                                 "marginTop": "0"  # No margin between cards
                                             }
                                         )
@@ -424,83 +408,7 @@ layout = html.Div(
         sidebar_state_store,
         contributors_dropdown_state,
         dcc.Location(id="url"),
-        html.Script(
-            """
-            // CSS for search result hover effects and inline tags
-            const style = document.createElement('style');
-            style.textContent = `
-                .search-result-item:hover {
-                    background-color: #3A3A3A !important;
-                }
-                .selected-tag {
-                    background-color: #119DFF;
-                    color: white;
-                    padding: 2px 6px;
-                    border-radius: 12px;
-                    font-size: 13px;
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 4px;
-                    white-space: nowrap;
-                    max-width: 200px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-                .tag-remove-btn {
-                    background: none;
-                    border: none;
-                    color: white;
-                    cursor: pointer;
-                    font-size: 14px;
-                    line-height: 1;
-                    padding: 0;
-                    width: 14px;
-                    height: 14px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border-radius: 50%;
-                    flex-shrink: 0;
-                }
-                .tag-remove-btn:hover {
-                    background-color: rgba(255, 255, 255, 0.2);
-                }
-                #search-input-container:focus-within {
-                    border-color: #119DFF;
-                    box-shadow: 0 0 0 2px rgba(17, 157, 255, 0.2);
-                }
-            `;
-            document.head.appendChild(style);
 
-            window.addEventListener('error', function(event) {
-                if (event.message && event.message.toLowerCase().includes('quota') &&
-                    event.message.toLowerCase().includes('exceeded')) {
-                    var warningEl = document.getElementById('storage-quota-warning');
-                    if (warningEl) {
-                        warningEl.style.display = 'block';
-                    }
-                }
-            });
-
-            // Test storage capacity
-            try {
-                var testKey = 'storage_test';
-                var testString = new Array(512 * 1024).join('a');  // 512KB
-                sessionStorage.setItem(testKey, testString);
-                sessionStorage.removeItem(testKey);
-            } catch (e) {
-                if (e.name === 'QuotaExceededError' ||
-                    (e.message &&
-                    (e.message.toLowerCase().includes('quota') ||
-                     e.message.toLowerCase().includes('exceeded')))) {
-                    var warningEl = document.getElementById('storage-quota-warning');
-                    if (warningEl) {
-                        warningEl.style.display = 'block';
-                    }
-                }
-            }
-        """
-        ),
         navbar,
         html.Div(
             [
@@ -513,11 +421,11 @@ layout = html.Div(
                             color="secondary",
                             style={
                                 "borderRadius": "50%",
-                                "width": "32px",
-                                "height": "32px",
+                                "width": "24px",
+                                "height": "24px",
                                 "position": "absolute",
                                 "top": "64px",  # moved further down from the top
-                                "right": "-16px",
+                                "right": "-12px",
                                 "zIndex": 10,
                                 "boxShadow": "0 2px 8px rgba(0,0,0,0.15)",
                                 "padding": 0,
@@ -532,7 +440,7 @@ layout = html.Div(
                                 id="sidebar-toggle-icon", 
                                 className="fas fa-chevron-left",
                                 style={
-                                    "fontSize": "14px",
+                                    "fontSize": "10px",
                                     "lineHeight": "1"
                                 }
                             ),
@@ -548,33 +456,67 @@ layout = html.Div(
                                 ),
                                 dbc.Nav(
                                     [
-                                        # dbc.NavLink(
-                                        #     [
-                                        #         html.Img(
-                                        #             src=dash.get_asset_url("home.svg"),
-                                        #             style={"width": "30px", "height": "30px", "marginRight": "12px", "verticalAlign": "middle"},
-                                        #         ),
-                                        #         html.Span("Home", id="home-text")
-                                        #     ],
-                                        #     href="/",
-                                        #     active="exact",
-                                        #     className="sidebar-nav-link",
-                                        #     style={
-                                        #         "display": "flex",
-                                        #         "alignItems": "center",
-                                        #         "padding": "12px 16px",
-                                        #         "marginBottom": "8px",
-                                        #         "borderRadius": "8px",
-                                        #         "color": "#ffffff",
-                                        #         "textDecoration": "none",
-                                        #         "fontSize": "16px",
-                                        #         "fontWeight": "400",
-                                        #     }
-                                        # ),
+                                        # Dummy Search NavLink - only visible when sidebar is collapsed
+                                        dbc.NavLink(
+                                            [
+                                                html.Div(
+                                                    [
+                                                        html.I(
+                                                            className="fas fa-search",
+                                                            style={
+                                                                "fontSize": "16px",
+                                                                "color": "#B0B0B0",
+                                                                "lineHeight": "1",
+                                                            }
+                                                        )
+                                                    ],
+                                                    style={
+                                                        "width": "60px",
+                                                        "height": "60px",
+                                                        "borderRadius": "50%",
+                                                        "border": "2px solid #404040",
+                                                        "display": "flex",
+                                                        "alignItems": "center",
+                                                        "justifyContent": "center",
+                                                        "marginRight": "12px",
+                                                        "flexShrink": "0",
+                                                    }
+                                                ),
+                                                html.Span(
+                                                    "Search",
+                                                    id="dummy-search-text",
+                                                    style={
+                                                        "color": "#B0B0B0",
+                                                        "fontWeight": 400,
+                                                        "fontSize": "16px",
+                                                        "verticalAlign": "middle",
+                                                        "letterSpacing": "0.01em",
+                                                        "display": "none",  # Hidden by default
+                                                    },
+                                                )
+                                            ],
+                                            href="#",  # dummy link
+                                            id="dummy-search-navlink",
+                                            className="sidebar-nav-link",
+                                            style={
+                                                "display": "none",  # Hidden by default, shown only when collapsed
+                                                "alignItems": "center",
+                                                "padding": "12px 8px",  # Reduced left/right padding from 16px to 8px
+                                                "marginBottom": "24px",  # More spacing before next navlink
+                                                "marginTop": "-40px",  # Move up relative to sidebar
+                                                "marginLeft": "0",  # Centering handled by calculated padding
+                                                "borderRadius": "12px",
+                                                "color": "#B0B0B0",
+                                                "textDecoration": "none",
+                                                "fontSize": "16px",
+                                                "fontWeight": 400,
+                                                "transition": "background-color 0.2s ease",
+                                            }
+                                        ),
                                         dbc.NavLink(
                                             [
                                                 html.Img(
-                                                    src=dash.get_asset_url("repo_overview.svg"),
+                                                    src=dash.get_asset_url("sidebar/repo_overview.svg"),
                                                     style={"width": "30px", "height": "30px", "marginRight": "12px", "verticalAlign": "middle"},
                                                 ),
                                                 html.Span(
@@ -582,7 +524,7 @@ layout = html.Div(
                                                     id="repo-overview-text",
                                                     style={
                                                         "color": "#B0B0B0",  # match icon color (light gray)
-                                                        "fontWeight": 300,   # thinner font
+                                                        "fontWeight": 400,   # thinner font
                                                         "fontSize": "16px",
                                                         "verticalAlign": "middle",
                                                         "letterSpacing": "0.01em",
@@ -602,14 +544,14 @@ layout = html.Div(
                                                 "color": "#B0B0B0",  # match icon color
                                                 "textDecoration": "none",
                                                 "fontSize": "16px",
-                                                "fontWeight": 300,  # thinner font
+                                                "fontWeight": 400,  # thinner font
                                                 "transition": "background-color 0.2s ease",
                                             }
                                         ),
                                         dbc.NavLink(
                                             [
                                                 html.Img(
-                                                    src=dash.get_asset_url("contributions.svg"),
+                                                    src=dash.get_asset_url("sidebar/contributions.svg"),
                                                     style={"width": "30px", "height": "30px", "marginRight": "12px", "verticalAlign": "middle"},
                                                 ),
                                                 html.Span(
@@ -617,7 +559,7 @@ layout = html.Div(
                                                     id="contributions-text",
                                                     style={
                                                         "color": "#B0B0B0",  # match icon color (light gray)
-                                                        "fontWeight": 300,   # thinner font
+                                                        "fontWeight": 400,   # thinner font
                                                         "fontSize": "16px",
                                                         "verticalAlign": "middle",
                                                         "letterSpacing": "0.01em",
@@ -637,7 +579,7 @@ layout = html.Div(
                                                 "color": "#B0B0B0",  # match icon color
                                                 "textDecoration": "none",
                                                 "fontSize": "16px",
-                                                "fontWeight": 300,  # thinner font
+                                                "fontWeight": 400,  # thinner font
                                                 "transition": "background-color 0.2s ease",
                                             }
                                         ),
@@ -647,7 +589,7 @@ layout = html.Div(
                                                 html.Div(
                                                     [
                                                         html.Img(
-                                                            src=dash.get_asset_url("contributors.svg"),
+                                                            src=dash.get_asset_url("sidebar/contributors.svg"),
                                                             style={"width": "30px", "height": "30px", "marginRight": "12px", "verticalAlign": "middle"},
                                                         ),
                                                         html.Span(
@@ -655,7 +597,7 @@ layout = html.Div(
                                                             id="contributors-text",
                                                             style={
                                                                 "color": "#B0B0B0",  # match icon color (light gray)
-                                                                "fontWeight": 300,   # thinner font
+                                                                "fontWeight": 400,   # thinner font
                                                                 "fontSize": "16px",
                                                                 "verticalAlign": "middle",
                                                                 "letterSpacing": "0.01em",
@@ -681,7 +623,7 @@ layout = html.Div(
                                                         "color": "#B0B0B0",  # match icon color
                                                         "textDecoration": "none",
                                                         "fontSize": "16px",
-                                                        "fontWeight": 300,  # thinner font
+                                                        "fontWeight": 400,  # thinner font
                                                         "cursor": "pointer",
                                                         "transition": "background-color 0.2s ease",
                                                     }
@@ -695,7 +637,7 @@ layout = html.Div(
                                                             style={
                                                                 "color": "#B0B0B0",
                                                                 "fontSize": "14px",
-                                                                "fontWeight": 300,
+                                                                "fontWeight": 400,
                                                                 "padding": "8px 16px 8px 58px",  # indent to align with text
                                                                 "marginBottom": "4px",
                                                                 "borderRadius": "6px",
@@ -710,7 +652,7 @@ layout = html.Div(
                                                             style={
                                                                 "color": "#B0B0B0",
                                                                 "fontSize": "14px",
-                                                                "fontWeight": 300,
+                                                                "fontWeight": 400,
                                                                 "padding": "8px 16px 8px 58px",  # indent to align with text
                                                                 "marginBottom": "4px",
                                                                 "borderRadius": "6px",
@@ -737,7 +679,7 @@ layout = html.Div(
                                         dbc.NavLink(
                                             [
                                                 html.Img(
-                                                    src=dash.get_asset_url("affiliation.svg"),
+                                                    src=dash.get_asset_url("sidebar/affiliation.svg"),
                                                     style={"width": "30px", "height": "30px", "marginRight": "12px", "verticalAlign": "middle"},
                                                 ),
                                                 html.Span(
@@ -745,7 +687,7 @@ layout = html.Div(
                                                     id="affiliation-text",
                                                     style={
                                                         "color": "#B0B0B0",  # match icon color (light gray)
-                                                        "fontWeight": 300,   # thinner font
+                                                        "fontWeight": 400,   # thinner font
                                                         "fontSize": "16px",
                                                         "verticalAlign": "middle",
                                                         "letterSpacing": "0.01em",
@@ -765,14 +707,14 @@ layout = html.Div(
                                                 "color": "#B0B0B0",  # match icon color
                                                 "textDecoration": "none",
                                                 "fontSize": "16px",
-                                                "fontWeight": 300,  # thinner font
+                                                "fontWeight": 400,  # thinner font
                                                 "transition": "background-color 0.2s ease",
                                             }
                                         ),
                                         dbc.NavLink(
                                             [
                                                 html.Img(
-                                                    src=dash.get_asset_url("chaoss.svg"),
+                                                    src=dash.get_asset_url("sidebar/chaoss.svg"),
                                                     style={"width": "30px", "height": "30px", "marginRight": "12px", "verticalAlign": "middle"},
                                                 ),
                                                 html.Span(
@@ -780,7 +722,7 @@ layout = html.Div(
                                                     id="chaoss-text",
                                                     style={
                                                         "color": "#B0B0B0",  # match icon color (light gray)
-                                                        "fontWeight": 300,   # thinner font
+                                                        "fontWeight": 400,   # thinner font
                                                         "fontSize": "16px",
                                                         "verticalAlign": "middle",
                                                         "letterSpacing": "0.01em",
@@ -800,14 +742,14 @@ layout = html.Div(
                                                 "color": "#B0B0B0",  # match icon color
                                                 "textDecoration": "none",
                                                 "fontSize": "16px",
-                                                "fontWeight": 300,  # thinner font
+                                                "fontWeight": 400,  # thinner font
                                                 "transition": "background-color 0.2s ease",
                                             }
                                         ),
                                         # dbc.NavLink(
                                         #     [
                                         #         html.Img(
-                                        #             src=dash.get_asset_url("codebase.svg"),
+                                        #             src=dash.get_asset_url("sidebar/codebase.svg"),
                                         #             style={"width": "30px", "height": "30px", "marginRight": "12px", "verticalAlign": "middle"},
                                         #         ),
                                         #         html.Span(
@@ -848,20 +790,20 @@ layout = html.Div(
                             id="sidebar-card",
                             style={
                                 "borderRadius": "14px 0 0 14px",
-                                "height": "95vh",
                                 "width": "340px",
                                 "background": "#1D1D1D",
                                 "color": "#fff",
                                 "padding": "32px 18px 32px 18px",
                                 "boxShadow": "none",  # Remove shadow from sidebar card
-                                "borderRight": "1px solid #404040",
+                                "border": "none",  # Remove all default borders
+                                "borderRight": "1px solid #404040",  # Keep only right border
                                 "display": "flex",
                                 "flexDirection": "column",
                                 "justifyContent": "flex-start",
-                                "margin": "0px 0 20px 10px",  # set top margin to 0 to remove space below navbar
+                                "margin": "0px",  # Remove all margins, spacing handled by container padding
                                 "zIndex": 2,
-                                "transition": "width 0.3s cubic-bezier(.4,2,.6,1)",
                                 "overflow": "hidden",
+                                "flex": "0 0 auto",  # Don't grow or shrink
                             },
                             className="sidebar-card",
                         ),
@@ -869,7 +811,6 @@ layout = html.Div(
                     id="sidebar-container",
                     style={
                         "position": "relative",
-                        "transition": "width 0.3s cubic-bezier(.4,2,.6,1)",
                         "display": "flex",
                         "flexDirection": "row",
                         "alignItems": "stretch",
@@ -908,7 +849,7 @@ layout = html.Div(
                                             type="cube",
                                             color="#436755",
                                         ),
-                                        dash.page_container,
+                                        html.Div(dash.page_container, id="page-container-wrapper"),
                                     ],
                                     style={"padding": "32px"},  # Added padding to main content
                                 ),
@@ -919,18 +860,16 @@ layout = html.Div(
                     style={
                         "borderRadius": "0 14px 14px 0",
                         "padding": "0px 40px 40px 40px",  # set top padding to 0 to remove space below navbar
-                        "margin": "0px 10px 20px 0",      # set top margin to 0 to remove space below navbar
-                        "width": "calc(99vw - 340px)",
-                        "maxWidth": "calc(100vw - 340px)",
+                        "margin": "0px",  # Remove all margins, spacing handled by container padding
                         "boxShadow": "none",  # Remove shadow from main card
+                        "border": "none",  # Remove all default borders
                         "background": "#1D1D1D",
-                        "height": "95vh",
                         "overflowY": "auto",
                         "overflowX": "hidden",
                         "display": "flex",
                         "flexDirection": "column",
-                        "transition": "margin-left 0.3s cubic-bezier(.4,2,.6,1)",
                         "marginLeft": "0",
+                        "flex": "1",  # Grow to fill remaining space
                     },
                     className="big-main-card",
                     id="main-card",
@@ -940,11 +879,16 @@ layout = html.Div(
                 "display": "flex",
                 "flexDirection": "row",
                 "alignItems": "stretch",
-                "width": "100vw",
+                "height": "calc(100vh - 90px)",  # Full viewport minus navbar and dev tools bar
+                "padding": "0px 10px 0px 10px",  # top right bottom left - normal bottom padding
                 "background": "#242424",  # set background for the flex row
+                "boxSizing": "border-box",
             },
         ),
-    ]
+    ],
+    style={
+        "background": "#242424 !important",  # Match the main container background
+    }
 )
 
 
