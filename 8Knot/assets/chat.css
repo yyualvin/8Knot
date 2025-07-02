@@ -111,7 +111,8 @@
 /* Responsive design */
 @media (max-width: 768px) {
     .card {
-        width: 100% !important;
+        max-width: 95% !important;
+        min-width: 100px !important;
     }
     
     #chat-messages {

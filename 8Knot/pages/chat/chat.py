@@ -39,7 +39,7 @@ def create_message_bubble(message, is_user=True, timestamp=None, card_components
     
     # Determine message styling
     align = "end" if is_user else "start"
-    bg_color = "#007bff" if is_user else "#333333"
+    bg_color = "#292929" if is_user else "transparent"
     text_color = "white" if is_user else "#ffffff"
     
     # Create basic message content
@@ -54,10 +54,9 @@ def create_message_bubble(message, is_user=True, timestamp=None, card_components
         button_text = "View Visualization" if len(card_components) == 1 else f"View {len(card_components)} Visualizations"
         
         visualization_dropdown = [
-            html.Hr(style={"margin": "10px 0", "border-color": "#555555"}),
+            html.Hr(style={"margin": "10px 0", "border-color": "transparent"}),
             dbc.Button(
                 [
-                    html.I(className="fas fa-chart-bar me-2"),
                     button_text + " ",
                     html.I(className="fas fa-chevron-down", id={"type": "chevron", "index": message_id})
                 ],
@@ -69,7 +68,8 @@ def create_message_bubble(message, is_user=True, timestamp=None, card_components
                     "border-color": "#555555",
                     "color": "#ffffff",
                     "font-size": "0.85em",
-                    "margin-bottom": "10px"
+                    "margin-bottom": "10px",
+                    "border-radius": "20px"
                 }
             ),
             dbc.Collapse(
@@ -82,22 +82,32 @@ def create_message_bubble(message, is_user=True, timestamp=None, card_components
         ]
         message_content.extend(visualization_dropdown)
     
+    # Set width based on message type
+    bubble_width = 6 if is_user else 12
+    
+    # Create card style with conditional styling for AI vs user messages
+    card_style = {
+        "background-color": bg_color,
+        "color": text_color,
+        "border": "none",
+        "margin-bottom": "10px"
+    }
+    
+    # Add bubble styling only for user messages
+    if is_user:
+        card_style.update({
+            "border-radius": "18px",
+            "box-shadow": "0 2px 8px rgba(0,0,0,0.15)"
+        })
+    
     # Return the complete message bubble
     return dbc.Row(
         dbc.Col(
             dbc.Card(
                 dbc.CardBody(message_content),
-                style={
-                    "background-color": bg_color,
-                    "color": text_color,
-                    "border": "none",
-                    "border-radius": "18px",
-                    "width": "100%",
-                    "margin-bottom": "10px",
-                    "box-shadow": "0 2px 8px rgba(0,0,0,0.15)"
-                }
+                style=card_style
             ),
-            width=10
+            width=bubble_width
         ),
         justify=align,
         className="mb-2"
@@ -116,7 +126,6 @@ layout = dbc.Container([
                 style={
                     "height": "calc(100vh - 400px)",
                     "overflow-y": "auto",
-                    "border": "1px solid #333333",
                     "border-radius": "10px",
                     "padding": "20px",
                     "background-color": "#1D1D1D",
@@ -152,7 +161,7 @@ layout = dbc.Container([
     # Interval for auto-scroll (optional)
     dcc.Interval(id="scroll-interval", interval=100, n_intervals=0, disabled=True)
     
-], fluid=True, style={"max-width": "1000px", "margin": "0 auto", "padding": "10px", "height": "100vh"})
+], fluid=True, style={"max-width": "1400px", "margin": "0 auto", "padding": "10px", "height": "100vh"})
 
 # Callback to handle sending messages
 @callback(
