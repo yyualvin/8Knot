@@ -122,4 +122,25 @@
         font-size: 16px !important;
         padding: 12px 16px !important;
     }
+}
+
+/* Graph dropdown button styling */
+.btn-outline-light {
+    transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+    background-color: #555555 !important;
+    border-color: #777777 !important;
+    color: #ffffff !important;
+    transform: translateY(0px) !important;
+}
+
+.btn-outline-light:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Graph container styling */
+.plotly-graph-div {
+    border-radius: 8px;
 } 
