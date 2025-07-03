@@ -259,22 +259,26 @@ def get_default_index():
 
 def calculate_embedding(text: str) -> list:
     """
-    Calculate the embedding for a given text using the Nomic API.
+    Calculate the embedding for a given text using the OpenAI API.
     """
 
-    url = f"{os.getenv('NOMIC_URL')}"
-
-    # headers = {"Authorization": f"Bearer {os.getenv('NOMIC_API_KEY')}"}
-
-    payload = {
-        "model": "nomic-embed-text",
-        "prompt": text,
+    url = "https://api.openai.com/v1/embeddings"
+    
+    headers = {
+        "Authorization": f"Bearer {os.getenv('OPENAI_API_KEY')}",
+        "Content-Type": "application/json"
     }
 
-    response = requests.post(url, json=payload)
+    payload = {
+        "model": "text-embedding-3-large",  # Best OpenAI embedding model
+        "input": text,
+        "encoding_format": "float"
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
 
     if response.status_code == 200:
-        return response.json()["embedding"]
+        return response.json()["data"][0]["embedding"]
     else:
         raise Exception(f"Error calculating embedding: {response.text}")
 
