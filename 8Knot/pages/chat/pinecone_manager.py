@@ -224,12 +224,28 @@ class PineconeIndexClient:
         return response.json()
 
 
-# Initialize the global Pinecone manager
-pc = PineconeManager()
+# Global Pinecone manager instance (lazy initialization)
+_pc = None
+
+def get_pinecone_manager():
+    """Get the global Pinecone manager instance, creating it if needed"""
+    global _pc
+    if _pc is None:
+        try:
+            _pc = PineconeManager()
+        except ValueError as e:
+            print(f"Warning: Could not initialize Pinecone manager: {e}")
+            return None
+    return _pc
 
 # Convenience function to get default index
 def get_default_index():
     """Get or create the default 8Knot index"""
+    pc = get_pinecone_manager()
+    if pc is None:
+        print("Warning: Pinecone manager not available")
+        return None
+        
     index_name = os.getenv("PINECONE_INDEX_NAME", "8knot-index")
     dimension = int(os.getenv("PINECONE_DIMENSION", "1536"))  # Default for OpenAI embeddings
     
@@ -269,6 +285,9 @@ def initialize_vector_database():
     """
     try:
         index_client = get_default_index()
+        if index_client is None:
+            print("Cannot initialize vector database: Pinecone not available")
+            return
         
         # Get the correct path to graphs.json
         current_dir = os.path.dirname(__file__)
@@ -304,3 +323,8 @@ def initialize_vector_database():
 
 # Uncomment the line below to initialize the database (run once)
 # initialize_vector_database()
+
+if __name__ == "__main__":
+    from dotenv import load_dotenv
+    load_dotenv("env.list")
+    initialize_vector_database()

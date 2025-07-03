@@ -62,6 +62,9 @@ def query_relevant_graphs(user_message, top_k=5):
     try:
         # Get the index client
         index_client = get_default_index()
+        if index_client is None:
+            print("Vector database not available, returning empty results")
+            return []
         
         # Calculate embedding for user message
         user_embedding = calculate_embedding(user_message)
