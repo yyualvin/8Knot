@@ -4,9 +4,6 @@ import requests
 import json
 import concurrent.futures
 from typing import List, Dict, Any, Optional, Union
-from dotenv import load_dotenv
-# Load environment variables from env.list file
-load_dotenv("env.list")
 
 class PineconeManager:
     """
@@ -244,5 +241,66 @@ def get_default_index():
         region="us-east-1"
     )
 
-name = get_default_index()
+def calculate_embedding(text: str) -> list:
+    """
+    Calculate the embedding for a given text using the Nomic API.
+    """
 
+    url = f"{os.getenv('NOMIC_URL')}"
+
+    # headers = {"Authorization": f"Bearer {os.getenv('NOMIC_API_KEY')}"}
+
+    payload = {
+        "model": "nomic-embed-text",
+        "prompt": text,
+    }
+
+    response = requests.post(url, json=payload)
+
+    if response.status_code == 200:
+        return response.json()["embedding"]
+    else:
+        raise Exception(f"Error calculating embedding: {response.text}")
+
+def initialize_vector_database():
+    """
+    Initialize the vector database with graph data.
+    This function should be called once to populate the database.
+    """
+    try:
+        index_client = get_default_index()
+        
+        # Get the correct path to graphs.json
+        current_dir = os.path.dirname(__file__)
+        graphs_file = os.path.join(current_dir, 'graphs.json')
+        
+        with open(graphs_file, 'r') as f:
+            data = json.load(f)
+
+        for item in data:
+            print(f"Processing: {item}")
+            # Combine the name and description into a single string
+            text = item['name'] + " " + item['about']
+            embedding = calculate_embedding(text)
+            
+            # Generate a unique ID for this vector
+            vector_id = f"graph_{item['name'].replace(' ', '_').lower()}"
+            
+            # Insert the embedding into the vector index with proper format
+            vectors = [
+                {
+                    "id": vector_id,
+                    "values": embedding,
+                    "metadata": {
+                        "identifier": item['id'],
+                    }
+                }
+            ]
+            index_client.upsert(vectors)
+            print("Done")
+            
+    except Exception as e:
+        print(f"Error initializing vector database: {e}")
+
+# Uncomment the line below to initialize the database (run once)
+# initialize_vector_database()

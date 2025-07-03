@@ -2,30 +2,96 @@ from dash import html, dcc, Input, Output, State, callback, no_update
 import dash
 import dash_bootstrap_components as dbc
 import datetime
-import random
 import warnings
 
-# Import visualization components
+# Import Pinecone manager for vector database queries
+from .pinecone_manager import get_default_index, calculate_embedding
+
+# Repo Overview visualizations
 from ..repo_overview.visualizations.code_languages import gc_code_language
+from ..repo_overview.visualizations.ossf_scorecard import gc_ossf_scorecard
+from ..repo_overview.visualizations.package_version import gc_package_version
+from ..repo_overview.visualizations.repo_general_info import gc_repo_general_info
+
+# Contributions visualizations
 from ..contributions.visualizations.commits_over_time import gc_commits_over_time
-from ..contributors.visualizations.contrib_importance_pie import gc_contrib_importance_pie
+from ..contributions.visualizations.issues_over_time import gc_issues_over_time
+from ..contributions.visualizations.issue_staleness import gc_issue_staleness
+from ..contributions.visualizations.pr_staleness import gc_pr_staleness
+from ..contributions.visualizations.pr_over_time import gc_pr_over_time
+from ..contributions.visualizations.cntrib_issue_assignment import gc_cntrib_issue_assignment
+from ..contributions.visualizations.issue_assignment import gc_issue_assignment
+from ..contributions.visualizations.pr_assignment import gc_pr_assignment
+from ..contributions.visualizations.cntrb_pr_assignment import gc_cntrib_pr_assignment
+from ..contributions.visualizations.pr_first_response import gc_pr_first_response
+from ..contributions.visualizations.pr_review_response import gc_pr_review_response
+
+# Contributors visualizations
+from ..contributors.visualizations.contrib_drive_repeat import gc_contrib_drive_repeat
+from ..contributors.visualizations.first_time_contributions import gc_first_time_contributions
+from ..contributors.visualizations.contributors_types_over_time import gc_contributors_over_time
+from ..contributors.visualizations.active_drifting_contributors import gc_active_drifting_contributors
+from ..contributors.visualizations.new_contributor import gc_new_contributor
+from ..contributors.visualizations.contrib_activity_cycle import gc_contrib_activity_cycle
+from ..contributors.visualizations.contribs_by_action import gc_contribs_by_action
+from ..contributors.visualizations.contrib_importance_pie import gc_contrib_importance_pie as gc_contrib_importance_pie_contributors
+from ..contributors.visualizations.contrib_importance_over_time import gc_lottery_factor_over_time
+
+# CHAOSS metrics visualizations
+from ..chaoss.visualizations.contrib_importance_pie import gc_contrib_importance_pie as gc_contrib_importance_pie_chaoss
+from ..chaoss.visualizations.project_velocity import gc_project_velocity
+
+# Codebase Visualizations
+from ..codebase.visualizations.cntrb_file_heatmap import gc_cntrb_file_heatmap
+from ..codebase.visualizations.contribution_file_heatmap import gc_contribution_file_heatmap
+from ..codebase.visualizations.reviewer_file_heatmap import gc_reviewer_file_heatmap
+
+# Affiliations Visualizations
+from ..affiliation.visualizations.commit_domains import gc_commit_domains
+from ..affiliation.visualizations.gh_org_affiliation import gc_gh_org_affiliation
+from ..affiliation.visualizations.org_associated_activity import gc_org_associated_activity
+from ..affiliation.visualizations.org_core_contributors import gc_org_core_contributors
+from ..affiliation.visualizations.unqiue_domains import gc_unique_domains
 
 warnings.filterwarnings("ignore")
 
 dash.register_page(__name__, path="/chat")
 
-# Canned AI responses for demonstration
-CANNED_RESPONSES = [
-    {"text": "I'm here to help you analyze your repository data! What would you like to know?", "has_cards": False, "cards": []},
-    {"text": "Based on the repository metrics, I can see some interesting patterns in your project.", "has_cards": False, "cards": []},
-    {"text": "That's a great question! Let me analyze the data to provide you with insights.", "has_cards": False, "cards": []},
-    {"text": "I can help you understand contributor behavior, code metrics, and project health.", "has_cards": False, "cards": []},
-    {"text": "Here's the commit activity showing trends over time:", "has_cards": True, "cards": [gc_commits_over_time]},
-    {"text": "Let me show you the code language distribution for your repository:", "has_cards": True, "cards": [gc_code_language]},
-    {"text": "Here's an analysis of contributor importance in your project:", "has_cards": True, "cards": [gc_contrib_importance_pie]},
-    {"text": "Here's a comprehensive view of your repository with multiple visualizations:", "has_cards": True, "cards": [gc_code_language, gc_commits_over_time]},
-    {"text": "Let me show you both language distribution and contributor analysis:", "has_cards": True, "cards": [gc_code_language, gc_contrib_importance_pie]},
-]
+def query_relevant_graphs(user_message, top_k=5):
+    """Query the vector database for relevant graphs based on user message"""
+    try:
+        # Get the index client
+        index_client = get_default_index()
+        
+        # Calculate embedding for user message
+        user_embedding = calculate_embedding(user_message)
+        
+        # Query the vector database
+        results = index_client.query(
+            vector=user_embedding,
+            top_k=top_k,
+            include_metadata=True
+        )
+        
+        # Extract identifiers from metadata and convert to variables
+        selected_graphs = []
+        for match in results.get("matches", []):
+            metadata = match.get("metadata", {})
+            identifier = metadata.get("identifier")
+            
+            if identifier:
+                # Use globals() to convert identifier to variable name
+                if identifier in globals():
+                    graph_component = globals()[identifier]
+                    selected_graphs.append(graph_component)
+        
+        return selected_graphs
+        
+    except Exception as e:
+        print(f"Error querying vector database: {e}")
+        return []
+
+
 
 
 
@@ -35,7 +101,7 @@ def create_message_bubble(message, is_user=True, timestamp=None, card_components
         timestamp = datetime.datetime.now().strftime("%H:%M")
     
     if message_id is None:
-        message_id = f"msg-{random.randint(1000, 9999)}"
+        message_id = f"msg-{datetime.datetime.now().strftime('%H%M%S%f')}"
     
     # Determine message styling
     align = "end" if is_user else "start"
@@ -180,17 +246,19 @@ def send_message(input_submit, message, history):
     timestamp = datetime.datetime.now().strftime("%H:%M")
     user_message = {"message": message, "is_user": True, "timestamp": timestamp, "has_cards": False, "cards": []}
     
-    # Generate AI response
-    ai_response = random.choice(CANNED_RESPONSES)
+    # Generate AI response using vector database query
     ai_timestamp = datetime.datetime.now().strftime("%H:%M")
     
-    # Create AI message with potential cards
+    # Query vector database for relevant graphs
+    relevant_graphs = query_relevant_graphs(message, top_k=5)
+    
+    # Create AI message with relevant graphs
     ai_message = {
-        "message": ai_response["text"], 
+        "message": "Here are some graphs that may be useful to you:", 
         "is_user": False, 
         "timestamp": ai_timestamp,
-        "has_cards": ai_response["has_cards"],
-        "cards": ai_response.get("cards", [])
+        "has_cards": len(relevant_graphs) > 0,
+        "cards": relevant_graphs
     }
     
     # Update history
