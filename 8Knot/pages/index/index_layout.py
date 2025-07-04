@@ -173,6 +173,11 @@ search_bar = html.Div(
                                 # Combined search container with tags inside
                                 html.Div(
                                     [
+                                        # FontAwesome search icon on the left (visibility controlled by callback)
+                                        html.I(
+                                            id="search-icon",
+                                            className="fas fa-search"
+                                        ),
                                         # Tags display area (inside the search bar)
                                         html.Div(
                                             id="selected-tags-container",
@@ -182,14 +187,14 @@ search_bar = html.Div(
                                                 "flexWrap": "wrap",
                                                 "gap": "4px",
                                                 "alignItems": "center",
-                                                "paddingRight": "8px"
+                                                "paddingRight": "4px"
                                             }
                                         ),
                                         # Search input (flex-grow to fill remaining space)
                                         dcc.Input(
                                             id='my-input',
                                             type='text',
-                                            placeholder='Search for repos/organizations...',
+                                            placeholder='Search for repos/orgs',
                                             style={
                                                 'flex': '1',
                                                 'backgroundColor': 'transparent',
@@ -206,12 +211,12 @@ search_bar = html.Div(
                                         'display': 'flex',
                                         'alignItems': 'center',
                                         'flexWrap': 'wrap',
-                                        'backgroundColor': '#232323',
-                                        'border': '1px solid #555',
-                                        'borderRadius': '16px',
+                                        'backgroundColor': '#1D1D1D',
+                                        'border': '2px solid #404040',
+                                        'borderRadius': '20px',
                                         'padding': '8px 12px',
-                                        'minHeight': '44px',
-                                        'gap': '4px'
+                                        'minHeight': '50px',
+                                        'gap': '2px'
                                     },
                                     id="search-input-container"
                                 ),

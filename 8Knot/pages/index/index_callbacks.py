@@ -847,3 +847,30 @@ def update_placeholder(selected_tags):
         return "Search for repos/organizations..."
 
 
+# Callback to hide/show search icon based on whether tags are present
+@callback(
+    Output("search-icon", "style"),
+    [Input("selected-tags", "data")],
+    prevent_initial_call=False  # Allow initial call to set proper visibility
+)
+def toggle_search_icon_visibility(selected_tags):
+    """
+    Hide search icon when tags are present, show when empty
+    """
+    base_style = {
+        "color": "#B0B0B0",
+        "fontSize": "16px",
+        "marginRight": "2px",
+        "flexShrink": "0"
+    }
+    
+    if selected_tags and len(selected_tags) > 0:
+        # Hide icon when tags are present
+        base_style["display"] = "none"
+    else:
+        # Show icon when no tags
+        base_style["display"] = "flex"
+    
+    return base_style
+
+
