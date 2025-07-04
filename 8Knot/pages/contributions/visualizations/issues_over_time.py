@@ -11,6 +11,7 @@ from pages.utils.job_utils import nodata_graph
 from queries.issues_query import issues_query as iq
 import time
 import cache_manager.cache_facade as cf
+from cache_manager.graph_cache_utils import with_graph_caching, extract_viz_params
 import datetime as dt
 from dateutil.relativedelta import relativedelta
 
@@ -208,29 +209,40 @@ def issues_over_time_graph(repolist, interval, start_date, end_date):
         logging.warning(f"ISSUES OVER TIME - WAITING ON DATA TO BECOME AVAILABLE")
         time.sleep(0.5)
 
-    # data ready.
-    start = time.perf_counter()
-    logging.warning("ISSUES OVER TIME - START")
-
-    # GET ALL DATA FROM POSTGRES CACHE
-    df = cf.retrieve_from_cache(
-        tablename=iq.__name__,
-        repolist=repolist,
+    # Create parameters for graph caching
+    params = extract_viz_params(
+        repolist=repolist, 
+        interval=interval, 
+        start_date=start_date, 
+        end_date=end_date
     )
+    
+    def generate_graph():
+        """Generate the graph when not cached"""
+        start = time.perf_counter()
+        logging.warning("ISSUES OVER TIME - START")
 
-    # test if there is data
-    if df.empty:
-        logging.warning("ISSUES OVER TIME - NO DATA AVAILABLE")
-        return nodata_graph
+        # GET ALL DATA FROM POSTGRES CACHE
+        df = cf.retrieve_from_cache(
+            tablename=iq.__name__,
+            repolist=repolist,
+        )
 
-    # function for all data pre processing
-    df_created, df_closed, df_open = process_data(df, interval, start_date, end_date)
+        # test if there is data
+        if df.empty:
+            logging.warning("ISSUES OVER TIME - NO DATA AVAILABLE")
+            return nodata_graph
 
-    fig = create_figure(df_created, df_closed, df_open, interval)
+        # function for all data pre processing
+        df_created, df_closed, df_open = process_data(df, interval, start_date, end_date)
 
-    logging.warning(f"ISSUES_OVER_TIME_VIZ - END - {time.perf_counter() - start}")
+        fig = create_figure(df_created, df_closed, df_open, interval)
 
-    return fig
+        logging.warning(f"ISSUES_OVER_TIME_VIZ - END - {time.perf_counter() - start}")
+        return fig
+    
+    # Use graph caching
+    return with_graph_caching(VIZ_ID, params, generate_graph)
 
 
 def process_data(df: pd.DataFrame, interval, start_date, end_date):

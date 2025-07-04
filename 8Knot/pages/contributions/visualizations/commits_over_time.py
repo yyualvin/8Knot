@@ -11,6 +11,7 @@ from queries.commits_query import commits_query as cmq
 from pages.utils.job_utils import nodata_graph
 import time
 import cache_manager.cache_facade as cf
+from cache_manager.graph_cache_utils import with_graph_caching, extract_viz_params
 
 PAGE = "contributions"
 VIZ_ID = "commits-over-time"
@@ -169,28 +170,35 @@ def commits_over_time_graph(repolist, interval):
         logging.warning(f"COMMITS_OVER_TIME_VIZ - WAITING ON DATA TO BECOME AVAILABLE")
         time.sleep(0.5)
 
-    # data ready.
-    start = time.perf_counter()
-    logging.warning("COMMITS_OVER_TIME_VIZ - START")
+    # Create parameters for graph caching
+    params = extract_viz_params(repolist=repolist, interval=interval)
+    
+    def generate_graph():
+        """Generate the graph when not cached"""
+        start = time.perf_counter()
+        logging.warning("COMMITS_OVER_TIME_VIZ - START")
 
-    # GET ALL DATA FROM POSTGRES CACHE
-    df = cf.retrieve_from_cache(
-        tablename=cmq.__name__,
-        repolist=repolist,
-    )
+        # GET ALL DATA FROM POSTGRES CACHE
+        df = cf.retrieve_from_cache(
+            tablename=cmq.__name__,
+            repolist=repolist,
+        )
 
-    # test if there is data
-    if df.empty:
-        logging.warning("COMMITS OVER TIME - NO DATA AVAILABLE")
-        return nodata_graph
+        # test if there is data
+        if df.empty:
+            logging.warning("COMMITS OVER TIME - NO DATA AVAILABLE")
+            return nodata_graph
 
-    # function for all data pre processing
-    df_created = process_data(df, interval)
+        # function for all data pre processing
+        df_created = process_data(df, interval)
 
-    fig = create_figure(df_created, interval)
+        fig = create_figure(df_created, interval)
 
-    logging.warning(f"COMMITS_OVER_TIME_VIZ - END - {time.perf_counter() - start}")
-    return fig
+        logging.warning(f"COMMITS_OVER_TIME_VIZ - END - {time.perf_counter() - start}")
+        return fig
+    
+    # Use graph caching
+    return with_graph_caching(VIZ_ID, params, generate_graph)
 
 
 def process_data(df: pd.DataFrame, interval):
