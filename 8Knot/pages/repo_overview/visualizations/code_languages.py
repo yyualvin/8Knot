@@ -27,7 +27,7 @@ gc_code_language = dbc.Card(
                             html.H3(
                                 id=f"graph-title-{PAGE}-{VIZ_ID}",
                                 className="card-title",
-                                style={"textAlign": "left", "fontSize": "20px", "color": "white"},
+                                style={"textAlign": "left", "fontSize": "20px"},
                             ),
                             width=10,
                         ),
@@ -89,13 +89,6 @@ gc_code_language = dbc.Card(
                     target=f"popover-target-{PAGE}-{VIZ_ID}",
                     placement="top",
                     is_open=False,
-                    style={
-                        "backgroundColor": "#292929",
-                        "border": "1px solid #606060",
-                        "borderRadius": "8px",
-                        "boxShadow": "0 4px 12px rgba(0, 0, 0, 0.3)",
-                        "maxWidth": "400px"
-                    }
                 ),
                 dcc.Loading(
                     dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
@@ -110,45 +103,42 @@ gc_code_language = dbc.Card(
                     [
                         dbc.Row(
                             [
-                                dbc.Label(
-                                    "Graph View:",
-                                    html_for=f"graph-view-{PAGE}-{VIZ_ID}",
-                                    style={"marginBottom": "8px", "fontSize": "14px"}
-                                ),
                                 dbc.Col(
-                                    dbc.RadioItems(
-                                        id=f"graph-view-{PAGE}-{VIZ_ID}",
-                                        className="modern-radio-buttons-small",
-                                        options=[
-                                            {
-                                                "label": "Files",
-                                                "value": "file",
-                                            },
-                                            {
-                                                "label": "Lines of Code",
-                                                "value": "line",
-                                            },
-                                        ],
-                                        value="file",
-                                        inline=True,
-                                    ),
-                                    className="me-2",
+                                    [
+                                        dbc.Label(
+                                            "Graph View:",
+                                            html_for=f"graph-view-{PAGE}-{VIZ_ID}",
+                                            style={"marginBottom": "8px", "fontSize": "14px"}
+                                        ),
+                                        dbc.RadioItems(
+                                            id=f"graph-view-{PAGE}-{VIZ_ID}",
+                                            className="modern-radio-buttons-small",
+                                            options=[
+                                                {
+                                                    "label": "Files",
+                                                    "value": "file",
+                                                },
+                                                {
+                                                    "label": "Lines of Code",
+                                                    "value": "line",
+                                                },
+                                            ],
+                                            value="file",
+                                            inline=True,
+                                        ),
+                                    ],
+                                    width="auto"
                                 ),
                             ],
-                            align="center",
+                            justify="start",
                         ),
                     ]
                 ),
             ],
-            style={"padding": "2rem"}  # Add extra padding to make card larger
+            style={"padding": "2rem"}
         )
     ],
-    style={
-        "padding": "20px",
-        "borderRadius": "10px",
-        "backgroundColor": "#292929",
-        "border": "1px solid #404040"
-    },
+    style={"backgroundColor": "#292929", "borderRadius": "15px", "border": "1px solid #404040"}
 )
 
 
@@ -248,19 +238,51 @@ def create_figure(df: pd.DataFrame, view):
     if view == "line":
         value = "code_lines"
 
+    # Blue gradient color scheme starting with white but transitioning to blue more quickly
+    blue_gradient_colors = [
+        "#FFFFFF",  # Pure white
+        "#E6F3FF",  # Very light blue
+        "#B3D9FF",  # Light blue - faster transition
+        "#80BFFF",  # Light blue
+        "#76C5EF",  # Medium blue (from package graph)
+        "#4DA6FF",  # Medium blue
+        "#2E9FDB",  # Medium blue
+        "#199AD6",  # Medium dark blue (from package graph)
+        "#1485C2",  # Medium dark blue
+        "#0F70AE",  # Dark blue
+        "#0F5880",  # Dark blue (from package graph)
+        "#0A4460",  # Very dark blue
+        "#053040",  # Very dark blue
+        "#02141C"   # Very dark blue
+    ]
+
     # graph generation
-    fig = px.pie(df, names="programming_language", values=value, color_discrete_sequence=color_seq)
+    fig = px.pie(df, names="programming_language", values=value, color_discrete_sequence=blue_gradient_colors)
     fig.update_traces(
+        domain=dict(x=[0, 0.45]),  # Keep original pie chart size
         textposition="inside",
         textinfo="percent+label",
         hovertemplate="%{label} <br>Amount: %{value}<br><extra></extra>",
     )
 
-    # add legend title and dark theme styling
+    # add legend title and dark theme styling with vertical layout
     fig.update_layout(
         legend_title_text="Languages",
         plot_bgcolor="#292929",
-        paper_bgcolor="#292929"
+        paper_bgcolor="#292929",
+        legend=dict(
+            orientation="v",
+            x=0.42,  # Legend starts right after the pie chart
+            y=0.5,
+            xanchor="left",
+            yanchor="middle"
+        ),
+        font=dict(
+            family="Inter, sans-serif",  # Font family
+            size=14,                     # Font size
+            color="white"                # Font color
+        ),
+        margin=dict(r=50, l=50, t=50, b=50)
     )
 
     return fig

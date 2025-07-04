@@ -104,15 +104,11 @@ gc_package_version = dbc.Card(
                 dcc.Loading(
                     dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
                 ),
-            ]
+            ],
+            style={"padding": "2rem"}
         )
     ],
-    style={
-        "padding": "20px",
-        "borderRadius": "10px",
-        "backgroundColor": "#292929",
-        "border": "1px solid #404040"
-    },
+    style={"backgroundColor": "#292929", "borderRadius": "15px", "border": "1px solid #404040"},
 )
 
 
@@ -180,7 +176,7 @@ def package_version_graph(repolist):
             yanchor="middle"
         ),
         font=dict(
-            family="Arial, sans-serif",  # Font family
+            family="Inter, sans-serif",  # Font family
             size=14,                     # Font size
             color="white"                # Font color
         ),

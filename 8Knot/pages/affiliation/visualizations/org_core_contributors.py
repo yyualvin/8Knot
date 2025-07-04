@@ -194,15 +194,11 @@ gc_org_core_contributors = dbc.Card(
                         ),
                     ]
                 ),
-            ]
+            ],
+            style={"padding": "2rem"}
         )
     ],
-    style={
-        "padding": "20px",
-        "borderRadius": "10px",
-        "backgroundColor": "#292929",
-        "border": "1px solid #404040"
-    },
+    style={"backgroundColor": "#292929", "borderRadius": "15px", "border": "1px solid #404040"},
 )
 
 
@@ -341,7 +337,11 @@ def create_figure(df: pd.DataFrame):
         yaxis_title="Core Contributors",
         bargroupgap=0.1,
         margin_b=40,
-        font=dict(size=14),
+        font=dict(
+            family="Inter, sans-serif",
+            size=14,
+            color="white"
+        ),
         plot_bgcolor="#292929",
         paper_bgcolor="#292929",
     )
