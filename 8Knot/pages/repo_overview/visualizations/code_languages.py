@@ -238,19 +238,51 @@ def create_figure(df: pd.DataFrame, view):
     if view == "line":
         value = "code_lines"
 
+    # Blue gradient color scheme starting with white but transitioning to blue more quickly
+    blue_gradient_colors = [
+        "#FFFFFF",  # Pure white
+        "#E6F3FF",  # Very light blue
+        "#B3D9FF",  # Light blue - faster transition
+        "#80BFFF",  # Light blue
+        "#76C5EF",  # Medium blue (from package graph)
+        "#4DA6FF",  # Medium blue
+        "#2E9FDB",  # Medium blue
+        "#199AD6",  # Medium dark blue (from package graph)
+        "#1485C2",  # Medium dark blue
+        "#0F70AE",  # Dark blue
+        "#0F5880",  # Dark blue (from package graph)
+        "#0A4460",  # Very dark blue
+        "#053040",  # Very dark blue
+        "#02141C"   # Very dark blue
+    ]
+
     # graph generation
-    fig = px.pie(df, names="programming_language", values=value, color_discrete_sequence=color_seq)
+    fig = px.pie(df, names="programming_language", values=value, color_discrete_sequence=blue_gradient_colors)
     fig.update_traces(
+        domain=dict(x=[0, 0.45]),  # Keep original pie chart size
         textposition="inside",
         textinfo="percent+label",
         hovertemplate="%{label} <br>Amount: %{value}<br><extra></extra>",
     )
 
-    # add legend title and dark theme styling
+    # add legend title and dark theme styling with vertical layout
     fig.update_layout(
         legend_title_text="Languages",
         plot_bgcolor="#292929",
-        paper_bgcolor="#292929"
+        paper_bgcolor="#292929",
+        legend=dict(
+            orientation="v",
+            x=0.42,  # Legend starts right after the pie chart
+            y=0.5,
+            xanchor="left",
+            yanchor="middle"
+        ),
+        font=dict(
+            family="Inter, sans-serif",  # Font family
+            size=14,                     # Font size
+            color="white"                # Font color
+        ),
+        margin=dict(r=50, l=50, t=50, b=50)
     )
 
     return fig
