@@ -154,15 +154,11 @@ gc_commit_domains = dbc.Card(
                         ),
                     ]
                 ),
-            ]
+            ],
+            style={"padding": "2rem"}
         )
     ],
-    style={
-        "padding": "20px",
-        "borderRadius": "10px",
-        "backgroundColor": "#292929",
-        "border": "1px solid #404040"
-    },
+    style={"backgroundColor": "#292929", "borderRadius": "15px", "border": "1px solid #404040"},
 )
 
 
@@ -266,14 +262,29 @@ def create_figure(df: pd.DataFrame):
     # graph generation
     fig = px.pie(df, names="domains", values="occurrences", color_discrete_sequence=color_seq)
     fig.update_traces(
+        domain=dict(x=[0, 0.45]),  # Position pie chart
         textposition="inside",
         textinfo="percent+label",
         hovertemplate="%{label} <br>Commits: %{value}<br><extra></extra>",
     )
     
     fig.update_layout(
+        legend_title_text="Domains",
         plot_bgcolor="#292929",
         paper_bgcolor="#292929",
+        legend=dict(
+            orientation="v",
+            x=0.42,  # Legend starts right after the pie chart
+            y=0.5,
+            xanchor="left",
+            yanchor="middle"
+        ),
+        font=dict(
+            family="Inter, sans-serif",
+            size=14,
+            color="white"
+        ),
+        margin=dict(r=50, l=50, t=50, b=50)
     )
 
     return fig

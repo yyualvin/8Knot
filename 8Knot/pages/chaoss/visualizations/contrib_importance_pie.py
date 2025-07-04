@@ -201,15 +201,11 @@ gc_contrib_importance_pie = dbc.Card(
                         ),
                     ]
                 ),
-            ]
+            ],
+            style={"padding": "2rem"}
         )
     ],
-    style={
-        "padding": "20px",
-        "borderRadius": "10px",
-        "backgroundColor": "#292929",
-        "border": "1px solid #404040"
-    },
+    style={"backgroundColor": "#292929", "borderRadius": "15px", "border": "1px solid #404040"},
 )
 
 
@@ -346,16 +342,30 @@ def create_figure(df: pd.DataFrame, action_type):
     # display percent contributions and cntrb_id in each wedge
     # format hover template to display cntrb_id and the number of their contributions according to the action_type
     fig.update_traces(
+        domain=dict(x=[0, 0.45]),  # Position pie chart
         textinfo="percent+label",
         textposition="inside",
         hovertemplate="Contributor ID: %{label} <br>Contributions: %{value}<br><extra></extra>",
     )
 
-    # add legend title
+    # add legend title and proper positioning
     fig.update_layout(
         legend_title_text="Contributor ID",
         plot_bgcolor="#292929",
         paper_bgcolor="#292929",
+        legend=dict(
+            orientation="v",
+            x=0.42,  # Legend starts right after the pie chart
+            y=0.5,
+            xanchor="left",
+            yanchor="middle"
+        ),
+        font=dict(
+            family="Inter, sans-serif",
+            size=14,
+            color="white"
+        ),
+        margin=dict(r=50, l=50, t=50, b=50)
     )
 
     return fig
