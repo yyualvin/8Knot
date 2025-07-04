@@ -27,7 +27,7 @@ gc_code_language = dbc.Card(
                             html.H3(
                                 id=f"graph-title-{PAGE}-{VIZ_ID}",
                                 className="card-title",
-                                style={"textAlign": "left", "fontSize": "20px", "color": "white"},
+                                style={"textAlign": "left", "fontSize": "20px"},
                             ),
                             width=10,
                         ),
@@ -89,13 +89,6 @@ gc_code_language = dbc.Card(
                     target=f"popover-target-{PAGE}-{VIZ_ID}",
                     placement="top",
                     is_open=False,
-                    style={
-                        "backgroundColor": "#292929",
-                        "border": "1px solid #606060",
-                        "borderRadius": "8px",
-                        "boxShadow": "0 4px 12px rgba(0, 0, 0, 0.3)",
-                        "maxWidth": "400px"
-                    }
                 ),
                 dcc.Loading(
                     dcc.Graph(id=f"{PAGE}-{VIZ_ID}"),
@@ -110,45 +103,42 @@ gc_code_language = dbc.Card(
                     [
                         dbc.Row(
                             [
-                                dbc.Label(
-                                    "Graph View:",
-                                    html_for=f"graph-view-{PAGE}-{VIZ_ID}",
-                                    style={"marginBottom": "8px", "fontSize": "14px"}
-                                ),
                                 dbc.Col(
-                                    dbc.RadioItems(
-                                        id=f"graph-view-{PAGE}-{VIZ_ID}",
-                                        className="modern-radio-buttons-small",
-                                        options=[
-                                            {
-                                                "label": "Files",
-                                                "value": "file",
-                                            },
-                                            {
-                                                "label": "Lines of Code",
-                                                "value": "line",
-                                            },
-                                        ],
-                                        value="file",
-                                        inline=True,
-                                    ),
-                                    className="me-2",
+                                    [
+                                        dbc.Label(
+                                            "Graph View:",
+                                            html_for=f"graph-view-{PAGE}-{VIZ_ID}",
+                                            style={"marginBottom": "8px", "fontSize": "14px"}
+                                        ),
+                                        dbc.RadioItems(
+                                            id=f"graph-view-{PAGE}-{VIZ_ID}",
+                                            className="modern-radio-buttons-small",
+                                            options=[
+                                                {
+                                                    "label": "Files",
+                                                    "value": "file",
+                                                },
+                                                {
+                                                    "label": "Lines of Code",
+                                                    "value": "line",
+                                                },
+                                            ],
+                                            value="file",
+                                            inline=True,
+                                        ),
+                                    ],
+                                    width="auto"
                                 ),
                             ],
-                            align="center",
+                            justify="start",
                         ),
                     ]
                 ),
             ],
-            style={"padding": "2rem"}  # Add extra padding to make card larger
+            style={"padding": "2rem"}
         )
     ],
-    style={
-        "padding": "20px",
-        "borderRadius": "10px",
-        "backgroundColor": "#292929",
-        "border": "1px solid #404040"
-    },
+    style={"backgroundColor": "#292929", "borderRadius": "15px", "border": "1px solid #404040"}
 )
 
 
