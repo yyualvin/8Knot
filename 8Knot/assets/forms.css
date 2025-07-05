@@ -390,14 +390,16 @@ body input.form-control.dark-input:focus {
 
 /**
  * Date Picker Arrow Customization
- * Hides default SVG arrow and replaces with text-based arrow
+ * Hides default SVG arrow and replaces with Font Awesome arrow icon
  */
 .DateRangePickerInput_arrow_svg {
     display: none !important;
 }
 
 .DateRangePickerInput_arrow::before {
-  content: "→" !important;
+  content: "\f061" !important; /* Font Awesome arrow-right icon */
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 900 !important; /* Required for solid Font Awesome icons */
   font-size: 1.2em !important;
   color: #fff9f9 !important;
   display: inline-block !important;

@@ -113,7 +113,7 @@ gc_unique_domains = dbc.Card(
                                         dbc.Label(
                                             "Contributors Required:",
                                             html_for=f"contributions-required-{PAGE}-{VIZ_ID}",
-                                            style={"marginBottom": "8px", "fontSize": "14px"}
+                                            style={"marginBottom": "8px", "fontSize": "14px", "fontWeight": "600"}
                                         ),
                                         dbc.Input(
                                             id=f"contributions-required-{PAGE}-{VIZ_ID}",
@@ -124,7 +124,7 @@ gc_unique_domains = dbc.Card(
                                             value=3,
                                             size="sm",
                                             className="dark-input",
-                                            style={"width": "80px"},
+                                            style={"width": "80px", "fontWeight": "600"},
                                         ),
                                     ],
                                     width="auto",
@@ -262,8 +262,25 @@ def process_data(df: pd.DataFrame, num, start_date, end_date):
 
 
 def create_figure(df: pd.DataFrame):
+    # Blue gradient color scheme
+    blue_gradient_colors = [
+        "#E6F3FF",  # Very light blue
+        "#B3D9FF",  # Light blue
+        "#80BFFF",  # Light blue
+        "#76C5EF",  # Medium blue
+        "#4DA6FF",  # Medium blue
+        "#2E9FDB",  # Medium blue
+        "#199AD6",  # Medium dark blue
+        "#1485C2",  # Medium dark blue
+        "#0F70AE",  # Dark blue
+        "#0F5880",  # Dark blue
+        "#0A4460",  # Very dark blue
+        "#053040",  # Very dark blue
+        "#02141C"   # Very dark blue
+    ]
+    
     # graph generation
-    fig = px.pie(df, names="domains", values="occurences", color_discrete_sequence=color_seq)
+    fig = px.pie(df, names="domains", values="occurences", color_discrete_sequence=blue_gradient_colors)
     fig.update_traces(
         domain=dict(x=[0, 0.45]),  # Position pie chart
         textposition="inside",

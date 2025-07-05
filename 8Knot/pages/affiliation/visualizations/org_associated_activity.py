@@ -322,7 +322,7 @@ def process_data(df: pd.DataFrame, num, start_date, end_date, email_filter):
 
 def create_figure(df: pd.DataFrame):
     # graph generation
-    fig = px.bar(df, x="domains", y="occurrences", color_discrete_sequence=color_seq)
+    fig = px.bar(df, x="domains", y="occurrences", color_discrete_sequence=["#F7B009"])
     fig.update_xaxes(rangeslider_visible=True, range=[-0.5, 15])
     fig.update_layout(
         xaxis_title="Domains",

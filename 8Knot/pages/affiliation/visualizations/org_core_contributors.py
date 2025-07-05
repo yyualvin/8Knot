@@ -330,7 +330,7 @@ def process_data(df: pd.DataFrame, contributions, contributors, start_date, end_
 
 def create_figure(df: pd.DataFrame):
     # graph generation
-    fig = px.bar(df, x="domains", y="contributors", color_discrete_sequence=color_seq)
+    fig = px.bar(df, x="domains", y="contributors", color_discrete_sequence=["#76C5EF"])
     fig.update_xaxes(rangeslider_visible=True, range=[-0.5, 15])
     fig.update_layout(
         xaxis_title="Domains",
