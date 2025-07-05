@@ -144,12 +144,12 @@ class AugurConnection:
             logger.error(f"Query failed: {e}")
             return None
             
-    def get_available_repos(self, limit: int = 10) -> pd.DataFrame:
+    def get_available_repos(self, limit: Optional[int] = None) -> pd.DataFrame:
         """
-        Get a sample of available repositories
+        Get available repositories with language data
         
         Args:
-            limit: Number of repositories to return
+            limit: Number of repositories to return (None for all)
             
         Returns:
             DataFrame with repo information
@@ -158,7 +158,8 @@ class AugurConnection:
             logger.error("Database not connected")
             return pd.DataFrame()
             
-        query = """
+        # Base query without limit
+        base_query = """
         SELECT 
             r.repo_id,
             r.repo_name,
@@ -170,21 +171,56 @@ class AugurConnection:
             SELECT DISTINCT repo_id 
             FROM explorer_repo_languages 
             ORDER BY repo_id
-            LIMIT :limit
         )
         ORDER BY r.repo_name
         """
+        
+        # Add limit if specified
+        if limit is not None:
+            query = base_query.replace("ORDER BY r.repo_name", f"ORDER BY r.repo_name LIMIT {limit}")
+            params = {}
+        else:
+            query = base_query
+            params = {}
         
         try:
             df = pd.read_sql(
                 sa.text(query),
                 con=self.engine,
-                params={"limit": limit}
+                params=params
             )
             return df
         except Exception as e:
             logger.error(f"Failed to get available repos: {e}")
             return pd.DataFrame()
+            
+    def get_repo_stats(self) -> dict:
+        """
+        Get statistics about available repositories
+        
+        Returns:
+            Dictionary with repository statistics
+        """
+        if not self.engine:
+            logger.error("Database not connected")
+            return {}
+            
+        query = """
+        SELECT 
+            COUNT(DISTINCT r.repo_id) as total_repos,
+            COUNT(DISTINCT rg.rg_name) as total_organizations,
+            COUNT(DISTINCT erl.programming_language) as total_languages
+        FROM repo r
+        JOIN repo_groups rg ON r.repo_group_id = rg.repo_group_id
+        JOIN explorer_repo_languages erl ON r.repo_id = erl.repo_id
+        """
+        
+        try:
+            result = pd.read_sql(sa.text(query), con=self.engine)
+            return result.iloc[0].to_dict()
+        except Exception as e:
+            logger.error(f"Failed to get repo stats: {e}")
+            return {}
 
 
 def process_language_data(df: pd.DataFrame) -> pd.DataFrame:
@@ -308,13 +344,22 @@ def main():
     if not db.connect():
         sys.exit(1)
     
+    # Show database statistics
+    print("Database Statistics:")
+    stats = db.get_repo_stats()
+    if stats:
+        print(f"  Total repositories: {stats.get('total_repos', 0)}")
+        print(f"  Total organizations: {stats.get('total_organizations', 0)}")
+        print(f"  Total programming languages: {stats.get('total_languages', 0)}")
+    
     # Show available repositories
-    print("Available repositories:")
-    repos_df = db.get_available_repos(limit=10)
+    print("\nAvailable repositories:")
+    repos_df = db.get_available_repos()  # Get ALL repositories
     if repos_df.empty:
         print("No repositories found with language data")
         sys.exit(1)
     
+    print(f"Found {len(repos_df)} repositories with language data")
     print(repos_df[['repo_id', 'repo_name', 'organization']].to_string(index=False))
     
     # Get user input for repository selection
