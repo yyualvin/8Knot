@@ -117,3 +117,25 @@ blockquote p {
 .card-title {
   color: white !important;
 } 
+
+/* =============================================================================
+   BODY & HTML BACKGROUND OVERRIDE
+============================================================================= */
+
+body {
+    background-color: #242424 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+html {
+    background-color: #242424 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Ensure the root Dash app container also has proper background */
+#react-entry-point {
+    background-color: #242424;
+    min-height: 100vh;
+} 
