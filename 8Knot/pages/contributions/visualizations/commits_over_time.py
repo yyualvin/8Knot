@@ -164,6 +164,9 @@ def toggle_popover(n, is_open):
     background=True,
 )
 def commits_over_time_graph(repolist, interval):
+    return gc_commits_over_time_generator(repolist, interval)
+
+def gc_commits_over_time_generator(repolist, interval):
     # wait for data to asynchronously download and become available.
     while not_cached := cf.get_uncached(func_name=cmq.__name__, repolist=repolist):
         logging.warning(f"COMMITS_OVER_TIME_VIZ - WAITING ON DATA TO BECOME AVAILABLE")

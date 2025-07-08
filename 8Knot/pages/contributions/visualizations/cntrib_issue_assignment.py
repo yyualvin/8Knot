@@ -236,6 +236,9 @@ def toggle_popover(n, is_open):
     background=True,
 )
 def cntrib_issue_assignment_graph(repolist, interval, assign_req, start_date, end_date, bot_switch):
+    return gc_cntrib_issue_assignment_generator(repolist, interval, assign_req, start_date, end_date, bot_switch)
+
+def gc_cntrib_issue_assignment_generator(repolist, interval, assign_req, start_date, end_date, bot_switch):
     # wait for data to asynchronously download and become available.
     while not_cached := cf.get_uncached(func_name=iaq.__name__, repolist=repolist):
         logging.warning(f"{VIZ_ID} - WAITING ON DATA TO BECOME AVAILABLE")
