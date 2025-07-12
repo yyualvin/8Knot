@@ -93,6 +93,9 @@ def toggle_popover(n, is_open):
     ],
     background=True,
 )
+def ossf_scorecard_callback(repo):
+    return ossf_scorecard(repo)
+
 def ossf_scorecard(repo):
     # wait for data to asynchronously download and become available.
     while not_cached := cf.get_uncached(func_name=osq.__name__, repolist=[repo]):

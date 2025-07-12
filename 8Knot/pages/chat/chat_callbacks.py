@@ -1,6 +1,9 @@
 from dash import html, callback, Input, Output, State, clientside_callback
 from datetime import datetime
 from pages.chat.llm import call_openai
+# Import the ossf scorecard
+from pages.repo_overview.visualizations.ossf_scorecard import ossf_scorecard as ossf
+from app import augur
 
 def create_chat_bubble(message_text, timestamp, is_user=False):
     """Creates a chat bubble HTML element with styling."""
@@ -28,18 +31,67 @@ def create_chat_bubble(message_text, timestamp, is_user=False):
         }
     )
 
+# Callback for populating chat repo dropdown
+@callback(
+    [Output("chat-repo-selection", "data"),
+     Output("chat-repo-selection", "value")],
+    [Input("repo-choices", "data")]
+)
+def populate_chat_repo_dropdown(repo_ids):
+    if not repo_ids:
+        return [], None
+    
+    # Create dropdown options from repo_ids
+    data_array = []
+    for repo_id in repo_ids:
+        entry = {"value": repo_id, "label": augur.repo_id_to_git(repo_id)}
+        data_array.append(entry)
+    
+    # Default to first repo if available
+    default_value = repo_ids[0] if repo_ids else None
+    return data_array, default_value
+
 # Callback to handle sending messages
 @callback(
     [Output("chat-messages", "data"), 
      Output("chat-input", "value")],
     [Input("chat-input", "n_submit")],
     [State("chat-input", "value"),
-     State("chat-messages", "data")]
+     State("chat-messages", "data"),
+     State("chat-repo-selection", "value")]  # Use chat repo selection
 )
-def send_message(input_submit, message, current_messages):
+def send_message(input_submit, message, current_messages, selected_repo):
     if not message or message.strip() == "":
         return current_messages, message
     
+    # Get OSSF data if a repo is selected
+    ossf_info = ""
+    if selected_repo:
+        try:
+            # Get the actual OSSF scorecard data
+            ossf_viz, ossf_date = ossf(selected_repo)
+            repo_url = augur.repo_id_to_git(selected_repo)
+            
+            # Convert plotly figure to JSON and pass directly to OpenAI
+            import plotly.io as pio
+            ossf_json = pio.to_json(ossf_viz)
+            
+            ossf_info = f"""
+
+Repository Context: {repo_url} (ID: {selected_repo})
+Last Updated: {ossf_date}
+
+OSSF Scorecard Data (JSON):
+{ossf_json}
+
+Use this OSSF (Open Source Security Foundation) scorecard data to provide insights about the repository's security posture, best practices adherence, and areas for improvement."""
+                
+        except Exception as e:
+            repo_url = augur.repo_id_to_git(selected_repo) if selected_repo else "Unknown"
+            ossf_info = f"\n\nRepository Context: {repo_url} selected, but OSSF data unavailable: {str(e)}"
+    else:
+        ossf_info = "\n\nContext: No repository selected. Please select a repository from the dropdown above to get specific insights."
+
     # Add user message to the list
     new_message = {
         "text": message.strip(),
@@ -48,8 +100,11 @@ def send_message(input_submit, message, current_messages):
     }
     
     try:
+        # Enhance the message with repo context and actual OSSF data
+        enhanced_message = f"{message.strip()}{ossf_info}"
+        
         # Call OpenAI and get response
-        ai_response = call_openai(message.strip())
+        ai_response = call_openai(enhanced_message)
         
         # Add bot response
         bot_response = {
