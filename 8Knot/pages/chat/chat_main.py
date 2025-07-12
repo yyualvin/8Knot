@@ -2,6 +2,7 @@ from dash import html, dcc
 import dash
 import dash_bootstrap_components as dbc
 import warnings
+import pages.chat.chat_callbacks
 
 warnings.filterwarnings("ignore")
 
@@ -9,13 +10,40 @@ dash.register_page(__name__, path="/chat")
 
 layout = dbc.Card(
     [
-        dcc.Input(
-            id="chat-input",
-            placeholder="Ask 8Knot",
-            type="text",
+        # Store component to hold chat messages
+        dcc.Store(id="chat-messages", data=[], storage_type="session"),
+        
+        # Chat messages display area
+        html.Div(
+            id="chat-messages-display",
             style={
-                'width': '100%',
-                'maxWidth': '600px'
+                'height': '600px',
+                'overflow-y': 'auto',
+                'padding': '10px',
+                'flex': '1',
+                'display': 'flex',
+                'flexDirection': 'column',
+                'scrollBehavior': 'smooth',
+                'gap': '10px'
+            }
+        ),
+        
+        # Input area at bottom
+        html.Div(
+            dcc.Input(
+                id="chat-input",
+                placeholder="Ask 8Knot (press Enter to send)",
+                type="text",
+                style={
+                    'width': '100%',
+                    'maxWidth': '600px'
+                }
+            ),
+            style={
+                'display': 'flex',
+                'justifyContent': 'center',
+                'alignItems': 'center',
+                'padding': '10px'
             }
         )
     ],
@@ -28,8 +56,7 @@ layout = dbc.Card(
         'margin': '20px',
         'display': 'flex',
         'flexDirection': 'column',
-        'justifyContent': 'flex-end',  # Push content to bottom
-        'alignItems': 'center',       # Center horizontally
-        'padding': '20px'             # Add padding around the edges
+        'padding': '20px'
     }
 )
+
