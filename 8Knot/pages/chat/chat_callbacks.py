@@ -65,24 +65,24 @@ def send_message(input_submit, message, current_messages, selected_repo):
         return current_messages, message
     
     # Get OSSF data if a repo is selected
-    ossf_info = ""
+    full_prompt = ""
     if selected_repo:
         try:
             repo_url = augur.repo_id_to_git(selected_repo)
             
-            ossf_results = ossf_scorecard_context(selected_repo)
+            results = ossf_scorecard_context(selected_repo)
             
-            ossf_info = f"""
+            full_prompt = f"""
                         Return plaintext only, no markdown. Try to be concise and to the point.
                         Repository Context: {repo_url} (ID: {selected_repo})
-                        {ossf_results}  
+                        {results}  
                         """
                 
         except Exception as e:
             repo_url = augur.repo_id_to_git(selected_repo) if selected_repo else "Unknown"
-            ossf_info = f"\n\nRepository Context: {repo_url} selected, but OSSF data unavailable: {str(e)}"
+            full_prompt = f"\n\nRepository Context: {repo_url} selected, but OSSF data unavailable: {str(e)}"
     else:
-        ossf_info = "\n\nContext: No repository selected. Please select a repository from the dropdown above to get specific insights."
+        full_prompt = "\n\nContext: No repository selected. Please select a repository from the dropdown above to get specific insights."
 
     # Add user message to the list
     new_message = {
@@ -93,7 +93,7 @@ def send_message(input_submit, message, current_messages, selected_repo):
     
     try:
         # Enhance the message with repo context and actual OSSF data
-        enhanced_message = f"{message.strip()}{ossf_info}"
+        enhanced_message = f"{message.strip()}{full_prompt}"
         
         # Call OpenAI and get response
         ai_response = call_openai(enhanced_message)
