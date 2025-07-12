@@ -11,6 +11,8 @@ import cache_manager.cache_facade as cf
 from pages.utils.job_utils import nodata_graph
 import time
 from datetime import datetime
+import plotly.io as pio
+from app import augur
 
 PAGE = "repo_info"
 VIZ_ID = "ossf-scorecard"
@@ -96,6 +98,16 @@ def toggle_popover(n, is_open):
 def ossf_scorecard_callback(repo):
     return ossf_scorecard(repo)
 
+
+def ossf_scorecard_context(repo):
+    ossf_viz, ossf_date = ossf_scorecard(repo)
+    json = pio.to_json(ossf_viz)
+
+    return f"""
+            Use this OSSF (Open Source Security Foundation) scorecard data to provide insights about the repository's security posture, best practices adherence, and areas for improvement.
+            Last Updated: {ossf_date}
+            OSSF Scorecard Data (JSON): {json}
+            """
 def ossf_scorecard(repo):
     # wait for data to asynchronously download and become available.
     while not_cached := cf.get_uncached(func_name=osq.__name__, repolist=[repo]):

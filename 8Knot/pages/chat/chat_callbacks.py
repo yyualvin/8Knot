@@ -2,7 +2,7 @@ from dash import html, callback, Input, Output, State, clientside_callback
 from datetime import datetime
 from pages.chat.llm import call_openai
 # Import the ossf scorecard
-from pages.repo_overview.visualizations.ossf_scorecard import ossf_scorecard as ossf
+from pages.repo_overview.visualizations.ossf_scorecard import ossf_scorecard_context as ossf_scorecard_context
 from app import augur
 
 def create_chat_bubble(message_text, timestamp, is_user=False):
@@ -68,23 +68,15 @@ def send_message(input_submit, message, current_messages, selected_repo):
     ossf_info = ""
     if selected_repo:
         try:
-            # Get the actual OSSF scorecard data
-            ossf_viz, ossf_date = ossf(selected_repo)
             repo_url = augur.repo_id_to_git(selected_repo)
             
-            # Convert plotly figure to JSON and pass directly to OpenAI
-            import plotly.io as pio
-            ossf_json = pio.to_json(ossf_viz)
+            ossf_results = ossf_scorecard_context(selected_repo)
             
             ossf_info = f"""
-
-Repository Context: {repo_url} (ID: {selected_repo})
-Last Updated: {ossf_date}
-
-OSSF Scorecard Data (JSON):
-{ossf_json}
-
-Use this OSSF (Open Source Security Foundation) scorecard data to provide insights about the repository's security posture, best practices adherence, and areas for improvement."""
+                        Return plaintext only, no markdown. Try to be concise and to the point.
+                        Repository Context: {repo_url} (ID: {selected_repo})
+                        {ossf_results}  
+                        """
                 
         except Exception as e:
             repo_url = augur.repo_id_to_git(selected_repo) if selected_repo else "Unknown"
