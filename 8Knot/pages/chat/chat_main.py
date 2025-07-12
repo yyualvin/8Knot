@@ -9,15 +9,11 @@ dash.register_page(__name__, path="/chat")
 
 layout = dbc.Card(
     [
-        dbc.Input(
+        dcc.Input(
             id="chat-input",
-            placeholder="Type your message...",
+            placeholder="Ask 8Knot",
             type="text",
             style={
-                'color': 'white',
-                'backgroundColor': '#FFFFFF',
-                'border': '1px solid #1D1D1D',
-                'borderRadius': '20px',
                 'width': '100%',
                 'maxWidth': '600px'
             }

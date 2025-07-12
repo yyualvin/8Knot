@@ -87,3 +87,27 @@ blockquote p {
 .popover {
   max-width: 500px;
 }
+
+/* Chat input */
+#chat-input {
+  color: #ffffff !important;
+  background-color: #1D1D1D !important;
+  border: 1px solid #494949 !important;
+  border-radius: 20px !important;
+  padding: 10px 15px !important;
+  font-size: 16px !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+}
+
+#chat-input:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(77, 189, 221, 0.3) !important;
+  border-color: #2f6d91 !important;
+}
+
+#chat-input::placeholder {
+  color: #999999 !important;
+  background-color: #1D1D1D !important;
+  opacity: 1 !important;
+}
