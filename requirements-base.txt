@@ -22,3 +22,6 @@ python-Levenshtein
 datetime
 gunicorn
 pyarrow
+openai
+langchain_openai
+python-dotenv

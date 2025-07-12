@@ -1,5 +1,6 @@
 from dash import html, callback, Input, Output, State, clientside_callback
 from datetime import datetime
+from pages.chat.llm import call_openai
 
 def create_chat_bubble(message_text, timestamp, is_user=False):
     """Creates a chat bubble HTML element with styling."""
@@ -39,21 +40,35 @@ def send_message(input_submit, message, current_messages):
     if not message or message.strip() == "":
         return current_messages, message
     
-    # Add new message to the list
+    # Add user message to the list
     new_message = {
         "text": message.strip(),
         "timestamp": datetime.now().strftime("%H:%M:%S"),
         "sender": "user"
     }
     
-    # Add a simple response (you can replace this with actual AI logic)
-    response = {
-        "text": f"You said: {message.strip()}",
-        "timestamp": datetime.now().strftime("%H:%M:%S"),
-        "sender": "bot"
-    }
-    
-    updated_messages = current_messages + [new_message, response]
+    try:
+        # Call OpenAI and get response
+        ai_response = call_openai(message.strip())
+        
+        # Add bot response
+        bot_response = {
+            "text": ai_response,
+            "timestamp": datetime.now().strftime("%H:%M:%S"),
+            "sender": "bot"
+        }
+        
+        updated_messages = current_messages + [new_message, bot_response]
+        
+    except Exception as e:
+        # Handle errors gracefully
+        error_response = {
+            "text": f"Sorry, there was an error: {str(e)}",
+            "timestamp": datetime.now().strftime("%H:%M:%S"),
+            "sender": "bot"
+        }
+        
+        updated_messages = current_messages + [new_message, error_response]
     
     return updated_messages, ""
 
@@ -82,8 +97,7 @@ def display_messages(messages):
     
     return message_elements
 
-# Clientside callback to auto-scroll to bottom when new messages are added.
-# There is no way to do this in native Dash.
+# Clientside callback to auto-scroll to bottom when new messages are added
 clientside_callback(
     """
     function(messages) {
