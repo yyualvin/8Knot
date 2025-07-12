@@ -22,7 +22,7 @@ def create_chat_bubble(message_text, timestamp, is_user=False):
             'marginBottom': '10px',
             'wordWrap': 'break-word',
             'alignSelf': 'flex-end' if is_user else 'flex-start',
-            'backgroundColor': '#6b8976' if is_user else '#444',
+            'backgroundColor': '#333537' if is_user else 'transparent',
             'color': 'white'
         }
     )
