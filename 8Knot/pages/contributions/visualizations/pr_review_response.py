@@ -110,7 +110,7 @@ def toggle_popover(n, is_open):
     ],
     background=True,
 )
-def pr_review_response_graph(repolist, num_days, bot_switch):
+def pr_review_response_graph(repolist, num_days=2, bot_switch=True):
     while not_cached := cf.get_uncached(func_name=prr.__name__, repolist=repolist):
         logging.warning(f"PR_FIRST_RESPONSE - WAITING ON DATA TO BECOME AVAILABLE")
         time.sleep(0.5)

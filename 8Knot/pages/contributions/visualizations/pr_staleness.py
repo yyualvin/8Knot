@@ -161,7 +161,7 @@ def toggle_popover(n, is_open):
     ],
     background=True,
 )
-def new_staling_prs_graph(repolist, interval, staling_interval, stale_interval):
+def new_staling_prs_graph(repolist, interval="M", staling_interval=7, stale_interval=30):
     # conditional for the intervals to be valid options
     if staling_interval > stale_interval:
         return dash.no_update, True

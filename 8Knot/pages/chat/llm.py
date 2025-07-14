@@ -29,7 +29,7 @@ def call_tools(message, tools):
 
     response = client.responses.create(
         model="gpt-4.1-nano",
-        input=[{"role": "user", "content": f"You are a helpful assistant. You are given a message and a list of tools. You need to call the tool that is most relevant to the message. You should always call a tool. The message is: {message}"}],
+        input=[{"role": "user", "content": f"You are a helpful assistant. You are given a message and a list of graphs tools. Call the tools that you think would help the user answer the question. The message is: {message}"}],
         tools=tools,
     )
 

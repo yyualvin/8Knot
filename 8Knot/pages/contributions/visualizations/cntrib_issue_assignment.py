@@ -165,7 +165,12 @@ def toggle_popover(n, is_open):
     ],
     background=True,
 )
-def cntrib_issue_assignment_graph(repolist, interval, assign_req, start_date, end_date, bot_switch):
+def cntrib_issue_assignment_graph(repolist, interval="W", assign_req=10, start_date=None, end_date=None, bot_switch=True):
+    # Set default dates if not provided
+    if start_date is None:
+        default_date = dt.date(dt.date.today().year - 2, dt.date.today().month, dt.date.today().day)
+        start_date = default_date.strftime("%Y-%m-%d")
+    
     # wait for data to asynchronously download and become available.
     while not_cached := cf.get_uncached(func_name=iaq.__name__, repolist=repolist):
         logging.warning(f"{VIZ_ID} - WAITING ON DATA TO BECOME AVAILABLE")

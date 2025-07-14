@@ -138,7 +138,12 @@ def toggle_popover(n, is_open):
     ],
     background=True,
 )
-def issues_over_time_graph(repolist, interval, start_date, end_date):
+def issues_over_time_graph(repolist, interval="M", start_date=None, end_date=None):
+    # Set default dates if not provided
+    if start_date is None:
+        default_date = dt.date(dt.date.today().year - 2, dt.date.today().month, dt.date.today().day)
+        start_date = default_date.strftime("%Y-%m-%d")
+    
     # wait for data to asynchronously download and become available.
     while not_cached := cf.get_uncached(func_name=iq.__name__, repolist=repolist):
         logging.warning(f"ISSUES OVER TIME - WAITING ON DATA TO BECOME AVAILABLE")

@@ -112,7 +112,7 @@ def toggle_popover(n, is_open):
     ],
     background=True,
 )
-def pr_assignment_graph(repolist, interval, bot_switch):
+def pr_assignment_graph(repolist, interval="W", bot_switch=True):
     # wait for data to asynchronously download and become available.
     while not_cached := cf.get_uncached(func_name=praq.__name__, repolist=repolist):
         logging.warning(f"{VIZ_ID} - WAITING ON DATA TO BECOME AVAILABLE")

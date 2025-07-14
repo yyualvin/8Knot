@@ -8,6 +8,20 @@ from pages.repo_overview.visualizations.ossf_scorecard import ossf_scorecard as 
 from pages.repo_overview.visualizations.package_version import package_version_graph as package_version_graph
 from pages.repo_overview.visualizations.code_languages import code_languages_graph as code_languages_graph
 from pages.repo_overview.visualizations.repo_general_info import repo_general_info as repo_general_info
+
+# Import all contributions visualization functions
+from pages.contributions.visualizations.commits_over_time import commits_over_time_graph
+from pages.contributions.visualizations.pr_over_time import prs_over_time_graph
+from pages.contributions.visualizations.pr_assignment import pr_assignment_graph
+from pages.contributions.visualizations.pr_review_response import pr_review_response_graph
+from pages.contributions.visualizations.pr_first_response import pr_first_response_graph
+from pages.contributions.visualizations.pr_staleness import new_staling_prs_graph
+from pages.contributions.visualizations.issue_assignment import cntrib_issue_assignment_graph
+from pages.contributions.visualizations.issue_staleness import new_staling_issues_graph
+from pages.contributions.visualizations.issues_over_time import issues_over_time_graph
+from pages.contributions.visualizations.cntrb_pr_assignment import cntrib_pr_assignment_graph
+from pages.contributions.visualizations.cntrib_issue_assignment import cntrib_issue_assignment_graph
+
 from app import augur
 import json
 
@@ -73,7 +87,7 @@ def send_message(input_submit, message, current_messages, repo_list, selected_re
         return current_messages, message
 
 
-    tools = json.load(open("pages/chat/tools/tools.json"))
+    tools = json.load(open("pages/chat/tools/contributions_tools.json"))
     response = call_tools(message, tools)
 
     graphs = []

@@ -113,7 +113,7 @@ def toggle_popover(n, is_open):
     ],
     background=True,
 )
-def prs_over_time_graph(repolist, interval):
+def prs_over_time_graph(repolist, interval="M"):
     # wait for data to asynchronously download and become available.
     while not_cached := cf.get_uncached(func_name=prq.__name__, repolist=repolist):
         logging.warning(f"PULL REQUESTS OVER TIME - WAITING ON DATA TO BECOME AVAILABLE")
