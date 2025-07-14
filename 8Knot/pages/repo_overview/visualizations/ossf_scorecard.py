@@ -95,19 +95,6 @@ def toggle_popover(n, is_open):
     ],
     background=True,
 )
-def ossf_scorecard_callback(repo):
-    return ossf_scorecard(repo)
-
-
-def ossf_scorecard_context(repo):
-    ossf_viz, ossf_date = ossf_scorecard(repo)
-    json = pio.to_json(ossf_viz)
-
-    return f"""
-            Use this OSSF (Open Source Security Foundation) scorecard data to provide insights about the repository's security posture, best practices adherence, and areas for improvement.
-            Last Updated: {ossf_date}
-            OSSF Scorecard Data (JSON): {json}
-            """
 def ossf_scorecard(repo):
     # wait for data to asynchronously download and become available.
     while not_cached := cf.get_uncached(func_name=osq.__name__, repolist=[repo]):
