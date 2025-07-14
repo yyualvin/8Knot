@@ -1,0 +1,56 @@
+[
+    {
+        "type": "function",
+        "name": "code_languages_graph",
+        "description": "Generates and returns a graph figure displaying code language statistics based on selected repositories and view type.",
+        "strict": true,
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "view": {
+                    "type": "string",
+                    "enum": ["files", "lines"],
+                    "description": "Selected graph view type representing how the data should be displayed."
+                }
+            },
+            "required": ["view"],
+            "additionalProperties": false
+        }
+    },
+    {
+        "type": "function",
+        "name": "package_version_graph",
+        "description": "Visualizes for each packaged dependancy, if it is up to date and if not if it is less than 6 months out, between 6 months and a year, or greater than a year.",
+        "strict": true,
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": false
+        }
+    }, 
+    {
+        "type": "function",
+        "name": "ossf_scorecard",
+        "description": "Visualizes for each packaged dependancy, if it is up to date and if not if it is less than 6 months out, between 6 months and a year, or greater than a year.",
+        "strict": true,
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": false
+        }
+    },
+    {
+        "type": "function",
+        "name": "repo_general_info",
+        "description": "Returns general information about the repository, including the number of files, lines of code, and other relevant metrics.",
+        "strict": true,
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": false
+        }
+    }
+]

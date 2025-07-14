@@ -1,9 +1,16 @@
 from dash import html, callback, Input, Output, State, clientside_callback
 from datetime import datetime
 from pages.chat.llm import call_openai
+from pages.chat.llm import call_tools
+
 # Import the ossf scorecard
-from pages.repo_overview.visualizations.ossf_scorecard import ossf_scorecard_context as ossf_scorecard_context
+from pages.repo_overview.visualizations.ossf_scorecard import ossf_scorecard as ossf_scorecard
+from pages.repo_overview.visualizations.package_version import package_version_graph as package_version_graph
+from pages.repo_overview.visualizations.code_languages import code_languages_graph as code_languages_graph
+from pages.repo_overview.visualizations.repo_general_info import repo_general_info as repo_general_info
 from app import augur
+import json
+
 
 def create_chat_bubble(message_text, timestamp, is_user=False):
     """Creates a chat bubble HTML element with styling."""
@@ -58,31 +65,49 @@ def populate_chat_repo_dropdown(repo_ids):
     [Input("chat-input", "n_submit")],
     [State("chat-input", "value"),
      State("chat-messages", "data"),
-     State("chat-repo-selection", "value")]  # Use chat repo selection
+     State("repo-choices", "data"),  # Use repo choices data for multiple repos
+     State("chat-repo-selection", "value")]  # Use chat repo selection for focused analysis
 )
-def send_message(input_submit, message, current_messages, selected_repo):
+def send_message(input_submit, message, current_messages, repo_list, selected_repo):
     if not message or message.strip() == "":
         return current_messages, message
+
+
+    tools = json.load(open("pages/chat/tools/tools.json"))
+    response = call_tools(message, tools)
+
+    graphs = []
+    for tool in response:
+        args = getattr(tool, 'arguments', {})
+        name = getattr(tool, 'name', None)
+        
+        # Parse JSON string to dict if needed
+        if isinstance(args, str):
+            args = json.loads(args)
+        
+        if name and name in globals():
+            import inspect
+            func = globals()[name]
+            sig = inspect.signature(func)
+            
+            # Only add parameters that the function accepts
+            if "repolist" in sig.parameters:
+                args["repolist"] = repo_list
+            if "repo" in sig.parameters:
+                args["repo"] = selected_repo
+            
+            graphs.append(func(**args))
+        else:
+            print(f"Function {name} not found in globals")
+            print(f"Available functions: {[k for k in globals().keys() if not k.startswith('_')]}")
     
-    # Get OSSF data if a repo is selected
-    full_prompt = ""
-    if selected_repo:
-        try:
-            repo_url = augur.repo_id_to_git(selected_repo)
-            
-            results = ossf_scorecard_context(selected_repo)
-            
-            full_prompt = f"""
-                        Return plaintext only, no markdown. Try to be concise and to the point.
-                        Repository Context: {repo_url} (ID: {selected_repo})
-                        {results}  
-                        """
-                
-        except Exception as e:
-            repo_url = augur.repo_id_to_git(selected_repo) if selected_repo else "Unknown"
-            full_prompt = f"\n\nRepository Context: {repo_url} selected, but OSSF data unavailable: {str(e)}"
-    else:
-        full_prompt = "\n\nContext: No repository selected. Please select a repository from the dropdown above to get specific insights."
+    # Get OSSF data from repo list
+    # results = package_version_graph(repo_list)
+
+    full_prompt = f"""
+                Return plaintext only, no markdown. Try to be concise and to the point.
+                {graphs}  
+                """
 
     # Add user message to the list
     new_message = {
@@ -91,32 +116,21 @@ def send_message(input_submit, message, current_messages, selected_repo):
         "sender": "user"
     }
     
-    try:
-        # Enhance the message with repo context and actual OSSF data
-        enhanced_message = f"{message.strip()}{full_prompt}"
-        
-        # Call OpenAI and get response
-        ai_response = call_openai(enhanced_message)
-        
-        # Add bot response
-        bot_response = {
-            "text": ai_response,
-            "timestamp": datetime.now().strftime("%H:%M:%S"),
-            "sender": "bot"
-        }
-        
-        updated_messages = current_messages + [new_message, bot_response]
-        
-    except Exception as e:
-        # Handle errors gracefully
-        error_response = {
-            "text": f"Sorry, there was an error: {str(e)}",
-            "timestamp": datetime.now().strftime("%H:%M:%S"),
-            "sender": "bot"
-        }
-        
-        updated_messages = current_messages + [new_message, error_response]
+
+    # Enhance the message with repo context and actual OSSF data
+    enhanced_message = f"{message.strip()}{full_prompt}"
     
+    # Call OpenAI and get response
+    ai_response = call_openai(enhanced_message)
+    
+    # Add bot response
+    bot_response = {
+        "text": ai_response,
+        "timestamp": datetime.now().strftime("%H:%M:%S"),
+        "sender": "bot"
+    }
+    
+    updated_messages = current_messages + [new_message, bot_response]
     return updated_messages, ""
 
 # Callback to display chat messages
