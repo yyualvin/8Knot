@@ -88,6 +88,11 @@ gc_pr_first_response = dbc.Card(
     ],
 )
 
+def pull_request_first_response_tool(repolist, num_days=2, bot_switch=True):
+    graph = pr_first_response_graph(repolist, num_days, bot_switch)
+    title = "Pull Request First Response"
+    description = "Compares the volume of PRs being opened against the number of those PRs that \n receive at least one response within the parameterized timeframe after being opened."
+    return graph, title, description
 
 # callback for graph info popover
 @callback(

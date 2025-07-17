@@ -127,6 +127,12 @@ def toggle_popover(n, is_open):
     return is_open
 
 
+def issues_over_time_tool(repolist, interval="M", start_date=None, end_date=None):
+    graph = issues_over_time_graph(repolist, interval, start_date, end_date)
+    title = "Issues Over Time"
+    description = "Visualizes the activity of issues being Opened and Closed paritioned by time-window.\n Also shows the total volume of Open issues over time."
+    return graph, title, description
+
 # callback for issues over time graph
 @callback(
     Output(f"{PAGE}-{VIZ_ID}", "figure"),

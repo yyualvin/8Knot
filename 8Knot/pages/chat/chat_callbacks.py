@@ -3,27 +3,25 @@ from datetime import datetime
 from pages.chat.llm import call_openai
 from pages.chat.llm import call_tools
 
-# Import the ossf scorecard
-from pages.repo_overview.visualizations.ossf_scorecard import ossf_scorecard as ossf_scorecard
-from pages.repo_overview.visualizations.package_version import package_version_graph as package_version_graph
-from pages.repo_overview.visualizations.code_languages import code_languages_graph as code_languages_graph
-from pages.repo_overview.visualizations.repo_general_info import repo_general_info as repo_general_info
+# Import all tool functions directly
+from pages.contributions.visualizations.commits_over_time import commits_over_time_tool
+from pages.contributions.visualizations.pr_over_time import pull_requests_over_time_tool
+from pages.contributions.visualizations.pr_assignment import pull_request_review_status_counts_tool
+from pages.contributions.visualizations.pr_review_response import pull_request_conversation_engagement_tool
+from pages.contributions.visualizations.pr_first_response import pull_request_first_response_tool
+from pages.contributions.visualizations.pr_staleness import pull_request_activity_staleness_tool
+from pages.contributions.visualizations.issue_staleness import issue_activity_staleness_tool
+from pages.contributions.visualizations.issues_over_time import issues_over_time_tool
+from pages.contributions.visualizations.cntrb_pr_assignment import contributor_pull_request_review_assignment_tool
+from pages.contributions.visualizations.cntrib_issue_assignment import contributor_issue_assignment_tool
 
-# Import all contributions visualization functions
-from pages.contributions.visualizations.commits_over_time import commits_over_time_graph
-from pages.contributions.visualizations.pr_over_time import prs_over_time_graph
-from pages.contributions.visualizations.pr_assignment import pr_assignment_graph
-from pages.contributions.visualizations.pr_review_response import pr_review_response_graph
-from pages.contributions.visualizations.pr_first_response import pr_first_response_graph
-from pages.contributions.visualizations.pr_staleness import new_staling_prs_graph
-from pages.contributions.visualizations.issue_assignment import cntrib_issue_assignment_graph
-from pages.contributions.visualizations.issue_staleness import new_staling_issues_graph
-from pages.contributions.visualizations.issues_over_time import issues_over_time_graph
-from pages.contributions.visualizations.cntrb_pr_assignment import cntrib_pr_assignment_graph
-from pages.contributions.visualizations.cntrib_issue_assignment import cntrib_issue_assignment_graph
+# Pinecone vector search
+from pages.chat.tools.embed import *
 
 from app import augur
 import json
+
+
 
 
 def create_chat_bubble(message_text, timestamp, is_user=False):
@@ -86,8 +84,11 @@ def send_message(input_submit, message, current_messages, repo_list, selected_re
     if not message or message.strip() == "":
         return current_messages, message
 
+    index = create_index("8knot-index", pc)
 
-    tools = json.load(open("pages/chat/tools/contributions_tools.json"))
+    tools = search_function(index, message, top_k=5)
+
+    print(tools)
     response = call_tools(message, tools)
 
     graphs = []
@@ -117,6 +118,8 @@ def send_message(input_submit, message, current_messages, repo_list, selected_re
     
     # Get OSSF data from repo list
     # results = package_version_graph(repo_list)
+
+    print(graphs)
 
     full_prompt = f"""
                 Return plaintext only, no markdown. Try to be concise and to the point.

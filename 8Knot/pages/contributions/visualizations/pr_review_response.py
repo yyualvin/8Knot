@@ -99,6 +99,11 @@ def toggle_popover(n, is_open):
         return not is_open
     return is_open
 
+def pull_request_conversation_engagement_tool(repolist, num_days=2, bot_switch=True):
+    graph = pr_review_response_graph(repolist, num_days, bot_switch)
+    title = "Pull Request Conversation Engagement"
+    description = "Tracks the number of PRs that are open on a given day vs. those that have\n received a comment or a review within a time interval, or that are waiting\n on a response from the opener."
+    return graph, title, description
 
 # callback for pr review response graph
 @callback(

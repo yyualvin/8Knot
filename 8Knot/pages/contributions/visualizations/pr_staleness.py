@@ -149,6 +149,11 @@ def toggle_popover(n, is_open):
         return not is_open
     return is_open
 
+def pull_request_activity_staleness_tool(repolist, interval="M", staling_interval=7, stale_interval=30):
+    graph = new_staling_prs_graph(repolist, interval, staling_interval, stale_interval)
+    title = "Pull Request Activity- Staleness"
+    description = "Visualizes growth of Open Pull Request backlog. Differentiates sub-populations\n of PRs by their 'Staleness.'\n Please see the definition of 'Staleness' on the Info page."
+    return graph, title, description
 
 @callback(
     Output(f"{PAGE}-{VIZ_ID}", "figure"),

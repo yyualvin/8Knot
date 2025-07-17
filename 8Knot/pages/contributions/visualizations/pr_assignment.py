@@ -101,6 +101,11 @@ def toggle_popover(n, is_open):
         return not is_open
     return is_open
 
+def pull_request_review_status_counts_tool(repolist, interval="W", bot_switch=True):
+    graph = pr_assignment_graph(repolist, interval, bot_switch)
+    title = "Pull Request Review Status Counts"
+    description = "Visualizes the number of assigned and unassigned pull requests in each\n time bucket."
+    return graph, title, description
 
 # callback for pull request review assignment graph
 @callback(

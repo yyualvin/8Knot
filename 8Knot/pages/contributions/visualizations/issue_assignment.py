@@ -103,6 +103,11 @@ def toggle_popover(n, is_open):
         return not is_open
     return is_open
 
+def issue_assignment_status_counts_tool(repolist, interval="W", bot_switch=True):
+    graph = cntrib_issue_assignment_graph(repolist, interval, bot_switch)
+    title = "Issue Assignment Status Counts"
+    description = "Visualizes the number of assigned and unassigned issues in each\n time bucket."
+    return graph, title, description
 
 # callback for issue assignment graph
 @callback(

@@ -104,6 +104,12 @@ def toggle_popover(n, is_open):
     return is_open
 
 
+def commits_over_time_tool(repolist, interval="M"):
+    graph = commits_over_time_graph(repolist, interval)
+    title = "Commits Over Time"
+    description = "Visualizes the number of commits added to the project.\n Commits are counted relative to a user-selected time window."
+    return graph, title, description
+
 # callback for commits over time graph
 @callback(
     Output(f"{PAGE}-{VIZ_ID}", "figure"),

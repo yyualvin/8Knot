@@ -43,11 +43,11 @@ kombu==5.3.5
 Levenshtein==0.24.0
 MarkupSafe==2.1.5
 nest-asyncio==1.6.0
-packaging==23.2
+packaging==24.2
 prompt-toolkit==3.0.43
 pytz==2024.1
 rapidfuzz==3.6.1
-requests==2.31.0
+requests==2.32.3
 retrying==1.3.4
 six==1.16.0
 tenacity==8.2.3
@@ -60,3 +60,5 @@ Werkzeug==3.0.1
 zipp==3.17.0
 zope.interface==6.1
 openai==1.95.1
+pinecone==7.3.0
+pinecone-plugin-assistant==1.7.0

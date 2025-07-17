@@ -151,6 +151,11 @@ def toggle_popover(n, is_open):
         return not is_open
     return is_open
 
+def issue_activity_staleness_tool(repolist, interval="M", staling_interval=7, stale_interval=30):
+    graph = new_staling_issues_graph(repolist, interval, staling_interval, stale_interval)
+    title = "Issue Activity- Staleness"
+    description = "Visualizes the number of new, staling, and stale issues in each\n time bucket."
+    return graph, title, description
 
 @callback(
     Output(f"{PAGE}-{VIZ_ID}", "figure"),

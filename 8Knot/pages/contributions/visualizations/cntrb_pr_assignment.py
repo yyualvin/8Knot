@@ -150,6 +150,11 @@ def toggle_popover(n, is_open):
         return not is_open
     return is_open
 
+def contributor_pull_request_review_assignment_tool(repolist, interval="W", assign_req=10, start_date=None, end_date=None, bot_switch=True):
+    graph = cntrib_pr_assignment_graph(repolist, interval, assign_req, start_date, end_date, bot_switch)
+    title = "Contributor Pull Request Review Assignment"
+    description = "Visualizes number of pull request reviews assigned to each each contributor\n in the specifed time bucket. The visualization only includes contributors\n that meet the user inputed the assignment criteria."
+    return graph, title, description
 
 # callback for pull request review assignment graph
 @callback(

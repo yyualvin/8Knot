@@ -103,6 +103,11 @@ def toggle_popover(n, is_open):
         return not is_open
     return is_open
 
+def pull_requests_over_time_tool(repolist, interval="M"):
+    graph = prs_over_time_graph(repolist, interval)
+    title = "Pull Requests Over Time"
+    description = "Visualizes PR behavior by tracking Created, Merged, and Closed-Not-Merged PRs over time.\n Also shows Created PR count as a trend over lifespan."
+    return graph, title, description
 
 # callback for prs over time graph
 @callback(

@@ -151,6 +151,12 @@ def toggle_popover(n, is_open):
     return is_open
 
 
+def contributor_issue_assignment_tool(repolist, interval="W", assign_req=10, start_date=None, end_date=None, bot_switch=True):
+    graph = cntrib_issue_assignment_graph(repolist, interval, assign_req, start_date, end_date, bot_switch)
+    title = "Contributor Issue Assignment"
+    description = "Visualizes number of issue assigned to each each contributor in the\n specifed time bucket. The visualization only includes contributors\n that meet the user inputed the assignment criteria."
+    return graph, title, description
+
 # callback for issue assignment graph
 @callback(
     Output(f"{PAGE}-{VIZ_ID}", "figure"),
