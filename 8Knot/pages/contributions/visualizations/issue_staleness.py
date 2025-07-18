@@ -152,9 +152,14 @@ def toggle_popover(n, is_open):
     return is_open
 
 def issue_activity_staleness_tool(repolist, interval="M", staling_interval=7, stale_interval=30):
-    graph = new_staling_issues_graph(repolist, interval, staling_interval, stale_interval)
+    result = new_staling_issues_graph(repolist, interval, staling_interval, stale_interval)
+    # Handle tuple returns from error conditions  
+    if isinstance(result, tuple):
+        graph = result[0]  # Take first element (should be fig or dash.no_update)
+    else:
+        graph = result
     title = "Issue Activity- Staleness"
-    description = "Visualizes the number of new, staling, and stale issues in each\n time bucket."
+    description = "Visualizes the number of new, staling, and stale issues in each time bucket."
     return graph, title, description
 
 @callback(

@@ -1,4 +1,4 @@
-from dash import html, callback, Input, Output, State, clientside_callback
+from dash import html, dcc, callback, Input, Output, State, clientside_callback
 from datetime import datetime
 from pages.chat.llm import call_openai
 from pages.chat.llm import call_tools
@@ -24,22 +24,49 @@ import json
 
 
 
-def create_chat_bubble(message_text, timestamp, is_user=False):
-    """Creates a chat bubble HTML element with styling."""
+def create_chat_bubble(message_text, timestamp, is_user=False, graphs=None):
+    """Creates a chat bubble HTML element with styling and optional graphs."""
+    content = [html.Div(message_text, style={'marginBottom': '5px'})]
+    
+    # Add graphs if they exist
+    if graphs and not is_user:
+        print(f"Rendering {len(graphs)} graphs:")
+        for i, graph_triplet in enumerate(graphs):
+            print(f"Graph {i}: type={type(graph_triplet)}, len={len(graph_triplet) if hasattr(graph_triplet, '__len__') else 'N/A'}")
+            if (isinstance(graph_triplet, (list, tuple)) and len(graph_triplet) == 3):
+                raw_json, title, description = graph_triplet
+                print(f"  raw_json type: {type(raw_json)}")
+                print(f"  title: {title}")
+                print(f"  description: {description}")
+                
+                content.append(
+                    html.Div([
+                        html.H4(title, style={'color': 'white', 'marginTop': '15px', 'marginBottom': '5px'}),
+                        html.P(description, style={'color': '#ccc', 'fontSize': '14px', 'marginBottom': '10px'}),
+                        dcc.Graph(
+                            figure=raw_json,
+                            style={'backgroundColor': 'transparent', 'height': '400px'},
+                            config={'displayModeBar': True, 'displaylogo': False}
+                        )
+                    ])
+                )
+    
+    # Add timestamp
+    content.append(
+        html.Div(
+            timestamp,
+            style={
+                'fontSize': '12px',
+                'opacity': '0.7',
+                'textAlign': 'right' if is_user else 'left'
+            }
+        )
+    )
+    
     return html.Div(
-        [
-            html.Div(message_text, style={'marginBottom': '5px'}),
-            html.Div(
-                timestamp,
-                style={
-                    'fontSize': '12px',
-                    'opacity': '0.7',
-                    'textAlign': 'right' if is_user else 'left'
-                }
-            )
-        ],
+        content,
         style={
-            'maxWidth': '70%',
+            'maxWidth': '90%' if graphs and not is_user else '70%',  # Wider for graphs
             'padding': '10px 15px',
             'borderRadius': '20px',
             'marginBottom': '10px',
@@ -110,8 +137,17 @@ def send_message(input_submit, message, current_messages, repo_list, selected_re
                 args["repolist"] = repo_list
             if "repo" in sig.parameters:
                 args["repo"] = selected_repo
+
+            print("Calling function: ", name)
+            print("Args: ", args)
             
-            graphs.append(func(**args))
+            result = func(**args)
+            print(f"Function {name} returned:")
+            print(f"Type: {type(result)}")
+            print(f"Value: {result}")
+            
+            # Each result should be a triplet [raw_json, title, description]
+            graphs.append(result)
         else:
             print(f"Function {name} not found in globals")
             print(f"Available functions: {[k for k in globals().keys() if not k.startswith('_')]}")
@@ -140,11 +176,12 @@ def send_message(input_submit, message, current_messages, repo_list, selected_re
     # Call OpenAI and get response
     ai_response = call_openai(enhanced_message)
     
-    # Add bot response
+    # Add bot response with graphs
     bot_response = {
         "text": ai_response,
         "timestamp": datetime.now().strftime("%H:%M:%S"),
-        "sender": "bot"
+        "sender": "bot",
+        "graphs": graphs  # Include the generated graphs
     }
     
     updated_messages = current_messages + [new_message, bot_response]
@@ -170,7 +207,8 @@ def display_messages(messages):
     message_elements = []
     for msg in messages:
         is_user = msg["sender"] == "user"
-        bubble = create_chat_bubble(msg["text"], msg["timestamp"], is_user)
+        graphs = msg.get("graphs", None)  # Get graphs if they exist
+        bubble = create_chat_bubble(msg["text"], msg["timestamp"], is_user, graphs)
         message_elements.append(bubble)
     
     return message_elements

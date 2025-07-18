@@ -150,9 +150,14 @@ def toggle_popover(n, is_open):
     return is_open
 
 def pull_request_activity_staleness_tool(repolist, interval="M", staling_interval=7, stale_interval=30):
-    graph = new_staling_prs_graph(repolist, interval, staling_interval, stale_interval)
+    result = new_staling_prs_graph(repolist, interval, staling_interval, stale_interval)
+    # Handle tuple returns from error conditions  
+    if isinstance(result, tuple):
+        graph = result[0]  # Take first element (should be fig or dash.no_update)
+    else:
+        graph = result
     title = "Pull Request Activity- Staleness"
-    description = "Visualizes growth of Open Pull Request backlog. Differentiates sub-populations\n of PRs by their 'Staleness.'\n Please see the definition of 'Staleness' on the Info page."
+    description = "Visualizes growth of Open Pull Request backlog. Differentiates sub-populations of PRs by their 'Staleness.' Please see the definition of 'Staleness' on the Info page."
     return graph, title, description
 
 @callback(
