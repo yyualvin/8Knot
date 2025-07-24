@@ -34,7 +34,9 @@ def test_get_repos():
             repos = response.json()
             print(f"Found {len(repos)} repositories")
             if repos:
-                print(f"First repo: {repos[0]}")
+                print("First 20 repositories:")
+                for i, repo in enumerate(repos[:20]):
+                    print(f"  {i+1}. {repo}")
         else:
             print(f"Error: {response.json()}")
         print()
