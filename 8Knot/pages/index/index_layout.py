@@ -474,6 +474,55 @@ layout = html.Div(
                                 html.Div(
                                     [
                                         search_bar,
+                                        # Navigation menu
+                                        html.Div(
+                                            [
+                                                # Repo Overview menu item
+                                                html.Div(
+                                                    [
+                                                        html.Img(
+                                                            src="/assets/repo_overview.svg",
+                                                            alt="Repo Overview",
+                                                            style={
+                                                                "width": "24px",
+                                                                "height": "24px",
+                                                                "marginRight": "12px",
+                                                                "filter": "brightness(0) invert(1)"
+                                                            }
+                                                        ),
+                                                        html.Span("Repo Overview", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
+                                                    ],
+                                                    style={
+                                                        "display": "flex",
+                                                        "alignItems": "center",
+                                                        "padding": "12px 16px",
+                                                        "borderRadius": "8px",
+                                                        "cursor": "pointer",
+                                                        "marginBottom": "8px"
+                                                    },
+                                                    id="nav-repo-overview",
+                                                    n_clicks=0
+                                                ),
+                                                # Add more menu items here as needed
+                                            ],
+                                            style={
+                                                "marginTop": "1rem"
+                                            }
+                                        ),
+                                    ],
+                                    id="left-sidebar",
+                                    style={
+                                        "width": "340px",
+                                        "background-color": "#1D1D1D",
+                                        "border-radius": "12px 0 0 12px",
+                                        "border-right": "1.5px solid #292929",
+                                        "padding": "1rem",
+                                        "flex-shrink": 0
+                                    }
+                                ),
+                                # Main content area (your existing page-container)
+                                html.Div(
+                                    [
                                         dcc.Loading(
                                             children=[html.Div(id="results-output-container", className="mb-4")],
                                             color="#119DFF",
@@ -492,20 +541,8 @@ layout = html.Div(
                                             type="cube",
                                             color="#436755",
                                         ),
+                                        dash.page_container,
                                     ],
-                                    id="left-sidebar",
-                                    style={
-                                        "width": "340px",
-                                        "background-color": "#1D1D1D",
-                                        "border-radius": "12px 0 0 12px",
-                                        "border-right": "1.5px solid #292929",
-                                        "padding": "1rem",
-                                        "flex-shrink": 0
-                                    }
-                                ),
-                                # Main content area (your existing page-container)
-                                html.Div(
-                                    dash.page_container,
                                     id="page-container",
                                     style={
                                         "border-radius": "0 12px 12px 0",

@@ -650,6 +650,20 @@ def hide_search_status_when_loaded(_):
     return [{"display": "none"}]
 
 
+@callback(
+    Output("page-container", "children"),
+    Input("nav-repo-overview", "n_clicks"),
+    prevent_initial_call=True,
+)
+def navigate_to_repo_overview(n_clicks):
+    """Navigate to repo overview page when menu item is clicked."""
+    if n_clicks:
+        # Import the repo overview layout
+        from pages.repo_overview.repo_overview import layout as repo_overview_layout
+        return repo_overview_layout
+    return dash.no_update
+
+
 # =============================================================================
 # CONDITIONAL CALLBACK REGISTRATION
 # =============================================================================
