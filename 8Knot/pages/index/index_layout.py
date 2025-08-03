@@ -376,40 +376,78 @@ layout = dbc.Container(
             [
                 dbc.Col(
                     [
-                        dbc.Label(
-                            "Select GitHub repos or orgs:",
-                            html_for="projects",
-                            width="auto",
-                            size="lg",
-                        ),
-                        search_bar,
-                        dcc.Loading(
-                            children=[html.Div(id="results-output-container", className="mb-4")],
-                            color="#119DFF",
-                            type="dot",
-                            fullscreen=True,
-                        ),
-                        dcc.Loading(
-                            dbc.Badge(
-                                children="Data Loaded",
-                                id="data-badge",
-                                color="#436755",
-                                className="me-1",
-                                style={"marginBottom": ".5%"},
-                                text_color="dark",
-                            ),
-                            type="cube",
-                            color="#436755",
+                        html.Div(
+                            id="rectangular-bar",
+                            style={
+                                "height": "60px",
+                                "width": "100%",
+                                "background-color": "#292929",
+                                # "display": "block",
+                                # "margin": "0",
+                                # "padding": "0",
+                                # "box-sizing": "border-box"
+                            }
                         ),
                         # where our page will be rendered
+                        # We are wrapping this in a div to allow for custom styling
                         html.Div(
-                            dash.page_container,
-                            id="page-container",
+                            [
+                                # Left sidebar
+                                html.Div(
+                                    [
+                                        dbc.Label(
+                                            "Select GitHub repos or orgs:",
+                                            html_for="projects",
+                                            width="auto",
+                                            size="lg",
+                                        ),
+                                        search_bar,
+                                        dcc.Loading(
+                                            children=[html.Div(id="results-output-container", className="mb-4")],
+                                            color="#119DFF",
+                                            type="dot",
+                                            fullscreen=True,
+                                        ),
+                                        dcc.Loading(
+                                            dbc.Badge(
+                                                children="Data Loaded",
+                                                id="data-badge",
+                                                color="#436755",
+                                                className="me-1",
+                                                style={"marginBottom": ".5%"},
+                                                text_color="dark",
+                                            ),
+                                            type="cube",
+                                            color="#436755",
+                                        ),
+                                    ],
+                                    id="left-sidebar",
+                                    style={
+                                        "width": "340px",
+                                        "background-color": "#1D1D1D",
+                                        "border-radius": "12px 0 0 12px",
+                                        "padding": "1rem",
+                                        "flex-shrink": 0
+                                    }
+                                ),
+                                # Main content area (your existing page-container)
+                                html.Div(
+                                    dash.page_container,
+                                    id="page-container",
+                                    style={
+                                        "border-radius": "0 12px 12px 0",
+                                        "background-color": "#1D1D1D",
+                                        "padding": "1rem",
+                                        "overflow-y": "auto",
+                                        "min-height": "calc(100vh - 170px)",
+                                        "max-height": "calc(100vh - 170px)",
+                                        "flex": "1"
+                                    }
+                                ),
+                            ],
+                            id="main-layout-container",
                             style={
-                                "border-radius": "12px",
-                                "background-color": "#1D1D1D",
-                                "padding": "1rem",
-                                "overflow-y": "auto",
+                                "display": "flex",
                                 "min-height": "calc(100vh - 170px)",
                                 "max-height": "calc(100vh - 170px)"
                             }
@@ -423,4 +461,7 @@ layout = dbc.Container(
     ],
     fluid=True,
     className="dbc",
+    style={
+        "background-color": "#292929",
+    }
 )
