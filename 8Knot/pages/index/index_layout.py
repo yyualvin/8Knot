@@ -531,7 +531,6 @@ layout = html.Div(
             ],
             justify="start",
         ),
-        # navbar_bottom,
         ],
         fluid=True,
         className="dbc",
