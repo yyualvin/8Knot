@@ -241,82 +241,114 @@ search_bar = html.Div(
             ),
             className="search-bar-component",
         ),
-        dbc.Stack(
+        # Search input section
+        html.Div(
             [
-                html.Div(
-                    [
-                        dmc.MultiSelect(
-                            id="projects",
-                            searchable=True,
-                            clearable=True,
-                            nothingFound="No matching repos/orgs.",
-                            variant="filled",
-                            debounce=100,  # debounce time for the search input, since we're implementing client-side caching, we can use a faster debounce
-                            data=[augur.initial_multiselect_option()],
-                            value=[augur.initial_multiselect_option()["value"]],
-                            style={"fontSize": 16, "zIndex": 9999},  # Updated: moved zIndex to style
-                            maxDropdownHeight=300,  # limits the dropdown menu's height to 300px
-                            # Removed: dropdownPosition and transitionDuration no longer supported in v2.1.0
-                            className="searchbar-dropdown",
-                        ),
-                        # Add search status indicator
-                        html.Div(id="search-status", className="search-status-indicator", style={"display": "none"}),
-                        dbc.Alert(
-                            children='Please ensure that your spelling is correct. \
-                                If your selection definitely isn\'t present, please request that \
-                                it be loaded using the help button "REPO/ORG Request" \
-                                in the bottom right corner of the screen.',
-                            id="help-alert",
-                            dismissable=True,
-                            fade=True,
-                            is_open=False,
-                            color="info",
-                        ),
-                        dbc.Alert(
-                            children="List of repos",
-                            id="repo-list-alert",
-                            dismissable=True,
-                            fade=True,
-                            is_open=False,
-                            color="light",
-                            # if number of repos is large, render as a scrolling window
-                            style={"overflow-y": "scroll", "max-height": "440px"},
-                        ),
-                    ],
-                    style={
-                        "width": "50%",
-                        "paddingRight": "10px",
+                dmc.MultiSelect(
+                    id="projects",
+                    searchable=True,
+                    clearable=True,
+                    nothingFound="No matching repos/orgs.",
+                    variant="filled",
+                    debounce=100,  # debounce time for the search input, since we're implementing client-side caching, we can use a faster debounce
+                    data=[augur.initial_multiselect_option()],
+                    value=[augur.initial_multiselect_option()["value"]],
+                    style={"fontSize": 16, "zIndex": 9999},  # Updated: moved zIndex to style
+                    maxDropdownHeight=300,  # limits the dropdown menu's height to 300px
+                    # Removed: dropdownPosition and transitionDuration no longer supported in v2.1.0
+                    className="searchbar-dropdown",
+                    radius="md",  # Adds more rounded corners
+                    styles={
+                        "input": {
+                            "fontSize": "16px",
+                            "height": "48px",  # Set exact height to 48px
+                            "padding": "0 16px",  # Remove vertical padding since we're setting exact height
+                            "borderRadius": "20px",
+                            "display": "flex",
+                            "alignItems": "center",
+                            "backgroundColor": "#1D1D1D",
+                            "borderColor": "#404040",
+                        },
+                        "dropdown": {
+                            "borderRadius": "12px",
+                            "border": "1px solid #444",
+                        },
+                        "item": {
+                            "borderRadius": "8px",
+                            "margin": "2px 4px",
+                        },
                     },
                 ),
+                # Add search status indicator
+                html.Div(id="search-status", className="search-status-indicator", style={"display": "none"}),
+                dbc.Alert(
+                    children='Please ensure that your spelling is correct. \
+                        If your selection definitely isn\'t present, please request that \
+                        it be loaded using the help button "REPO/ORG Request" \
+                        in the bottom right corner of the screen.',
+                    id="help-alert",
+                    dismissable=True,
+                    fade=True,
+                    is_open=False,
+                    color="info",
+                ),
+                dbc.Alert(
+                    children="List of repos",
+                    id="repo-list-alert",
+                    dismissable=True,
+                    fade=True,
+                    is_open=False,
+                    color="light",
+                    # if number of repos is large, render as a scrolling window
+                    style={"overflow-y": "scroll", "max-height": "440px"},
+                ),
+            ],
+            style={
+                "width": "100%",
+                "marginBottom": "1rem",
+            },
+        ),
+        # Buttons section below search bar
+        dbc.Stack(
+            [
                 dbc.Button(
-                    "Search",
+                    html.I(className="fas fa-search"),
                     id="search",
                     n_clicks=0,
                     size="md",
+                    title="Search",
                 ),
                 dbc.Button(
-                    "Help",
+                    html.I(className="fas fa-question-circle"),
                     id="search-help",
                     n_clicks=0,
                     size="md",
+                    title="Help",
                 ),
                 dbc.Button(
-                    "Repo List",
+                    html.I(className="fas fa-list"),
                     id="repo-list-button",
                     n_clicks=0,
                     size="md",
-                ),
-                dbc.Switch(
-                    id="bot-switch",
-                    label="GitHub Bot Filter",
-                    value=True,
-                    input_class_name="botlist-filter-switch",
-                    style={"fontSize": 18},
+                    title="Repo List",
                 ),
             ],
             direction="horizontal",
             style={
-                "width": "70%",
+                "width": "100%",
+            },
+        ),
+        # GitHub Bot Filter below buttons
+        html.Div(
+            dbc.Switch(
+                id="bot-switch",
+                label="GitHub Bot Filter",
+                value=True,
+                input_class_name="botlist-filter-switch",
+                style={"fontSize": 18},
+            ),
+            style={
+                "marginTop": "1rem",
             },
         ),
     ]
@@ -379,11 +411,39 @@ layout = html.Div(
                 dbc.Col(
                     [
                         html.Div(
+                            [
+                                html.Img(
+                                    src="/assets/8Knot.svg",
+                                    alt="8Knot Logo",
+                                    style={
+                                        "width": "70px",
+                                        "height": "22px",
+                                        "margin": "20px 20px",
+                                        "display": "inline-block",
+                                        "verticalAlign": "middle"
+                                    }
+                                ),
+                                html.Img(
+                                    src="/assets/CHAOSS.svg",
+                                    alt="CHAOSS Logo",
+                                    style={
+                                        "width": "70px",
+                                        "height": "22px",
+                                        "margin": "10px -20px",
+                                        "display": "inline-block",
+                                        "verticalAlign": "middle"
+                                    }
+                                ),
+                            ],
                             id="rectangular-bar",
                             style={
                                 "height": "60px",
                                 "width": "100%",
                                 "background-color": "#292929",
+                                "display": "flex",
+                                "alignItems": "center",
+                                "justifyContent": "flex-start",
+                                "paddingLeft": "10px",
                                 # "display": "block",
                                 # "margin": "0",
                                 # "padding": "0",
@@ -422,6 +482,7 @@ layout = html.Div(
                                         "width": "340px",
                                         "background-color": "#1D1D1D",
                                         "border-radius": "12px 0 0 12px",
+                                        "border-right": "1.5px solid #292929",
                                         "padding": "1rem",
                                         "flex-shrink": 0
                                     }
