@@ -406,11 +406,12 @@ layout = dbc.Container(
                             dash.page_container,
                             id="page-container",
                             style={
-                                "border-radius": "20px",
+                                "border-radius": "12px",
                                 "background-color": "#1D1D1D",
                                 "padding": "1rem",
                                 "overflow-y": "auto",
-                                "max-height": "calc(100vh - 200px)"
+                                "min-height": "calc(100vh - 170px)",
+                                "max-height": "calc(100vh - 170px)"
                             }
                         ),
                     ],
