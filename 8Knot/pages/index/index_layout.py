@@ -369,7 +369,7 @@ layout = dbc.Container(
             }
         """
         ),
-        navbar,
+        # navbar,
         # Add login banner overlay (will be positioned via CSS)
         login_banner if login_banner else html.Div(),
         dbc.Row(
@@ -402,13 +402,23 @@ layout = dbc.Container(
                             color="#436755",
                         ),
                         # where our page will be rendered
-                        dash.page_container,
+                        html.Div(
+                            dash.page_container,
+                            id="page-container",
+                            style={
+                                "border-radius": "20px",
+                                "background-color": "#1D1D1D",
+                                "padding": "1rem",
+                                "overflow-y": "auto",
+                                "max-height": "calc(100vh - 200px)"
+                            }
+                        ),
                     ],
                 ),
             ],
             justify="start",
         ),
-        navbar_bottom,
+        # navbar_bottom,
     ],
     fluid=True,
     className="dbc",

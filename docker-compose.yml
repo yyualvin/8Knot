@@ -28,6 +28,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
+    volumes:
+      - ./8Knot:/opt/app-root/src
     command:
       [
         "gunicorn",

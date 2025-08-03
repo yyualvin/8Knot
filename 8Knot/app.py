@@ -113,7 +113,7 @@ def health_check():
 from pages.index.index_layout import layout
 
 app.layout = layout
-
+#
 """DASH STARTUP PARAMETERS"""
 
 if os.getenv("DEBUG_8KNOT", "False") == "True":
