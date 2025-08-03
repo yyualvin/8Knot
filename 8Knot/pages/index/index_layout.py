@@ -34,6 +34,45 @@ def create_menu_item(icon_src, text, item_id):
         n_clicks=0
     )
 
+
+# Top bar with logos
+topbar = html.Div(
+    [
+        html.Img(
+            src="/assets/8Knot.svg",
+            alt="8Knot Logo",
+            style={
+                "width": "70px",
+                "height": "22px",
+                "margin": "20px 20px",
+                "display": "inline-block",
+                "verticalAlign": "middle"
+            }
+        ),
+        html.Img(
+            src="/assets/CHAOSS.svg",
+            alt="CHAOSS Logo",
+            style={
+                "width": "70px",
+                "height": "22px",
+                "margin": "10px -20px",
+                "display": "inline-block",
+                "verticalAlign": "middle"
+            }
+        ),
+    ],
+    id="rectangular-bar",
+    style={
+        "height": "60px",
+        "width": "100%",
+        "background-color": "#242424",
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "flex-start",
+        "paddingLeft": "10px",
+    }
+)
+
 #  login banner that will be displayed when login is disabled
 login_banner = None
 if os.getenv("AUGUR_LOGIN_ENABLED", "False") != "True":
@@ -135,116 +174,6 @@ if os.getenv("AUGUR_LOGIN_ENABLED", "False") == "True":
 else:
     logging.warning("LOGIN DISABLED")
     login_navbar = [html.Div()]
-
-# navbar for top of screen
-navbar = dbc.Navbar(
-    dbc.Container(
-        [
-            dbc.Row(
-                [
-                    dbc.Col(
-                        [
-                            html.Img(
-                                src=dash.get_asset_url("8knot-logo-vertical.png"),
-                                height="40px",
-                            ),
-                            dbc.NavbarBrand(
-                                "8Knot",
-                                id="navbar-title",
-                                className="ms-2",
-                            ),
-                        ],
-                        width={"size": "auto"},
-                    ),
-                    dbc.Col(
-                        [
-                            dbc.Nav(
-                                [
-                                    dbc.NavLink("Welcome", href="/", active="exact"),
-                                    dbc.NavLink("Repo Overview", href="/repo_overview", active="exact"),
-                                    dbc.NavLink(
-                                        "Contributions",
-                                        href="/contributions",
-                                        active="exact",
-                                    ),
-                                    dbc.DropdownMenu(
-                                        [
-                                            dbc.DropdownMenuItem(
-                                                "Behavior",
-                                                href="/contributors/behavior",
-                                            ),
-                                            dbc.DropdownMenuItem(
-                                                "Contribution Types",
-                                                href="/contributors/contribution_types",
-                                            ),
-                                        ],
-                                        label="Contributors",
-                                        nav=True,
-                                    ),
-                                    dbc.NavLink(
-                                        "Affiliation",
-                                        href="/affiliation",
-                                        active="exact",
-                                    ),
-                                    dbc.NavLink("CHAOSS", href="/chaoss", active="exact"),
-                                    # dbc.NavLink("Codebase", href="/codebase", active="exact"),
-                                    dbc.NavLink("Info", href="/info", active="exact"),
-                                ],
-                                navbar=True,
-                            )
-                        ],
-                        width={"size": "auto"},
-                    ),
-                ],
-                align="center",
-                className="g-0",
-                justify="start",
-            ),
-            # packaged as a list to make linter happy-
-            # it keeps making the login_navpar page-wrap as a tuple,
-            # so I wrapped it in a list.
-            login_navbar[0],
-        ],
-        fluid=True,
-    ),
-    color="primary",
-    dark=True,
-    sticky="top",
-)
-
-navbar_bottom = dbc.NavbarSimple(
-    children=[
-        dbc.NavItem(
-            dbc.NavLink(
-                "Visualization request",
-                href="https://github.com/oss-aspen/8Knot/issues/new?assignees=&labels=enhancement%2Cvisualization&template=visualizations.md",
-                external_link="True",
-                target="_blank",
-            )
-        ),
-        dbc.NavItem(
-            dbc.NavLink(
-                "Bug",
-                href="https://github.com/oss-aspen/8Knot/issues/new?assignees=&labels=bug&template=bug_report.md",
-                external_link="True",
-                target="_blank",
-            )
-        ),
-        dbc.NavItem(
-            dbc.NavLink(
-                "Repo/Org Request",
-                href="https://github.com/oss-aspen/8Knot/issues/new?assignees=&labels=augur&template=augur_load.md",
-                external_link="True",
-                target="_blank",
-            )
-        ),
-    ],
-    brand="",
-    brand_href="#",
-    color="primary",
-    dark=True,
-    fluid=True,
-)
 
 search_bar = html.Div(
     [
@@ -454,46 +383,7 @@ layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.Div(
-                            [
-                                html.Img(
-                                    src="/assets/8Knot.svg",
-                                    alt="8Knot Logo",
-                                    style={
-                                        "width": "70px",
-                                        "height": "22px",
-                                        "margin": "20px 20px",
-                                        "display": "inline-block",
-                                        "verticalAlign": "middle"
-                                    }
-                                ),
-                                html.Img(
-                                    src="/assets/CHAOSS.svg",
-                                    alt="CHAOSS Logo",
-                                    style={
-                                        "width": "70px",
-                                        "height": "22px",
-                                        "margin": "10px -20px",
-                                        "display": "inline-block",
-                                        "verticalAlign": "middle"
-                                    }
-                                ),
-                            ],
-                            id="rectangular-bar",
-                            style={
-                                "height": "60px",
-                                "width": "100%",
-                                "background-color": "#242424",
-                                "display": "flex",
-                                "alignItems": "center",
-                                "justifyContent": "flex-start",
-                                "paddingLeft": "10px",
-                                # "display": "block",
-                                # "margin": "0",
-                                # "padding": "0",
-                                # "box-sizing": "border-box"
-                            }
-                        ),
+                        topbar,
                         # where our page will be rendered
                         # We are wrapping this in a div to allow for custom styling
                         html.Div(
@@ -505,11 +395,8 @@ layout = html.Div(
                                         # Navigation menu
                                         html.Div(
                                             [
-                                                # Repo Overview menu item
                                                 create_menu_item("/assets/repo_overview.svg", "Repo Overview", "nav-repo-overview"),
-                                                # Contributions menu item
                                                 create_menu_item("/assets/contributions.svg", "Contributions", "nav-contributions"),
-                                                # Contributors menu item with dropdown
                                                 html.Div(
                                                     [
                                                         html.Div(
@@ -577,9 +464,7 @@ layout = html.Div(
                                                         "marginBottom": "8px"
                                                     }
                                                 ),
-                                                # Affiliation menu item
                                                 create_menu_item("/assets/affiliation.svg", "Affiliation", "nav-affiliation"),
-                                                # CHAOSS menu item
                                                 create_menu_item("/assets/chaoss.svg", "CHAOSS", "nav-chaoss"),
                                             ],
                                             style={
