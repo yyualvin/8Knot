@@ -455,7 +455,7 @@ layout = html.Div(
                             style={
                                 "height": "60px",
                                 "width": "100%",
-                                "background-color": "#292929",
+                                "background-color": "#242424",
                                 "display": "flex",
                                 "alignItems": "center",
                                 "justifyContent": "flex-start",
@@ -529,31 +529,74 @@ layout = html.Div(
                                                     id="nav-contributions",
                                                     n_clicks=0
                                                 ),
-                                                # Contributors menu item
+                                                # Contributors menu item with dropdown
                                                 html.Div(
                                                     [
-                                                        html.Img(
-                                                            src="/assets/contributors.svg",
-                                                            alt="Contributors",
+                                                        html.Div(
+                                                            [
+                                                                html.Img(
+                                                                    src="/assets/contributors.svg",
+                                                                    alt="Contributors",
+                                                                    style={
+                                                                        "width": "24px",
+                                                                        "height": "24px",
+                                                                        "marginRight": "12px",
+                                                                        "filter": "brightness(0) invert(1)"
+                                                                    }
+                                                                ),
+                                                                html.Span("Contributors", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"}),
+                                                                html.I(className="fas fa-chevron-down", style={"color": "#9c9c9c", "fontSize": "12px", "marginLeft": "auto"})
+                                                            ],
                                                             style={
-                                                                "width": "24px",
-                                                                "height": "24px",
-                                                                "marginRight": "12px",
-                                                                "filter": "brightness(0) invert(1)"
-                                                            }
+                                                                "display": "flex",
+                                                                "alignItems": "center",
+                                                                "padding": "12px 16px",
+                                                                "borderRadius": "8px 8px 0 0",
+                                                                "cursor": "pointer"
+                                                            },
+                                                            id="nav-contributors",
+                                                            n_clicks=0
                                                         ),
-                                                        html.Span("Contributors", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
+                                                        # Dropdown content
+                                                        html.Div(
+                                                            [
+                                                                html.Div(
+                                                                    "Behavior",
+                                                                    style={
+                                                                        "color": "#9c9c9c",
+                                                                        "fontSize": "14px",
+                                                                        "padding": "8px 16px 8px 32px",
+                                                                        "cursor": "pointer",
+                                                                        "marginBottom": "4px"
+                                                                    },
+                                                                    id="nav-contributors-behavior",
+                                                                    n_clicks=0
+                                                                ),
+                                                                html.Div(
+                                                                    "Contribution Types",
+                                                                    style={
+                                                                        "color": "#9c9c9c",
+                                                                        "fontSize": "14px",
+                                                                        "padding": "8px 16px 8px 32px",
+                                                                        "cursor": "pointer"
+                                                                    },
+                                                                    id="nav-contributors-types",
+                                                                    n_clicks=0
+                                                                )
+                                                            ],
+                                                            id="contributors-dropdown",
+                                                            style={
+                                                                "display": "none",
+                                                                "padding": "8px 0",
+                                                                "borderRadius": "0 0 8px 8px"
+                                                            }
+                                                        )
                                                     ],
+                                                    id="contributors-container",
                                                     style={
-                                                        "display": "flex",
-                                                        "alignItems": "center",
-                                                        "padding": "12px 16px",
                                                         "borderRadius": "8px",
-                                                        "cursor": "pointer",
                                                         "marginBottom": "8px"
-                                                    },
-                                                    id="nav-contributors",
-                                                    n_clicks=0
+                                                    }
                                                 ),
                                                 # Affiliation menu item
                                                 html.Div(
@@ -675,11 +718,11 @@ layout = html.Div(
         fluid=True,
         className="dbc",
         style={
-            "background-color": "#292929",
+            "background-color": "#242424",
         }
     ),
     style={
-        "background-color": "#292929",
+        "background-color": "#242424",
         "min-height": "100vh",
         "margin": "0",
         "padding": "0"

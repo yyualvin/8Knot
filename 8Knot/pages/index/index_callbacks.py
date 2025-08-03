@@ -664,6 +664,55 @@ def navigate_to_repo_overview(n_clicks):
     return dash.no_update
 
 
+@callback(
+    [Output("contributors-dropdown", "style"),
+     Output("contributors-container", "style"),
+     Output("nav-contributors", "style")],
+    Input("nav-contributors", "n_clicks"),
+    State("contributors-dropdown", "style"),
+    prevent_initial_call=True,
+)
+def toggle_contributors_dropdown(n_clicks, current_dropdown_style):
+    """Toggle the contributors dropdown when clicked."""
+    if n_clicks:
+        # Check if dropdown is currently visible
+        is_visible = current_dropdown_style and current_dropdown_style.get("display") == "block"
+        
+        if is_visible:
+            # Hide dropdown and remove highlight
+            dropdown_style = {"display": "none", "padding": "8px 0", "borderRadius": "0 0 8px 8px"}
+            container_style = {
+                "borderRadius": "8px",
+                "marginBottom": "8px"
+            }
+            menu_style = {
+                "display": "flex",
+                "alignItems": "center",
+                "padding": "12px 16px",
+                "borderRadius": "8px",
+                "cursor": "pointer"
+            }
+        else:
+            # Show dropdown and highlight the entire container
+            dropdown_style = {"display": "block", "padding": "8px 0", "borderRadius": "0 0 8px 8px"}
+            container_style = {
+                "borderRadius": "8px",
+                "marginBottom": "8px",
+                "backgroundColor": "#292929"
+            }
+            menu_style = {
+                "display": "flex",
+                "alignItems": "center",
+                "padding": "12px 16px",
+                "borderRadius": "8px 8px 0 0",
+                "cursor": "pointer"
+            }
+        
+        return dropdown_style, container_style, menu_style
+    
+    return dash.no_update
+
+
 # =============================================================================
 # CONDITIONAL CALLBACK REGISTRATION
 # =============================================================================
