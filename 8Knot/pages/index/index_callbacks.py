@@ -738,6 +738,7 @@ def navigate_to_contributors_types(n_clicks):
         return types_layout
     return dash.no_update
 
+
 # =============================================================================
 # CONTRIBUTORS DROPDOWN CALLBACKS
 # Contributors has two sections so we need a dropdown.
@@ -745,7 +746,7 @@ def navigate_to_contributors_types(n_clicks):
 
 @callback(
     [Output("contributors-dropdown", "style"),
-     Output("contributors-container", "style"),
+     Output("nav-contributors-container", "style"),
      Output("nav-contributors", "style")],
     Input("nav-contributors", "n_clicks"),
     State("contributors-dropdown", "style"),

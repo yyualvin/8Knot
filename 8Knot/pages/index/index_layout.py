@@ -34,6 +34,66 @@ def create_menu_item(icon_src, text, item_id):
         n_clicks=0
     )
 
+def create_dropdown_item(text, item_id):
+    """Create a dropdown menu item with just text"""
+    return html.Div(
+        text,
+        style={
+            "color": "#9c9c9c",
+            "fontSize": "14px",
+            "padding": "8px 16px 8px 32px",
+            "cursor": "pointer",
+            "marginBottom": "4px"
+        },
+        id=item_id,
+        n_clicks=0
+    )
+
+def create_dropdown(icon_src, text, main_id, dropdown_id, dropdown_items):
+    """Create a dropdown menu with main item and dropdown content"""
+    return html.Div(
+        [
+            html.Div(
+                [
+                    html.Img(
+                        src=icon_src,
+                        alt=text,
+                        style={
+                            "width": "24px",
+                            "height": "24px",
+                            "marginRight": "12px"
+                        }
+                    ),
+                    html.Span(text, style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"}),
+                    html.I(className="fas fa-chevron-down", style={"color": "#9c9c9c", "fontSize": "12px", "marginLeft": "auto"})
+                ],
+                style={
+                    "display": "flex",
+                    "alignItems": "center",
+                    "padding": "12px 16px",
+                    "borderRadius": "8px 8px 0 0",
+                    "cursor": "pointer"
+                },
+                id=main_id,
+                n_clicks=0
+            ),
+            html.Div(
+                dropdown_items,
+                id=dropdown_id,
+                style={
+                    "display": "none",
+                    "padding": "8px 0",
+                    "borderRadius": "0 0 8px 8px"
+                }
+            )
+        ],
+        id=f"{main_id}-container",
+        style={
+            "borderRadius": "8px",
+            "marginBottom": "8px"
+        }
+    )
+
 
 # Top bar with logos
 topbar = html.Div(
@@ -397,72 +457,15 @@ layout = html.Div(
                                             [
                                                 create_menu_item("/assets/repo_overview.svg", "Repo Overview", "nav-repo-overview"),
                                                 create_menu_item("/assets/contributions.svg", "Contributions", "nav-contributions"),
-                                                html.Div(
+                                                create_dropdown(
+                                                    "/assets/contributors.svg",
+                                                    "Contributors",
+                                                    "nav-contributors",
+                                                    "contributors-dropdown",
                                                     [
-                                                        html.Div(
-                                                            [
-                                                                                                                        html.Img(
-                                                            src="/assets/contributors.svg",
-                                                            alt="Contributors",
-                                                            style={
-                                                                "width": "24px",
-                                                                "height": "24px",
-                                                                "marginRight": "12px"
-                                                            }
-                                                        ),
-                                                                html.Span("Contributors", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"}),
-                                                                html.I(className="fas fa-chevron-down", style={"color": "#9c9c9c", "fontSize": "12px", "marginLeft": "auto"})
-                                                            ],
-                                                            style={
-                                                                "display": "flex",
-                                                                "alignItems": "center",
-                                                                "padding": "12px 16px",
-                                                                "borderRadius": "8px 8px 0 0",
-                                                                "cursor": "pointer"
-                                                            },
-                                                            id="nav-contributors",
-                                                            n_clicks=0
-                                                        ),
-                                                        # Dropdown content
-                                                        html.Div(
-                                                            [
-                                                                html.Div(
-                                                                    "Behavior",
-                                                                    style={
-                                                                        "color": "#9c9c9c",
-                                                                        "fontSize": "14px",
-                                                                        "padding": "8px 16px 8px 32px",
-                                                                        "cursor": "pointer",
-                                                                        "marginBottom": "4px"
-                                                                    },
-                                                                    id="nav-contributors-behavior",
-                                                                    n_clicks=0
-                                                                ),
-                                                                html.Div(
-                                                                    "Contribution Types",
-                                                                    style={
-                                                                        "color": "#9c9c9c",
-                                                                        "fontSize": "14px",
-                                                                        "padding": "8px 16px 8px 32px",
-                                                                        "cursor": "pointer"
-                                                                    },
-                                                                    id="nav-contributors-types",
-                                                                    n_clicks=0
-                                                                )
-                                                            ],
-                                                            id="contributors-dropdown",
-                                                            style={
-                                                                "display": "none",
-                                                                "padding": "8px 0",
-                                                                "borderRadius": "0 0 8px 8px"
-                                                            }
-                                                        )
-                                                    ],
-                                                    id="contributors-container",
-                                                    style={
-                                                        "borderRadius": "8px",
-                                                        "marginBottom": "8px"
-                                                    }
+                                                        create_dropdown_item("Behavior", "nav-contributors-behavior"),
+                                                        create_dropdown_item("Contribution Types", "nav-contributors-types")
+                                                    ]
                                                 ),
                                                 create_menu_item("/assets/affiliation.svg", "Affiliation", "nav-affiliation"),
                                                 create_menu_item("/assets/chaoss.svg", "CHAOSS", "nav-chaoss"),
