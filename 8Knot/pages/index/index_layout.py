@@ -315,40 +315,56 @@ search_bar = html.Div(
                     html.I(className="fas fa-search"),
                     id="search",
                     n_clicks=0,
-                    size="md",
+                    size="sm",
+                    color="outline-secondary",
                     title="Search",
+                    style={
+                        "backgroundColor": "transparent",
+                        "border": "none",
+                        "padding": "4px 8px",
+                        "fontSize": "14px"
+                    }
                 ),
                 dbc.Button(
                     html.I(className="fas fa-question-circle"),
                     id="search-help",
                     n_clicks=0,
-                    size="md",
+                    size="sm",
+                    color="outline-secondary",
                     title="Help",
+                    style={
+                        "backgroundColor": "transparent",
+                        "border": "none",
+                        "padding": "4px 8px",
+                        "fontSize": "14px"
+                    }
                 ),
                 dbc.Button(
                     html.I(className="fas fa-list"),
                     id="repo-list-button",
                     n_clicks=0,
-                    size="md",
+                    size="sm",
+                    color="outline-secondary",
                     title="Repo List",
+                    style={
+                        "backgroundColor": "transparent",
+                        "border": "none",
+                        "padding": "4px 8px",
+                        "fontSize": "14px"
+                    }
+                ),
+                dbc.Switch(
+                    id="bot-switch",
+                    label="GitHub Bot Filter",
+                    value=True,
+                    input_class_name="botlist-filter-switch",
+                    style={"fontSize": 12, "marginTop": "8px", "marginLeft": "10px"},
                 ),
             ],
             direction="horizontal",
             style={
                 "width": "100%",
-            },
-        ),
-        # GitHub Bot Filter below buttons
-        html.Div(
-            dbc.Switch(
-                id="bot-switch",
-                label="GitHub Bot Filter",
-                value=True,
-                input_class_name="botlist-filter-switch",
-                style={"fontSize": 18},
-            ),
-            style={
-                "marginTop": "1rem",
+                "justifyContent": "center",
             },
         ),
     ]
