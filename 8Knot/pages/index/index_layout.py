@@ -322,14 +322,16 @@ search_bar = html.Div(
     ]
 )
 
-layout = dbc.Container(
-    [
-        # componets to store data from queries
-        dcc.Store(id="repo-choices", storage_type="session", data=[]),
-        # components to store job-ids for the worker queue
-        dcc.Store(id="job-ids", storage_type="session", data=[]),
-        dcc.Store(id="user-group-loading-signal", data="", storage_type="memory"),
-        dcc.Location(id="url"),
+# We need to wrap the container in a div to allow for custom styling
+layout = html.Div(
+    dbc.Container(
+        [
+            # componets to store data from queries
+            dcc.Store(id="repo-choices", storage_type="session", data=[]),
+            # components to store job-ids for the worker queue
+            dcc.Store(id="job-ids", storage_type="session", data=[]),
+            dcc.Store(id="user-group-loading-signal", data="", storage_type="memory"),
+            dcc.Location(id="url"),
         # Add client-side script to handle storage quota issues
         # This script does two things:
         # 1. Listens for global JavaScript errors related to storage quota being exceeded.
@@ -439,8 +441,8 @@ layout = dbc.Container(
                                         "background-color": "#1D1D1D",
                                         "padding": "1rem",
                                         "overflow-y": "auto",
-                                        "min-height": "calc(100vh - 170px)",
-                                        "max-height": "calc(100vh - 170px)",
+                                        "min-height": "calc(100vh - 90px)",
+                                        "max-height": "calc(100vh - 90px)",
                                         "flex": "1"
                                     }
                                 ),
@@ -448,8 +450,8 @@ layout = dbc.Container(
                             id="main-layout-container",
                             style={
                                 "display": "flex",
-                                "min-height": "calc(100vh - 170px)",
-                                "max-height": "calc(100vh - 170px)"
+                                "min-height": "calc(100vh - 90px)",
+                                "max-height": "calc(100vh - 90px)"
                             }
                         ),
                     ],
@@ -458,10 +460,17 @@ layout = dbc.Container(
             justify="start",
         ),
         # navbar_bottom,
-    ],
-    fluid=True,
-    className="dbc",
+        ],
+        fluid=True,
+        className="dbc",
+        style={
+            "background-color": "#292929",
+        }
+    ),
     style={
         "background-color": "#292929",
+        "min-height": "100vh",
+        "margin": "0",
+        "padding": "0"
     }
 )
