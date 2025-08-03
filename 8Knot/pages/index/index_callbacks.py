@@ -651,104 +651,14 @@ def hide_search_status_when_loaded(_):
 
 
 # =============================================================================
-# NAVIGATION CALLBACKS
-# When click on a nav item, we need to navigate to the corresponding page.
-# =============================================================================
-
-@callback(
-    Output("page-container", "children"),
-    Input("nav-repo-overview", "n_clicks"),
-    prevent_initial_call=True,
-)
-def navigate_to_repo_overview(n_clicks):
-    """Navigate to repo overview page when menu item is clicked."""
-    if n_clicks:
-        # Import the repo overview layout
-        from pages.repo_overview.repo_overview import layout as repo_overview_layout
-        return repo_overview_layout
-    return dash.no_update
-
-
-@callback(
-    Output("page-container", "children", allow_duplicate=True),
-    Input("nav-contributions", "n_clicks"),
-    prevent_initial_call=True,
-)
-def navigate_to_contributions(n_clicks):
-    """Navigate to contributions page when menu item is clicked."""
-    if n_clicks:
-        # Import the contributions layout
-        from pages.contributions.contributions import layout as contributions_layout
-        return contributions_layout
-    return dash.no_update
-
-
-@callback(
-    Output("page-container", "children", allow_duplicate=True),
-    Input("nav-affiliation", "n_clicks"),
-    prevent_initial_call=True,
-)
-def navigate_to_affiliation(n_clicks):
-    """Navigate to affiliation page when menu item is clicked."""
-    if n_clicks:
-        # Import the affiliation layout
-        from pages.affiliation.affiliation import layout as affiliation_layout
-        return affiliation_layout
-    return dash.no_update
-
-
-@callback(
-    Output("page-container", "children", allow_duplicate=True),
-    Input("nav-chaoss", "n_clicks"),
-    prevent_initial_call=True,
-)
-def navigate_to_chaoss(n_clicks):
-    """Navigate to CHAOSS page when menu item is clicked."""
-    if n_clicks:
-        # Import the CHAOSS layout
-        from pages.chaoss.chaoss import layout as chaoss_layout
-        return chaoss_layout
-    return dash.no_update
-
-
-@callback(
-    Output("page-container", "children", allow_duplicate=True),
-    Input("nav-contributors-behavior", "n_clicks"),
-    prevent_initial_call=True,
-)
-def navigate_to_contributors_behavior(n_clicks):
-    """Navigate to contributors behavior page when menu item is clicked."""
-    if n_clicks:
-        # Import the contributors behavior layout
-        from pages.contributors.cntrb_behavior import layout as behavior_layout
-        return behavior_layout
-    return dash.no_update
-
-
-@callback(
-    Output("page-container", "children", allow_duplicate=True),
-    Input("nav-contributors-types", "n_clicks"),
-    prevent_initial_call=True,
-)
-def navigate_to_contributors_types(n_clicks):
-    """Navigate to contributors types page when menu item is clicked."""
-    if n_clicks:
-        # Import the contributors types layout
-        from pages.contributors.cntrb_type import layout as types_layout
-        return types_layout
-    return dash.no_update
-
-
-# =============================================================================
 # CONTRIBUTORS DROPDOWN CALLBACKS
 # Contributors has two sections so we need a dropdown.
 # =============================================================================
 
 @callback(
     [Output("contributors-dropdown", "style"),
-     Output("nav-contributors-container", "style"),
-     Output("nav-contributors", "style")],
-    Input("nav-contributors", "n_clicks"),
+     Output("contributors-dropdown-container", "style")],
+    Input("contributors-dropdown-toggle", "n_clicks"),
     State("contributors-dropdown", "style"),
     prevent_initial_call=True,
 )
@@ -765,13 +675,6 @@ def toggle_contributors_dropdown(n_clicks, current_dropdown_style):
                 "borderRadius": "8px",
                 "marginBottom": "8px"
             }
-            menu_style = {
-                "display": "flex",
-                "alignItems": "center",
-                "padding": "12px 16px",
-                "borderRadius": "8px",
-                "cursor": "pointer"
-            }
         else:
             # Show dropdown and highlight the entire container
             dropdown_style = {"display": "block", "padding": "8px 0", "borderRadius": "0 0 8px 8px"}
@@ -780,15 +683,8 @@ def toggle_contributors_dropdown(n_clicks, current_dropdown_style):
                 "marginBottom": "8px",
                 "backgroundColor": "#292929"
             }
-            menu_style = {
-                "display": "flex",
-                "alignItems": "center",
-                "padding": "12px 16px",
-                "borderRadius": "8px 8px 0 0",
-                "cursor": "pointer"
-            }
         
-        return dropdown_style, container_style, menu_style
+        return dropdown_style, container_style
     
     return dash.no_update
 

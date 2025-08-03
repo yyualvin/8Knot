@@ -211,7 +211,14 @@ div.dark-card {
   background-color: var(--color-border);
 }
 
+/* ==== MULTISELECT DROPDOWN STYLING ==== */
+/* Override Mantine MultiSelect hover state */
+.mantine-MultiSelect-item[data-hovered] {
+  background-color: #404040 !important;
+}
 
-
-
+.dbc .searchbar-dropdown input:not([type=radio]):not([type=checkbox]) {
+  color: var(--bs-body-color) !important;
+  background-color: #1D1D1D !important;
+}
 

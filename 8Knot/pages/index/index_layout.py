@@ -7,9 +7,9 @@ import os
 import logging
 
 
-def create_menu_item(icon_src, text, item_id):
-    """Create a simple menu item with icon and text"""
-    return html.Div(
+def create_nav_link(icon_src, text, href):
+    """Create a navigation link with icon and text"""
+    return dbc.NavLink(
         [
             html.Img(
                 src=icon_src,
@@ -22,35 +22,34 @@ def create_menu_item(icon_src, text, item_id):
             ),
             html.Span(text, style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
         ],
+        href=href,
         style={
             "display": "flex",
             "alignItems": "center",
             "padding": "12px 16px",
             "borderRadius": "8px",
-            "cursor": "pointer",
-            "marginBottom": "8px"
-        },
-        id=item_id,
-        n_clicks=0
+            "marginBottom": "8px",
+            "textDecoration": "none"
+        }
     )
 
-def create_dropdown_item(text, item_id):
-    """Create a dropdown menu item with just text"""
-    return html.Div(
+def create_dropdown_nav_link(text, href):
+    """Create a dropdown navigation link with just text"""
+    return dbc.NavLink(
         text,
+        href=href,
         style={
             "color": "#9c9c9c",
             "fontSize": "14px",
             "padding": "8px 16px 8px 32px",
-            "cursor": "pointer",
-            "marginBottom": "4px"
-        },
-        id=item_id,
-        n_clicks=0
+            "marginBottom": "4px",
+            "textDecoration": "none",
+            "display": "block"
+        }
     )
 
-def create_dropdown(icon_src, text, main_id, dropdown_id, dropdown_items):
-    """Create a dropdown menu with main item and dropdown content"""
+def create_dropdown_nav(icon_src, text, dropdown_links):
+    """Create a dropdown navigation with main item and dropdown content"""
     return html.Div(
         [
             html.Div(
@@ -71,15 +70,14 @@ def create_dropdown(icon_src, text, main_id, dropdown_id, dropdown_items):
                     "display": "flex",
                     "alignItems": "center",
                     "padding": "12px 16px",
-                    "borderRadius": "8px 8px 0 0",
+                    "borderRadius": "8px",
                     "cursor": "pointer"
                 },
-                id=main_id,
-                n_clicks=0
+                id="contributors-dropdown-toggle"
             ),
             html.Div(
-                dropdown_items,
-                id=dropdown_id,
+                dropdown_links,
+                id="contributors-dropdown",
                 style={
                     "display": "none",
                     "padding": "8px 0",
@@ -87,7 +85,7 @@ def create_dropdown(icon_src, text, main_id, dropdown_id, dropdown_items):
                 }
             )
         ],
-        id=f"{main_id}-container",
+        id="contributors-dropdown-container",
         style={
             "borderRadius": "8px",
             "marginBottom": "8px"
@@ -288,12 +286,15 @@ search_bar = html.Div(
                         },
                         "dropdown": {
                             "borderRadius": "12px",
+                            "backgroundColor": "#1D1D1D",
                             "border": "1px solid #444",
                         },
                         "item": {
                             "borderRadius": "8px",
                             "margin": "2px 4px",
+                            "color": "white",
                         },
+
                     },
                 ),
                 # Add search status indicator
@@ -455,20 +456,18 @@ layout = html.Div(
                                         # Navigation menu
                                         html.Div(
                                             [
-                                                create_menu_item("/assets/repo_overview.svg", "Repo Overview", "nav-repo-overview"),
-                                                create_menu_item("/assets/contributions.svg", "Contributions", "nav-contributions"),
-                                                create_dropdown(
+                                                                                                 create_nav_link("/assets/repo_overview.svg", "Repo Overview", "/repo_overview"),
+                                                create_nav_link("/assets/contributions.svg", "Contributions", "/contributions"),
+                                                create_dropdown_nav(
                                                     "/assets/contributors.svg",
                                                     "Contributors",
-                                                    "nav-contributors",
-                                                    "contributors-dropdown",
                                                     [
-                                                        create_dropdown_item("Behavior", "nav-contributors-behavior"),
-                                                        create_dropdown_item("Contribution Types", "nav-contributors-types")
+                                                                                                                 create_dropdown_nav_link("Behavior", "/contributors/behavior"),
+                                                         create_dropdown_nav_link("Contribution Types", "/contributors/contribution_types")
                                                     ]
                                                 ),
-                                                create_menu_item("/assets/affiliation.svg", "Affiliation", "nav-affiliation"),
-                                                create_menu_item("/assets/chaoss.svg", "CHAOSS", "nav-chaoss"),
+                                                create_nav_link("/assets/affiliation.svg", "Affiliation", "/affiliation"),
+                                                create_nav_link("/assets/chaoss.svg", "CHAOSS", "/chaoss"),
                                             ],
                                             style={
                                                 "marginTop": "1rem"
