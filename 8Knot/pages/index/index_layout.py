@@ -503,7 +503,110 @@ layout = html.Div(
                                                     id="nav-repo-overview",
                                                     n_clicks=0
                                                 ),
-                                                # Add more menu items here as needed
+                                                # Contributions menu item
+                                                html.Div(
+                                                    [
+                                                        html.Img(
+                                                            src="/assets/contributions.svg",
+                                                            alt="Contributions",
+                                                            style={
+                                                                "width": "24px",
+                                                                "height": "24px",
+                                                                "marginRight": "12px",
+                                                                "filter": "brightness(0) invert(1)"
+                                                            }
+                                                        ),
+                                                        html.Span("Contributions", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
+                                                    ],
+                                                    style={
+                                                        "display": "flex",
+                                                        "alignItems": "center",
+                                                        "padding": "12px 16px",
+                                                        "borderRadius": "8px",
+                                                        "cursor": "pointer",
+                                                        "marginBottom": "8px"
+                                                    },
+                                                    id="nav-contributions",
+                                                    n_clicks=0
+                                                ),
+                                                # Contributors menu item
+                                                html.Div(
+                                                    [
+                                                        html.Img(
+                                                            src="/assets/contributors.svg",
+                                                            alt="Contributors",
+                                                            style={
+                                                                "width": "24px",
+                                                                "height": "24px",
+                                                                "marginRight": "12px",
+                                                                "filter": "brightness(0) invert(1)"
+                                                            }
+                                                        ),
+                                                        html.Span("Contributors", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
+                                                    ],
+                                                    style={
+                                                        "display": "flex",
+                                                        "alignItems": "center",
+                                                        "padding": "12px 16px",
+                                                        "borderRadius": "8px",
+                                                        "cursor": "pointer",
+                                                        "marginBottom": "8px"
+                                                    },
+                                                    id="nav-contributors",
+                                                    n_clicks=0
+                                                ),
+                                                # Affiliation menu item
+                                                html.Div(
+                                                    [
+                                                        html.Img(
+                                                            src="/assets/affiliation.svg",
+                                                            alt="Affiliation",
+                                                            style={
+                                                                "width": "24px",
+                                                                "height": "24px",
+                                                                "marginRight": "12px",
+                                                                "filter": "brightness(0) invert(1)"
+                                                            }
+                                                        ),
+                                                        html.Span("Affiliation", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
+                                                    ],
+                                                    style={
+                                                        "display": "flex",
+                                                        "alignItems": "center",
+                                                        "padding": "12px 16px",
+                                                        "borderRadius": "8px",
+                                                        "cursor": "pointer",
+                                                        "marginBottom": "8px"
+                                                    },
+                                                    id="nav-affiliation",
+                                                    n_clicks=0
+                                                ),
+                                                # CHAOSS menu item
+                                                html.Div(
+                                                    [
+                                                        html.Img(
+                                                            src="/assets/chaoss.svg",
+                                                            alt="CHAOSS",
+                                                            style={
+                                                                "width": "24px",
+                                                                "height": "24px",
+                                                                "marginRight": "12px",
+                                                                "filter": "brightness(0) invert(1)"
+                                                            }
+                                                        ),
+                                                        html.Span("CHAOSS", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
+                                                    ],
+                                                    style={
+                                                        "display": "flex",
+                                                        "alignItems": "center",
+                                                        "padding": "12px 16px",
+                                                        "borderRadius": "8px",
+                                                        "cursor": "pointer",
+                                                        "marginBottom": "8px"
+                                                    },
+                                                    id="nav-chaoss",
+                                                    n_clicks=0
+                                                ),
                                             ],
                                             style={
                                                 "marginTop": "1rem"
