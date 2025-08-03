@@ -6,6 +6,34 @@ from app import augur
 import os
 import logging
 
+
+def create_menu_item(icon_src, text, item_id):
+    """Create a simple menu item with icon and text"""
+    return html.Div(
+        [
+            html.Img(
+                src=icon_src,
+                alt=text,
+                style={
+                    "width": "24px",
+                    "height": "24px",
+                    "marginRight": "12px"
+                }
+            ),
+            html.Span(text, style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
+        ],
+        style={
+            "display": "flex",
+            "alignItems": "center",
+            "padding": "12px 16px",
+            "borderRadius": "8px",
+            "cursor": "pointer",
+            "marginBottom": "8px"
+        },
+        id=item_id,
+        n_clicks=0
+    )
+
 #  login banner that will be displayed when login is disabled
 login_banner = None
 if os.getenv("AUGUR_LOGIN_ENABLED", "False") != "True":
@@ -478,55 +506,9 @@ layout = html.Div(
                                         html.Div(
                                             [
                                                 # Repo Overview menu item
-                                                html.Div(
-                                                    [
-                                                        html.Img(
-                                                            src="/assets/repo_overview.svg",
-                                                            alt="Repo Overview",
-                                                            style={
-                                                                "width": "24px",
-                                                                "height": "24px",
-                                                                "marginRight": "12px"
-                                                            }
-                                                        ),
-                                                        html.Span("Repo Overview", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
-                                                    ],
-                                                    style={
-                                                        "display": "flex",
-                                                        "alignItems": "center",
-                                                        "padding": "12px 16px",
-                                                        "borderRadius": "8px",
-                                                        "cursor": "pointer",
-                                                        "marginBottom": "8px"
-                                                    },
-                                                    id="nav-repo-overview",
-                                                    n_clicks=0
-                                                ),
+                                                create_menu_item("/assets/repo_overview.svg", "Repo Overview", "nav-repo-overview"),
                                                 # Contributions menu item
-                                                html.Div(
-                                                    [
-                                                        html.Img(
-                                                            src="/assets/contributions.svg",
-                                                            alt="Contributions",
-                                                            style={
-                                                                "width": "24px",
-                                                                "height": "24px",
-                                                                "marginRight": "12px"
-                                                            }
-                                                        ),
-                                                        html.Span("Contributions", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
-                                                    ],
-                                                    style={
-                                                        "display": "flex",
-                                                        "alignItems": "center",
-                                                        "padding": "12px 16px",
-                                                        "borderRadius": "8px",
-                                                        "cursor": "pointer",
-                                                        "marginBottom": "8px"
-                                                    },
-                                                    id="nav-contributions",
-                                                    n_clicks=0
-                                                ),
+                                                create_menu_item("/assets/contributions.svg", "Contributions", "nav-contributions"),
                                                 # Contributors menu item with dropdown
                                                 html.Div(
                                                     [
@@ -596,55 +578,9 @@ layout = html.Div(
                                                     }
                                                 ),
                                                 # Affiliation menu item
-                                                html.Div(
-                                                    [
-                                                        html.Img(
-                                                            src="/assets/affiliation.svg",
-                                                            alt="Affiliation",
-                                                            style={
-                                                                "width": "24px",
-                                                                "height": "24px",
-                                                                "marginRight": "12px"
-                                                            }
-                                                        ),
-                                                        html.Span("Affiliation", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
-                                                    ],
-                                                    style={
-                                                        "display": "flex",
-                                                        "alignItems": "center",
-                                                        "padding": "12px 16px",
-                                                        "borderRadius": "8px",
-                                                        "cursor": "pointer",
-                                                        "marginBottom": "8px"
-                                                    },
-                                                    id="nav-affiliation",
-                                                    n_clicks=0
-                                                ),
+                                                create_menu_item("/assets/affiliation.svg", "Affiliation", "nav-affiliation"),
                                                 # CHAOSS menu item
-                                                html.Div(
-                                                    [
-                                                        html.Img(
-                                                            src="/assets/chaoss.svg",
-                                                            alt="CHAOSS",
-                                                            style={
-                                                                "width": "24px",
-                                                                "height": "24px",
-                                                                "marginRight": "12px"
-                                                            }
-                                                        ),
-                                                        html.Span("CHAOSS", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
-                                                    ],
-                                                    style={
-                                                        "display": "flex",
-                                                        "alignItems": "center",
-                                                        "padding": "12px 16px",
-                                                        "borderRadius": "8px",
-                                                        "cursor": "pointer",
-                                                        "marginBottom": "8px"
-                                                    },
-                                                    id="nav-chaoss",
-                                                    n_clicks=0
-                                                ),
+                                                create_menu_item("/assets/chaoss.svg", "CHAOSS", "nav-chaoss"),
                                             ],
                                             style={
                                                 "marginTop": "1rem"
