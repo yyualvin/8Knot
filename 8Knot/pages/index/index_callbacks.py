@@ -650,6 +650,11 @@ def hide_search_status_when_loaded(_):
     return [{"display": "none"}]
 
 
+# =============================================================================
+# NAVIGATION CALLBACKS
+# When click on a nav item, we need to navigate to the corresponding page.
+# =============================================================================
+
 @callback(
     Output("page-container", "children"),
     Input("nav-repo-overview", "n_clicks"),
@@ -733,9 +738,10 @@ def navigate_to_contributors_types(n_clicks):
         return types_layout
     return dash.no_update
 
-
-
-
+# =============================================================================
+# CONTRIBUTORS DROPDOWN CALLBACKS
+# Contributors has two sections so we need a dropdown.
+# =============================================================================
 
 @callback(
     [Output("contributors-dropdown", "style"),
