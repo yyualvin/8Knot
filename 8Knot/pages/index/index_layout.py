@@ -456,14 +456,14 @@ layout = html.Div(
                                         # Navigation menu
                                         html.Div(
                                             [
-                                                                                                 create_nav_link("/assets/repo_overview.svg", "Repo Overview", "/repo_overview"),
+                                                create_nav_link("/assets/repo_overview.svg", "Repo Overview", "/repo_overview"),
                                                 create_nav_link("/assets/contributions.svg", "Contributions", "/contributions"),
                                                 create_dropdown_nav(
                                                     "/assets/contributors.svg",
                                                     "Contributors",
                                                     [
-                                                                                                                 create_dropdown_nav_link("Behavior", "/contributors/behavior"),
-                                                         create_dropdown_nav_link("Contribution Types", "/contributors/contribution_types")
+                                                        create_dropdown_nav_link("Behavior", "/contributors/behavior"),
+                                                        create_dropdown_nav_link("Contribution Types", "/contributors/contribution_types")
                                                     ]
                                                 ),
                                                 create_nav_link("/assets/affiliation.svg", "Affiliation", "/affiliation"),
