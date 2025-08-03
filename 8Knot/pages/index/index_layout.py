@@ -397,12 +397,6 @@ layout = html.Div(
                                 # Left sidebar
                                 html.Div(
                                     [
-                                        dbc.Label(
-                                            "Select GitHub repos or orgs:",
-                                            html_for="projects",
-                                            width="auto",
-                                            size="lg",
-                                        ),
                                         search_bar,
                                         dcc.Loading(
                                             children=[html.Div(id="results-output-container", className="mb-4")],
