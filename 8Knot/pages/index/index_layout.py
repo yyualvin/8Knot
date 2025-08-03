@@ -486,8 +486,7 @@ layout = html.Div(
                                                             style={
                                                                 "width": "24px",
                                                                 "height": "24px",
-                                                                "marginRight": "12px",
-                                                                "filter": "brightness(0) invert(1)"
+                                                                "marginRight": "12px"
                                                             }
                                                         ),
                                                         html.Span("Repo Overview", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
@@ -512,8 +511,7 @@ layout = html.Div(
                                                             style={
                                                                 "width": "24px",
                                                                 "height": "24px",
-                                                                "marginRight": "12px",
-                                                                "filter": "brightness(0) invert(1)"
+                                                                "marginRight": "12px"
                                                             }
                                                         ),
                                                         html.Span("Contributions", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
@@ -534,16 +532,15 @@ layout = html.Div(
                                                     [
                                                         html.Div(
                                                             [
-                                                                html.Img(
-                                                                    src="/assets/contributors.svg",
-                                                                    alt="Contributors",
-                                                                    style={
-                                                                        "width": "24px",
-                                                                        "height": "24px",
-                                                                        "marginRight": "12px",
-                                                                        "filter": "brightness(0) invert(1)"
-                                                                    }
-                                                                ),
+                                                                                                                        html.Img(
+                                                            src="/assets/contributors.svg",
+                                                            alt="Contributors",
+                                                            style={
+                                                                "width": "24px",
+                                                                "height": "24px",
+                                                                "marginRight": "12px"
+                                                            }
+                                                        ),
                                                                 html.Span("Contributors", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"}),
                                                                 html.I(className="fas fa-chevron-down", style={"color": "#9c9c9c", "fontSize": "12px", "marginLeft": "auto"})
                                                             ],
@@ -607,8 +604,7 @@ layout = html.Div(
                                                             style={
                                                                 "width": "24px",
                                                                 "height": "24px",
-                                                                "marginRight": "12px",
-                                                                "filter": "brightness(0) invert(1)"
+                                                                "marginRight": "12px"
                                                             }
                                                         ),
                                                         html.Span("Affiliation", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})
@@ -633,8 +629,7 @@ layout = html.Div(
                                                             style={
                                                                 "width": "24px",
                                                                 "height": "24px",
-                                                                "marginRight": "12px",
-                                                                "filter": "brightness(0) invert(1)"
+                                                                "marginRight": "12px"
                                                             }
                                                         ),
                                                         html.Span("CHAOSS", style={"color": "#9c9c9c", "fontSize": "16px", "fontWeight": "400"})

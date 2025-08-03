@@ -211,11 +211,7 @@ div.dark-card {
   background-color: var(--color-border);
 }
 
-/* ==== NAVIGATION MENU HOVER EFFECTS ==== */
-#left-sidebar [id^="nav-"]:hover {
-  background-color: #292929 !important;
-  transition: background-color 0.2s ease;
-}
+
 
 
 

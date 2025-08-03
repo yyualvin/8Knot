@@ -665,6 +665,79 @@ def navigate_to_repo_overview(n_clicks):
 
 
 @callback(
+    Output("page-container", "children", allow_duplicate=True),
+    Input("nav-contributions", "n_clicks"),
+    prevent_initial_call=True,
+)
+def navigate_to_contributions(n_clicks):
+    """Navigate to contributions page when menu item is clicked."""
+    if n_clicks:
+        # Import the contributions layout
+        from pages.contributions.contributions import layout as contributions_layout
+        return contributions_layout
+    return dash.no_update
+
+
+@callback(
+    Output("page-container", "children", allow_duplicate=True),
+    Input("nav-affiliation", "n_clicks"),
+    prevent_initial_call=True,
+)
+def navigate_to_affiliation(n_clicks):
+    """Navigate to affiliation page when menu item is clicked."""
+    if n_clicks:
+        # Import the affiliation layout
+        from pages.affiliation.affiliation import layout as affiliation_layout
+        return affiliation_layout
+    return dash.no_update
+
+
+@callback(
+    Output("page-container", "children", allow_duplicate=True),
+    Input("nav-chaoss", "n_clicks"),
+    prevent_initial_call=True,
+)
+def navigate_to_chaoss(n_clicks):
+    """Navigate to CHAOSS page when menu item is clicked."""
+    if n_clicks:
+        # Import the CHAOSS layout
+        from pages.chaoss.chaoss import layout as chaoss_layout
+        return chaoss_layout
+    return dash.no_update
+
+
+@callback(
+    Output("page-container", "children", allow_duplicate=True),
+    Input("nav-contributors-behavior", "n_clicks"),
+    prevent_initial_call=True,
+)
+def navigate_to_contributors_behavior(n_clicks):
+    """Navigate to contributors behavior page when menu item is clicked."""
+    if n_clicks:
+        # Import the contributors behavior layout
+        from pages.contributors.cntrb_behavior import layout as behavior_layout
+        return behavior_layout
+    return dash.no_update
+
+
+@callback(
+    Output("page-container", "children", allow_duplicate=True),
+    Input("nav-contributors-types", "n_clicks"),
+    prevent_initial_call=True,
+)
+def navigate_to_contributors_types(n_clicks):
+    """Navigate to contributors types page when menu item is clicked."""
+    if n_clicks:
+        # Import the contributors types layout
+        from pages.contributors.cntrb_type import layout as types_layout
+        return types_layout
+    return dash.no_update
+
+
+
+
+
+@callback(
     [Output("contributors-dropdown", "style"),
      Output("contributors-container", "style"),
      Output("nav-contributors", "style")],
