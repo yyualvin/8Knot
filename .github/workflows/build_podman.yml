@@ -97,6 +97,8 @@ jobs:
           yq eval -i '.services.worker-query.image = "8knot-app:test"' docker-compose.yml
           yq eval -i '.services.worker-query.pull_policy = "never"' docker-compose.yml
           yq eval -i '.services.worker-query.restart = "no"' docker-compose.yml
+          
+          yq eval -i '.services.mock-db.image = "ghcr.io/chaoss/augur_empty_database:latest"' docker-compose.yml
 
       - name: Setup Podman Compose
         uses: webgtx/setup-podman-compose@v1
